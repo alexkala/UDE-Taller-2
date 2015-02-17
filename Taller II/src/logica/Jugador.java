@@ -24,6 +24,10 @@ public class Jugador {
 	}
 	
 	// getters & setters
+	public String getClave() {
+		return nombre;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}

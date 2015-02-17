@@ -10,6 +10,10 @@ public class Pelicula {
 	}
 	
 	// getters & setters
+	public String getClave() {
+		return titulo;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}
