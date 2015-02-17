@@ -92,9 +92,58 @@ public class FachadaCapaLogica {
 		
 	}
 
-	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida p, char c) {
+	
+	
+	
+	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {
+		int i = 0;
+		int puntaje = partida.getPuntajePartida();
+		boolean puntajeSumado = false;
+		String textoAdivinado = partida.getTextoAdivinado();
+		String pelicula = partida.getPeliculaPartida().getTitulo();
+		char[] textoAdivinadoChar = textoAdivinado.toCharArray();
+		
+		if (textoAdivinado.indexOf(c) == -1) { // verifica que la letra
+														// no haya sido
+														// adivinada previamente
+			while (i != -1) {
+				i = pelicula.indexOf(c, i); // busca la posicion de la letra
+											// ingresada
+				if (i != -1) { // letra correcta
+					textoAdivinadoChar[i] = c; // reemplaza la
+														// ocurrencia de la
+														// letra ingresada
+					i++;
+					if (!puntajeSumado) { // suma 1 punto
+						puntaje = puntaje + 1;
+						puntajeSumado = true;
+					}
+				} else { // letra erronea
+					if (!puntajeSumado) { // resta 5 puntos
+						System.out.println("Letra erronea!");
+						puntaje = puntaje - 5;
+						puntajeSumado = true;
+					}
+				}
+			}
+		} else {
+			System.out.println("La letra ya fue ingresada previamente");
+		}
 
+		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto
+															// adivinado de
+															// nuevo a String
+		partida.setTextoAdivinado(textoAdivinado);
+		partida.setPuntajePartida(puntaje);
+		
+		if (textoAdivinado.equals(pelicula)) {					// adivino la pelicula
+			System.out.println("Película adivinada!");
+			partida.setAcertada(true);
+			partida.setFinalizada(true);
+		}	
 	}
+	
+	
 
 	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida p) {
 

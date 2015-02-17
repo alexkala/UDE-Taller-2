@@ -1,127 +1,68 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.TreeMap;
+
+import logica.FachadaCapaLogica;
+import logica.Jugador;
+import logica.Partida;
+import logica.Pelicula;
+
 import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 public class Principal {
 
 	public static void main(String[] args) {
-		String s = "yo";
-		System.out.println("Original: " + s);
-		s = s.replaceAll("\\s+", " "); // elimina los espacios blancos de sobra
+		
+		
+		String tituloPelicula = "RELATOS SALVAJES";
+		//System.out.println("Original: " + tituloPelicula);
+		tituloPelicula = tituloPelicula.replaceAll("\\s+", " "); // elimina los espacios blancos de sobra
 										// entre palabras
-		System.out.println("Sin espacios extra: " + s);
-		s = s.trim(); // elimina espacios al principio y final del string (si
+		//System.out.println("Sin espacios extra: " + tituloPelicula);
+		tituloPelicula = tituloPelicula.trim(); // elimina espacios al principio y final del string (si
 						// hay)
-		System.out.println("Sin espacios al principio y final: " + s);
-		s = s.toUpperCase(); // convierte a mayusculas
-		System.out.println("Convertido a mayusculas: " + s);
+		//System.out.println("Sin espacios al principio y final: " + tituloPelicula);
+		tituloPelicula = tituloPelicula.toUpperCase(); // convierte a mayusculas
+		//System.out.println("Convertido a mayusculas: " + tituloPelicula);
+		
+		Pelicula peliculaPartida = new Pelicula(tituloPelicula, "Producida por Pedro Almodóvar y ostenta entre sus filas al actor hoy más popular del cine local, Ricardo Darín.");
+		
 
 		String textoAdivinado;
-		textoAdivinado = s;
+		textoAdivinado = tituloPelicula;
 		textoAdivinado = textoAdivinado.replaceAll("\\S", "-");
-		System.out.println("Texto adivinado: " + textoAdivinado);
-
-		int puntaje = 0;
-
-		String letra = "y"; // letra ingresada
-		letra = letra.toUpperCase(); // convierte la letra a mayuscula
-		char letraChar = letra.charAt(0); // cambia el String con la letra a 1
-											// char
-
-		System.out.println("Letra ingresada: " + letra);
-
-		// buscar letra
-		int i = 0;
-		boolean puntajeSumado = false;
-		char[] textoAdivinadoChar = textoAdivinado.toCharArray();
-		if (textoAdivinado.indexOf(letraChar) == -1) { // verifica que la letra
-														// no haya sido
-														// adivinada previamente
-			while (i != -1) {
-				i = s.indexOf(letra, i); // busca la posicion de la letra
-											// ingresada
-				if (i != -1) { // letra correcta
-					textoAdivinadoChar[i] = letraChar; // reemplaza la
-														// ocurrencia de la
-														// letra ingresada
-					i++;
-					if (!puntajeSumado) { // suma 1 punto
-						puntaje = puntaje + 1;
-						puntajeSumado = true;
-					}
-				} else { // letra erronea
-					if (!puntajeSumado) { // resta 5 puntos
-						System.out.println("Letra erronea!");
-						puntaje = puntaje - 5;
-						puntajeSumado = true;
-					}
-				}
-			}
-		} else {
-			System.out.println("La letra ya fue ingresada previamente");
-		}
-
-		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto
-															// adivinado de
-															// nuevo a String
-		System.out.println("Texto adivinado: " + textoAdivinado);
-		System.out.println("Puntaje: " + puntaje);
 		
-		if (textoAdivinado.equals(s)) {					// adivino la pelicula
-			System.out.println("Película adivinada!");
-			// partida.acertada = true;
-			// partida.finalizada = true;
-		}
-
-		// ///////////////////////////////////////////
-		// TODO LO MISMO PARA PROBAR OTRA LETRA
-		// ///////////////////////////////////////////
-
-		letra = "o"; // letra ingresada
-		letra = letra.toUpperCase(); // convierte la letra a mayuscula
-		letraChar = letra.charAt(0); // cambia el String con la letra a 1 char
-
-		System.out.println("Letra ingresada: " + letra);
-
-		// buscar letra
-		i = 0;
-		puntajeSumado = false;
-		textoAdivinadoChar = textoAdivinado.toCharArray();
-		if (textoAdivinado.indexOf(letraChar) == -1) { // verifica que la letra
-														// no haya sido
-														// adivinada previamente
-			while (i != -1) {
-				i = s.indexOf(letra, i); // busca la posicion de la letra
-											// ingresada
-				if (i != -1) { // letra correcta
-					textoAdivinadoChar[i] = letraChar; // reemplaza la
-														// ocurrencia de la
-														// letra ingresada
-					i++;
-					if (!puntajeSumado) { // suma 1 punto
-						puntaje = puntaje + 1;
-						puntajeSumado = true;
-					}
-				} else { // letra erronea
-					if (!puntajeSumado) { // resta 5 puntos
-						System.out.println("Letra erronea!");
-						puntaje = puntaje - 5;
-						puntajeSumado = true;
-					}
-				}
-			}
-		} else {
-			System.out.println("La letra ya fue ingresada previamente");
-		}
-
-		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto
-															// adivinado de
-															// nuevo a String
-		System.out.println("Texto adivinado: " + textoAdivinado);
-		System.out.println("Puntaje: " + puntaje);
+		Partida p1 = new Partida(0, 0, false, false, textoAdivinado, peliculaPartida);
 		
-		if (textoAdivinado.equals(s)) {					// adivino la pelicula
-			System.out.println("Película adivinada!");
-			// partida.acertada = true;
-			// partida.finalizada = true;
+		System.out.println("Texto adivinado: " + textoAdivinado);
+		System.out.println("Pista: " + p1.getPeliculaPartida().getPista());
+		
+		
+		String letra = new String();
+		
+		while (!p1.isFinalizada()) {
+			System.out.println("Adivina una letra: ");
+			 
+			try{
+			    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+			    letra = bufferRead.readLine();
+		 
+			    System.out.println(letra);
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		 
+			letra = letra.toUpperCase(); // convierte la letra a mayuscula
+			char letraChar = letra.charAt(0); // cambia el String con la letra a 1
+												// char
+			
+			FachadaCapaLogica.getInstancia().ingresarCaracter("", "", p1, letraChar);
+			System.out.println("Texto adivinado: " + p1.getTextoAdivinado());
+			System.out.println("Puntaje: " + p1.getPuntajePartida());
 		}
+		
 	}
 }

@@ -1,7 +1,6 @@
 package logica;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Jugador {
 	private String nombre;
