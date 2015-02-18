@@ -145,8 +145,22 @@ public class FachadaCapaLogica {
 	
 	
 
-	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida p) {
+	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) {
+		int puntaje = partida.getPuntajePartida();
+		String textoAdivinado = partida.getTextoAdivinado();
+		String pelicula = partida.getPeliculaPartida().getTitulo();
 
+		if (peliculaArriesgada.equals(pelicula)) {
+			partida.setPuntajePartida(partida.getPuntajePartida() + 50);
+			partida.setAcertada(true);
+			partida.setTextoAdivinado(pelicula);
+			System.out.println("Película adivinada! :)");
+		} else {
+			partida.setPuntajePartida(partida.getPuntajePartida() - 50);
+			partida.setAcertada(false);
+			System.out.println("Película errada! :(");
+		}
+		partida.setFinalizada(true);
 	}
 
 	public DataJugador[] listarRanking() {

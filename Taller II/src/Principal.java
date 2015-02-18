@@ -8,8 +8,6 @@ import logica.Jugador;
 import logica.Partida;
 import logica.Pelicula;
 
-import com.sun.xml.internal.fastinfoset.util.CharArray;
-
 public class Principal {
 
 	public static void main(String[] args) {
@@ -41,6 +39,8 @@ public class Principal {
 		
 		String letra = new String();
 		
+		
+		
 		while (!p1.isFinalizada()) {
 			System.out.println("Adivina una letra: ");
 			 
@@ -59,7 +59,28 @@ public class Principal {
 			char letraChar = letra.charAt(0); // cambia el String con la letra a 1
 												// char
 			
-			FachadaCapaLogica.getInstancia().ingresarCaracter("", "", p1, letraChar);
+			if (letraChar == '0') {				// arriesga la pelicula
+				String peliculaArriesgada = new String();
+				System.out.println("Arriesga el titulo de la pelicula: ");
+				try{
+				    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+				    peliculaArriesgada = bufferRead.readLine();
+			 
+				    System.out.println(peliculaArriesgada);
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
+				peliculaArriesgada = peliculaArriesgada.trim();
+				peliculaArriesgada = peliculaArriesgada.toUpperCase();
+				FachadaCapaLogica.getInstancia().arriesgarPelicula("Nombre", "Codigo", p1, peliculaArriesgada);
+								
+				
+			} else {
+				FachadaCapaLogica.getInstancia().ingresarCaracter("Nombre", "Codigo", p1, letraChar);
+			}
 			System.out.println("Texto adivinado: " + p1.getTextoAdivinado());
 			System.out.println("Puntaje: " + p1.getPuntajePartida());
 		}
