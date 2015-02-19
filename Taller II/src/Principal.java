@@ -13,22 +13,20 @@ public class Principal {
 	public static void main(String[] args) {
 		
 		
-		String tituloPelicula = "RELATOS SALVAJES";
-		//System.out.println("Original: " + tituloPelicula);
-		tituloPelicula = tituloPelicula.replaceAll("\\s+", " "); // elimina los espacios blancos de sobra
-										// entre palabras
-		//System.out.println("Sin espacios extra: " + tituloPelicula);
-		tituloPelicula = tituloPelicula.trim(); // elimina espacios al principio y final del string (si
-						// hay)
-		//System.out.println("Sin espacios al principio y final: " + tituloPelicula);
-		tituloPelicula = tituloPelicula.toUpperCase(); // convierte a mayusculas
-		//System.out.println("Convertido a mayusculas: " + tituloPelicula);
-		
+		String tituloPelicula = "Relatos  salvajes";		
 		Pelicula peliculaPartida = new Pelicula(tituloPelicula, "Producida por Pedro Almodóvar y ostenta entre sus filas al actor hoy más popular del cine local, Ricardo Darín.");
 		
-
+		FachadaCapaLogica.getInstancia().nuevaPelicula(peliculaPartida);
+		//System.out.println(FachadaCapaLogica.getInstancia().getPeliculas().firstKey());
+		peliculaPartida = new Pelicula("Batman", "Un hombre murcielago");
+		FachadaCapaLogica.getInstancia().nuevaPelicula(peliculaPartida);
+		//System.out.println(FachadaCapaLogica.getInstancia().getPeliculas().firstKey());
+		
+		// prueba ingresarCaracter y arriesgarPelicula
+		
+		peliculaPartida = FachadaCapaLogica.getInstancia().getPeliculas().firstEntry().getValue();
 		String textoAdivinado;
-		textoAdivinado = tituloPelicula;
+		textoAdivinado = peliculaPartida.getTitulo();
 		textoAdivinado = textoAdivinado.replaceAll("\\S", "-");
 		
 		Partida p1 = new Partida(0, 0, false, false, textoAdivinado, peliculaPartida);
@@ -47,8 +45,6 @@ public class Principal {
 			try{
 			    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			    letra = bufferRead.readLine();
-		 
-			    System.out.println(letra);
 			}
 			catch(IOException e)
 			{
@@ -62,14 +58,10 @@ public class Principal {
 			if (letraChar == '0') {				// arriesga la pelicula
 				String peliculaArriesgada = new String();
 				System.out.println("Arriesga el titulo de la pelicula: ");
-				try{
+				try {
 				    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 				    peliculaArriesgada = bufferRead.readLine();
-			 
-				    System.out.println(peliculaArriesgada);
-				}
-				catch(IOException e)
-				{
+				} catch(IOException e) {
 					e.printStackTrace();
 				}
 				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
@@ -84,6 +76,7 @@ public class Principal {
 			System.out.println("Texto adivinado: " + p1.getTextoAdivinado());
 			System.out.println("Puntaje: " + p1.getPuntajePartida());
 		}
+		
 		
 	}
 }
