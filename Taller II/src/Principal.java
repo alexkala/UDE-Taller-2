@@ -12,6 +12,7 @@ public class Principal {
 
 	public static void main(String[] args) {
 		
+		// comentario
 		
 		String tituloPelicula = "Relatos  salvajes";		
 		Pelicula peliculaPartida = new Pelicula(tituloPelicula, "Producida por Pedro Almodóvar y ostenta entre sus filas al actor hoy más popular del cine local, Ricardo Darín.");
