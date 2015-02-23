@@ -85,26 +85,18 @@ public class FachadaCapaLogica {
 
 	}
 
-	public void nuevaPartida(String nombreJugador, String codigoJugador) {
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) {
 
 	}
 
-	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) {
+	// PRECONDICION: tiene que haber al menos una partida
+	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) {		
 		Jugador jugador = jugadores.get(nombreJugador);
 		int indexUltimaPartida = jugador.getPartidasJugador().lastIndexOf(jugador);
 		Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
-		if (!actual.isFinalizada()) {
-			return actual;
-		}
-		else {
-			return null;
-			// error no hay partidas en curso
-		}
-		
+		return actual;
 	}
 
-	
-	
 	
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {
 		
