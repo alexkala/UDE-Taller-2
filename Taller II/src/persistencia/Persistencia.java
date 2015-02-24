@@ -79,12 +79,10 @@ public class Persistencia {
 
 			} else {
 
-				// throw new ExceptionsPersistencia("dsa");
+				 throw new ExceptionsPersistencia(path);
 
 			}
-
 			return datos;
-
 		}
 
 		catch (IOException e) {

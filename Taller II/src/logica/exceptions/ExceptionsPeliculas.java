@@ -11,5 +11,4 @@ public class ExceptionsPeliculas extends Exception implements Serializable {
 		super(msj);
 	}
 	
-	
 }

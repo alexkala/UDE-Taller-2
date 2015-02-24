@@ -10,7 +10,8 @@ import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 
-public class FachadaCapaLogica {
+
+public class FachadaCapaLogica extends  ManageString {
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
@@ -190,30 +191,7 @@ public class FachadaCapaLogica {
 			//Alex
 	}
 	
-	// Metodos auxiliares (privados)Felipe
-	private String corregirTexto(String texto) {
-		texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
-		texto = texto.trim(); 					// elimina espacios al principio y final del string (si hay)
-		texto = texto.toUpperCase(); 			// convierte a mayusculas
-		return texto;
-	}
-
-	private boolean faltaUnaLetra(String textoAdivinado, String tituloPelicula) {
-		int index = textoAdivinado.indexOf("-");
-		char letraUnica = tituloPelicula.charAt(index);
-		
-		while (index != -1) {
-			index = textoAdivinado.indexOf("-", index);
-			if (index != -1) {
-				if (letraUnica != tituloPelicula.charAt(index)) {
-					return false;					
-				} else {
-					index++;
-				}
-			}
-		}
-		return true;
-	}
+	
 
 }
 
