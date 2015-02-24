@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -9,9 +10,9 @@ import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import persistencia.*;
 
-
-public class FachadaCapaLogica extends  ManageString {
+public class FachadaCapaLogica  {
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
@@ -49,7 +50,7 @@ public class FachadaCapaLogica extends  ManageString {
 	// metodos de los requerimientos
 	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
 		String s = pelicula.getTitulo();
-		s = corregirTexto(s);
+		s = ms.corregirTexto(s);
 		pelicula.setTitulo(s);
 		if (peliculas.containsKey(pelicula.getClave())) {
 			System.out.println("");
@@ -89,9 +90,11 @@ public class FachadaCapaLogica extends  ManageString {
 	}
 	
 
-	public void guardarCambios(String path) {
-		//Gaston
-
+	public void guardarCambios(String path) throws IOException {
+				
+		Persistencia db = new Persistencia();
+		Datos datos = new Datos(getPeliculas(), getJugadores());
+		db.Respaldar(datos, path);
 	}
 
 	public DataLogin logIn(String nombreJugador, String codigoJugador) {
@@ -164,10 +167,12 @@ public class FachadaCapaLogica extends  ManageString {
 	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
-		corregirTexto(peliculaArriesgada);
+		ManageString ms = new ManageString();
+		
+		ms.corregirTexto(peliculaArriesgada);
 		
 		if (peliculaArriesgada.equals(tituloPelicula)) {					// pelicula adivinada
-			if (faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
+			if (ms.faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
 				System.out.println("Falta una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 1);
 			} else {														// falta mas de 1 letra (suma 50)

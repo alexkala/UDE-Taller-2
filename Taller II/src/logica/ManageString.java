@@ -1,5 +1,9 @@
 package logica;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 public class ManageString {
 
 	// Metodos auxiliares (privados)Felipe
@@ -25,5 +29,18 @@ public class ManageString {
 				}
 			}
 			return true;
+		}
+		
+		//Metodo para obtener la ruta de propierties
+		public String getRuta() throws IOException {
+			try {
+				Properties p = new Properties();
+				String f = "config/app.properties";
+				p.load(new FileInputStream(f));
+				return p.getProperty("rutaRespaldo");
+			} catch (IOException e) {
+				throw e;
+			}
+
 		}
 }
