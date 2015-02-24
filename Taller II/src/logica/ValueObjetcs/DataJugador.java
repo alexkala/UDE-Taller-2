@@ -16,6 +16,10 @@ public class DataJugador implements Serializable {
 	private int cantErrores;
 	private ArrayList<Partida> partidasJugador;
 	
+	public DataJugador(String nombre, String codigo) {
+		this.nombre = nombre;
+		this.codigo = codigo;
+	}
 	
 	public DataJugador(String nombre, String codigo, int puntajeJugador,
 			int cantAciertos, int cantErrores,

@@ -1,6 +1,9 @@
 package logica;
+import java.io.*;
 
-public class Partida {
+public class Partida implements Serializable  {
+	
+	private static final long serialVersionUID = 1L;
 	private int numero;
 	private int puntajePartida;
 	private boolean finalizada;

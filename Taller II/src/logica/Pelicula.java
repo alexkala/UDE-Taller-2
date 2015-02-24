@@ -1,6 +1,9 @@
 package logica;
+import java.io.*;
 
-public class Pelicula {
+public class Pelicula implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	private String titulo;
 	private String pista;
 	

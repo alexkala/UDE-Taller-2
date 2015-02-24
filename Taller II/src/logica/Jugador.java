@@ -1,8 +1,10 @@
 package logica;
-
+import java.io.*;
 import java.util.ArrayList;
 
-public class Jugador {
+public class Jugador implements Serializable  {
+	
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private String codigo;
 	private int puntajeJugador;
@@ -11,15 +13,13 @@ public class Jugador {
 	private ArrayList<Partida> partidasJugador;
 	
 	// constructor
-	public Jugador(String nombre, String codigo, int puntajeJugador,
-			int cantAciertos, int cantErrores,
-			ArrayList<Partida> partidasJugador) {
+	public Jugador(String nombre, String codigo) {
 		this.nombre = nombre;
 		this.codigo = codigo;
-		this.puntajeJugador = puntajeJugador;
-		this.cantAciertos = cantAciertos;
-		this.cantErrores = cantErrores;
-		this.partidasJugador = partidasJugador;
+		this.puntajeJugador = 0;
+		this.cantAciertos = 0;
+		this.cantErrores = 0;
+		this.partidasJugador = null;
 	}
 	
 	// getters & setters

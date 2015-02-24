@@ -1,16 +1,22 @@
 package logica;
 
+import java.util.Iterator;
 import java.util.TreeMap;
+
+import logica.ValueObjetcs.DataJugador;
+import logica.ValueObjetcs.DataLogin;
+import logica.ValueObjetcs.DataPartida;
+import logica.ValueObjetcs.DataPelicula;
 
 public class FachadaCapaLogica {
 	private static FachadaCapaLogica instancia;
-	private TreeMap<String, Jugador> jugadores;
-	private TreeMap<String, Pelicula> peliculas;
-
+	private Jugadores jugadores;
+	private Peliculas peliculas;
+	
 	// constructor
 	private FachadaCapaLogica() {
-		jugadores = new TreeMap<String, Jugador>();
-		peliculas = new TreeMap<String, Pelicula>();
+		jugadores = new Jugadores();
+		peliculas = new Peliculas();
 	}
 
 	// getters y setters
@@ -21,72 +27,76 @@ public class FachadaCapaLogica {
 		return instancia;
 	}
 
-	public TreeMap<String, Jugador> getJugadores() {
+	public Jugadores getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(TreeMap<String, Jugador> jugadores) {
+	public void setJugadores(Jugadores jugadores) {
 		this.jugadores = jugadores;
 	}
 
-	public TreeMap<String, Pelicula> getPeliculas() {
+	public Peliculas getPeliculas() {
 		return peliculas;
 	}
 
-	public void setPeliculas(TreeMap<String, Pelicula> peliculas) {
+	public void setPeliculas(Peliculas peliculas) {
 		this.peliculas = peliculas;
 	}
 
 	// metodos de los requerimientos
-	public void nuevaPelicula(Pelicula p) {
-		String s = p.getTitulo();
+	public void nuevaPelicula(Pelicula pelicula) {
+		String s = pelicula.getTitulo();
 		s = corregirTexto(s);
-		p.setTitulo(s);
-		if (peliculas.containsKey(p.getClave())) {
+		pelicula.setTitulo(s);
+		if (peliculas.containsKey(pelicula.getClave())) {
 			System.out.println("Error: ya existe la pelicula");
-			// Error: ya existe la pelicula
+			// Error: ya existe la pelicula Gaston
 		}
 		else {
-			peliculas.put(p.getClave(), p);
+			peliculas.put(pelicula.getClave(), pelicula);
 			System.out.println("Pelicula agregada");
-			// Error: pelicula agregada
+			// Error: pelicula agregada Gaston
 		}
 	}
 
-	public DataPelicula[] listarPelicualas() {
-
+	public DataPelicula[] listarPeliculas() {
+	
+		return  peliculas.obtenerPeliculas();
 	}
 
 	public void nuevoJugador(Jugador j) {
 		if (jugadores.containsKey(j.getClave())) {
-			// Error: ya existe el jugador
+			// Error: ya existe el jugador Gaston
+			
 		}
 		else {
 			jugadores.put(j.getClave(), j);
-			// Error: jugador agregado
+			// Error: jugador agregado Gaston
 		}
 	}
 
 	
-	public DataJugador[] listarJugadores(String nombreJugador) {
-	
+	public DataJugador[] listarJugadores() {
+				
+		return jugadores.obtenerJugadores();
 	}
 	
 	public DataPartida[] listarPartidas() {
-	
+		//Felipe
 	}
 	
 
-	public void guardarCambios() {
+	public void guardarCambios(String path) {
+		//Gaston
 
 	}
 
-	public void logIn(String nombreJugador, String codigoJugador) {
-
+	public DataLogin logIn(String nombreJugador, String codigoJugador) {
+		//Felipe
 	}
 
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) {
-
+		//Alex
 	}
 
 	// PRECONDICION: tiene que haber al menos una partida
@@ -96,7 +106,6 @@ public class FachadaCapaLogica {
 		Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
 		return actual;
 	}
-
 	
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {
 		
@@ -176,10 +185,10 @@ public class FachadaCapaLogica {
 	}
 
 	public DataJugador[] listarRanking() {
-
+			//Alex
 	}
 	
-	// Metodos auxiliares (privados)
+	// Metodos auxiliares (privados)Felipe
 	private String corregirTexto(String texto) {
 		texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
 		texto = texto.trim(); 					// elimina espacios al principio y final del string (si hay)

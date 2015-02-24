@@ -1,40 +1,44 @@
 package persistencia;
 import java.io.*;
+
 import logica.*;
 
 public class Datos implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
-	private Peliculas peli;
-	private Jugadores juga;
+	private Peliculas peliculas;
+	private Jugadores jugadores; 
 	
-	public Datos(Peliculas peli, Jugadores juga){
-		this.peli=peli;
-		this.juga=juga;
+	public Datos(Peliculas _peliculas, Jugadores _jugadores){
+		this.peliculas = _peliculas;
+		this.jugadores = _jugadores;
 	}
+	
 	public Datos (){
-		peli= new Peliculas();
-		juga= new Jugadores();
+		peliculas = new Peliculas();
+		jugadores = new Jugadores();
 	}
 
-	public Peliculas getPeli() {
-		return peli;
+	public Peliculas getPeliculas() {
+		return peliculas;
 	}
 
-	public void setPeli(Peliculas peli) {
-		this.peli = peli;
+	public void setPeliculas(Peliculas peliculas) {
+		this.peliculas = peliculas;
 	}
 
-	public Jugadores getJuga() {
-		return juga;
+	public Jugadores getJugadores() {
+		return jugadores;
 	}
 
-	public void setJuga(Jugadores juga) {
-		this.juga = juga;
+	public void setJugadores(Jugadores jugadores) {
+		this.jugadores = jugadores;
 	}
 
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 
 

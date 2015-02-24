@@ -7,12 +7,20 @@ import logica.FachadaCapaLogica;
 import logica.Jugador;
 import logica.Partida;
 import logica.Pelicula;
+import logica.ValueObjetcs.DataPelicula;
 
 public class Principal {
 
 	public static void main(String[] args) {
 		
-		// comentario
+		
+		
+		DataPelicula[] peliculasArre = FachadaCapaLogica.getInstancia().listarPeliculas();
+		System.out.println("Vacio");
+		for(DataPelicula elem: peliculasArre)
+		{
+			System.out.println (elem.getTitulo());
+		}
 		
 		String tituloPelicula = "Relatos  salvajes";		
 		Pelicula peliculaPartida = new Pelicula(tituloPelicula, "Producida por Pedro Almodóvar y ostenta entre sus filas al actor hoy más popular del cine local, Ricardo Darín.");
@@ -22,7 +30,13 @@ public class Principal {
 		peliculaPartida = new Pelicula("Batman", "Un hombre murcielago");
 		FachadaCapaLogica.getInstancia().nuevaPelicula(peliculaPartida);
 		//System.out.println(FachadaCapaLogica.getInstancia().getPeliculas().firstKey());
+		peliculasArre = FachadaCapaLogica.getInstancia().listarPeliculas();
 		
+		System.out.println("Cargado");
+		for(DataPelicula elem: peliculasArre)
+		{
+			System.out.println (elem.getTitulo());
+		}
 		// prueba ingresarCaracter y arriesgarPelicula
 		
 		peliculaPartida = FachadaCapaLogica.getInstancia().getPeliculas().firstEntry().getValue();
