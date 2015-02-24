@@ -7,6 +7,8 @@ import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionsJugadores;
+import logica.exceptions.ExceptionsPeliculas;
 
 public class FachadaCapaLogica {
 	private static FachadaCapaLogica instancia;
@@ -44,13 +46,13 @@ public class FachadaCapaLogica {
 	}
 
 	// metodos de los requerimientos
-	public void nuevaPelicula(Pelicula pelicula) {
+	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
 		String s = pelicula.getTitulo();
 		s = corregirTexto(s);
 		pelicula.setTitulo(s);
 		if (peliculas.containsKey(pelicula.getClave())) {
-			System.out.println("Error: ya existe la pelicula");
-			// Error: ya existe la pelicula Gaston
+			System.out.println("");
+			 throw new ExceptionsPeliculas("Error: ya existe la pelicula");
 		}
 		else {
 			peliculas.put(pelicula.getClave(), pelicula);
@@ -64,14 +66,14 @@ public class FachadaCapaLogica {
 		return  peliculas.obtenerPeliculas();
 	}
 
-	public void nuevoJugador(Jugador j) {
+	public void nuevoJugador(Jugador j) throws ExceptionsJugadores {
 		if (jugadores.containsKey(j.getClave())) {
-			// Error: ya existe el jugador Gaston
+			throw new ExceptionsJugadores("Error: ya existe la el jugador");
 			
 		}
 		else {
 			jugadores.put(j.getClave(), j);
-			// Error: jugador agregado Gaston
+			System.out.println("Jugador agregado");
 		}
 	}
 
