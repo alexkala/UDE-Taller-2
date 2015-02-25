@@ -31,6 +31,7 @@ public class ManageString {
 			return true;
 		}
 		
+<<<<<<< HEAD
 		public static String transformarTextoAdivinado(String tituloPelicula) {
 			String textoAdivinado = tituloPelicula;
 			textoAdivinado = textoAdivinado.replaceAll("\\S", "-");
@@ -38,6 +39,8 @@ public class ManageString {
 		}
 		
 
+=======
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 		//Metodo para obtener la ruta de propierties
 		public String getRuta() throws IOException {
 			try {

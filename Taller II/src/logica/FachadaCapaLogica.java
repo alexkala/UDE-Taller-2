@@ -50,8 +50,9 @@ public class FachadaCapaLogica  {
 
 	// metodos de los requerimientos
 	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
+		ManageString ms = new ManageString();
 		String s = pelicula.getTitulo();
-		s = corregirTexto(s);
+		s = ms.corregirTexto(s);
 		pelicula.setTitulo(s);
 		if (peliculas.containsKey(pelicula.getClave())) {
 			System.out.println("");
@@ -192,10 +193,12 @@ public class FachadaCapaLogica  {
 	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
-		corregirTexto(peliculaArriesgada);
+		ManageString ms = new ManageString();
+		
+		ms.corregirTexto(peliculaArriesgada);
 		
 		if (peliculaArriesgada.equals(tituloPelicula)) {					// pelicula adivinada
-			if (faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
+			if (ms.faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
 				System.out.println("Falta una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 1);
 			} else {														// falta mas de 1 letra (suma 50)
