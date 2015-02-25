@@ -10,6 +10,7 @@ import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import logica.exceptions.ExceptionsPersistencia;
 import persistencia.*;
 import logica.ManageString;
 
@@ -97,7 +98,8 @@ public class FachadaCapaLogica  {
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
 	}
-
+	
+	
 	public DataLogin logIn(String nombreJugador, String codigoJugador) {
 		//Felipe
 	}
