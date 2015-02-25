@@ -1,86 +1,68 @@
+import logica.FachadaCapaLogica;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.io.*;
 
 import logica.*;
+import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionsJugadores;
+import logica.exceptions.ExceptionsPeliculas;
 import persistencia.*;
 
 
 public class MainPersistencia {
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, IOException {
 		// TODO Auto-generated method stub
 		
-		try{
+		// JUGADORES
+		Jugador jugador = new Jugador("Alex", "123");	
+		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
 
-			Pelicula pelicula1= new Pelicula("Tarzan","Hombre de la selva");
-			Pelicula pelicula2= new Pelicula("Mulan","Guerrera China");
-			Pelicula pelicula3= new Pelicula("Red","Espias retirados");
-			Pelicula pelicula4= new Pelicula("Toy Story","Juguetes");
-			
-			Partida p1 = new Partida(0, 0, false, false, "r", pelicula1);
-			Partida p2 = new Partida(0, 0, false, false, "a", pelicula2);
-			Partida p3 = new Partida(0, 0, false, false, "e", pelicula3);
-			Partida p4 = new Partida(0, 0, false, false, "t", pelicula4);
-			
-			
-			Jugador jugador1= new Jugador("Pepe","123");
-			Jugador jugador2= new Jugador("Juan","456");
-			Jugador jugador3= new Jugador("Luis","789");
-			Jugador jugador4= new Jugador("Dani","000");
-			
-			FachadaCapaLogica.getInstancia().nuevoJugador(jugador1);
-			
-			
-			TreeMap<String,Pelicula>  peliculas =  new TreeMap<String,Pelicula>();
-			TreeMap<String,Pelicula>  peliculasGuardadas =  new TreeMap<String,Pelicula>();
-			TreeMap<String,Jugador>  jugadores =  new TreeMap<String,Jugador>();
-		
-			peliculas.put(pelicula1.getClave(), pelicula1);
-			
-			
-			
-			
-			/*jugadores.insert(jugador1);
-			jugadores.insert(jugador2);
-			jugadores.insert(jugador3);
-			jugadores.insert(jugador4);
-			
-*/			
-			Persistencia p = new Persistencia();
-			//p.Respaldar(jugadores, peliculas);
-			System.out.println("\nhola");
-			Datos d = new Datos();
-			
-			d = p.Recuperar();
-			FachadaCapaLogica.getInstancia().setJugadores(d.getJugadores());
-			System.out.println("\nchau");
-			
-			
-			
-			/*
-			String tituloPelicula = "Relatos  salvajes";		
-			Pelicula peliculaPartida = new Pelicula(tituloPelicula, "Producida por Pedro Almodóvar y ostenta entre sus filas al actor hoy más popular del cine local, Ricardo Darín.");
-			FachadaCapaLogica.getInstancia().nuevaPelicula(peliculaPartida);
-			
-			DataPelicula[] peliculasArre = FachadaCapaLogica.getInstancia().listarPeliculas();
-			for(DataPelicula elem: peliculasArre)
-			{
-				
-				System.out.println (elem.getTitulo());
-			}
-			
-			
-		    
-			*/
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
+		jugador = new Jugador("Gaston", "789");
+		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
+
+		jugador = new Jugador("Felipe", "456");
+		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);			
+		// nuevoJugador
+
+		DataJugador[] dataJugadores = FachadaCapaLogica.getInstancia().listarJugadores();	// listarJugadores
+
+		// muestra los jugadores
+		for (DataJugador elem: dataJugadores) {
+			System.out.println(elem.getNombre() + " - " + elem.getCodigo());
 		}
+
+		// PELICULAS
+		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
+		Pelicula pelicula2 = new Pelicula("Birdman", "Humor negro");
+		Pelicula pelicula3 = new Pelicula("Selma", "Drama");
+		Pelicula pelicula4 = new Pelicula("La   teoria del todo  ", "Romance - Biografia");
+		Pelicula pelicula5 = new Pelicula("Momentos de una vida", "Drama");
+
+		FachadaCapaLogica.getInstancia().nuevaPelicula(pelicula1);							// nuevaPelicula
+		FachadaCapaLogica.getInstancia().nuevaPelicula(pelicula2);							// nuevaPelicula
+		FachadaCapaLogica.getInstancia().nuevaPelicula(pelicula3);							// nuevaPelicula
+		FachadaCapaLogica.getInstancia().nuevaPelicula(pelicula4);							// nuevaPelicula
+		FachadaCapaLogica.getInstancia().nuevaPelicula(pelicula5);							// nuevaPelicula
+
+		DataPelicula[] dataPeliculas = FachadaCapaLogica.getInstancia().listarPeliculas();	// listarPeliculas
+
+		// muestra las peliculas
+		System.out.println("\nPELICULAS");
+		for (DataPelicula elem : dataPeliculas) {
+			System.out.println(elem.getTitulo() + " - " + elem.getPista());
+		}
+		
+		
+		//Guardar en archivo
+		FachadaCapaLogica.getInstancia().guardarCambios();
+		
+		// Agrego conflicto
+
 	}
 
 }
