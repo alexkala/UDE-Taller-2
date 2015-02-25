@@ -7,14 +7,14 @@ import java.util.Properties;
 public class ManageString {
 
 	// Metodos auxiliares (privados)Felipe
-		public String corregirTexto(String texto) {
+		public static String corregirTexto(String texto) {
 			texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
 			texto = texto.trim(); 					// elimina espacios al principio y final del string (si hay)
 			texto = texto.toUpperCase(); 			// convierte a mayusculas
 			return texto;
 		}
 
-		public boolean faltaUnaLetra(String textoAdivinado, String tituloPelicula) {
+		public static boolean faltaUnaLetra(String textoAdivinado, String tituloPelicula) {
 			int index = textoAdivinado.indexOf("-");
 			char letraUnica = tituloPelicula.charAt(index);
 			
@@ -31,18 +31,19 @@ public class ManageString {
 			return true;
 		}
 		
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		public static String transformarTextoAdivinado(String tituloPelicula) {
 			String textoAdivinado = tituloPelicula;
 			textoAdivinado = textoAdivinado.replaceAll("\\S", "-");
 			return textoAdivinado;
 		}
 		
-
+/*
 =======
 >>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
+*/
 		//Metodo para obtener la ruta de propierties
-		public String getRuta() throws IOException {
+		public static String getRuta() throws IOException {
 			try {
 				Properties p = new Properties();
 				String f = "config/app.properties";
