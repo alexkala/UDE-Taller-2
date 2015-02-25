@@ -11,6 +11,7 @@ import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 import persistencia.*;
+import logica.ManageString;
 
 public class FachadaCapaLogica  {
 	private static FachadaCapaLogica instancia;
@@ -49,6 +50,7 @@ public class FachadaCapaLogica  {
 
 	// metodos de los requerimientos
 	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
+		ManageString ms = new ManageString();
 		String s = pelicula.getTitulo();
 		s = ms.corregirTexto(s);
 		pelicula.setTitulo(s);
