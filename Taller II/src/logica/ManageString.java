@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class ManageString {
 
+
 	// Metodos auxiliares 
 		public static String corregirTexto(String texto) {
 			texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
@@ -38,7 +39,6 @@ public class ManageString {
 			return textoAdivinado;
 		}
 		
-
 
 		//Metodo para obtener la ruta de propierties
 		public static String getRuta() throws IOException {

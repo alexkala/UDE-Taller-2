@@ -87,11 +87,16 @@ public class FachadaCapaLogica  {
 		return jugadores.obtenerJugadores();
 	}
 	
-	public DataPartida[] listarPartidas() {
-		
-		return partidas.obtenerPartidas();
+	public DataPartida[] listarPartidas(String nombreJugador) throws ExceptionsJugadores {
+		if(jugadores.containsKey(nombreJugador)){
+			Jugador jugador= jugadores.get(nombreJugador);
+			DataPartida[] partidasArre= jugador.getPartidasJugador().obtenerPartidas();
+			return partidasArre;			
+		}
+		else
+			throw new ExceptionsJugadores("Error: ya existe la el jugador");
+			
 	}
-	
 
 	public void guardarCambios(String path) throws IOException {
 				
@@ -123,7 +128,9 @@ public class FachadaCapaLogica  {
 		
 		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
 			Jugador jugador = jugadores.get(nombreJugador);
+
 			Partidas partidas = jugador.getPartidasJugador();
+
 			int numeroPartida = partidas.size() + 1;
 			
 			Pelicula peliculaPartida = peliculas.randomPelicula(partidas);
@@ -210,7 +217,6 @@ public class FachadaCapaLogica  {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
 	
-		
 		ManageString.corregirTexto(peliculaArriesgada);
 		
 		if (peliculaArriesgada.equals(tituloPelicula)) {					// pelicula adivinada

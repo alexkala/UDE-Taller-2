@@ -7,6 +7,7 @@ import logica.Partidas;
 import logica.Pelicula;
 import logica.Peliculas;
 import logica.ValueObjetcs.DataJugador;
+import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
@@ -95,6 +96,12 @@ public class PruebaFachada {
 				System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 			}
 		}
+		DataPartida[] partidasArre= FachadaCapaLogica.getInstancia().listarPartidas("Alex");
+		for(DataPartida elem: partidasArre)		{
+			
+			System.out.println (elem.getNumero());
+			
+		}
 	}
-
+	
 }

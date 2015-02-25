@@ -68,7 +68,6 @@ public class PruebaDiccionarios {
 		Pelicula peliculaNueva = peliculas.randomPelicula(partidas);
 		System.out.println("\nPELICULA NUEVA: " + peliculaNueva.getTitulo() + " - " + peliculaNueva.getPista());
 		
-		
-	}
 
+	}
 }
