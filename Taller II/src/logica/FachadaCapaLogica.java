@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -9,9 +10,10 @@ import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import persistencia.*;
+import logica.ManageString;
 
-
-public class FachadaCapaLogica extends  ManageString {
+public class FachadaCapaLogica  {
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
@@ -89,9 +91,11 @@ public class FachadaCapaLogica extends  ManageString {
 	}
 	
 
-	public void guardarCambios(String path) {
-		//Gaston
-
+	public void guardarCambios(String path) throws IOException {
+				
+		Persistencia db = new Persistencia();
+		Datos datos = new Datos(getPeliculas(), getJugadores());
+		db.Respaldar(datos, path);
 	}
 
 	public DataLogin logIn(String nombreJugador, String codigoJugador) {
@@ -99,15 +103,39 @@ public class FachadaCapaLogica extends  ManageString {
 	}
 
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) {
-		//Alex
+		
+		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
+			Jugador jugador = jugadores.get(nombreJugador);
+			ArrayList<Partida> partidas = jugador.getPartidasJugador();
+			int numeroPartida = partidas.size() + 1;
+			
+			Pelicula peliculaPartida = peliculas.randomPelicula(partidas);
+			Partida nuevaPartida = new Partida();
+			if (peliculaPartida != null) {
+				String textoAdivinado = transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
+				nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
+				partidas.add(nuevaPartida);
+				return nuevaPartida;
+			} 			
+		} else {
+			System.out.println("Error: Ya hay una partida en curso");
+			// Error: Ya hay una partida en curso
+		}
+		return null;
 	}
 
-	// PRECONDICION: tiene que haber al menos una partida
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) {		
-		Jugador jugador = jugadores.get(nombreJugador);
-		int indexUltimaPartida = jugador.getPartidasJugador().lastIndexOf(jugador);
-		Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
-		return actual;
+		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
+			Jugador jugador = jugadores.get(nombreJugador);
+			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
+			Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
+			return actual;
+		}
+		else {
+			System.out.println("Error: no hay ninguna partida creada");
+			// Error: no hay ninguna partida creada
+			return null;
+		}
 	}
 	
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {

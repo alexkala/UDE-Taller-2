@@ -4,7 +4,7 @@ import java.io.*;
 public class Partida implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;
-	private int numero;
+	private int numeroPartida;
 	private int puntajePartida;
 	private boolean finalizada;
 	private boolean acertada;
@@ -13,9 +13,9 @@ public class Partida implements Serializable  {
 	
 	
 	// constructor	
-	public Partida(int numero, int puntajePartida, boolean finalizada,
+	public Partida(int numeroPartida, int puntajePartida, boolean finalizada,
 			boolean acertada, String textoAdivinado, Pelicula peliculaPartida) {
-		this.numero = numero;
+		this.numeroPartida = numeroPartida;
 		this.puntajePartida = puntajePartida;
 		this.finalizada = finalizada;
 		this.acertada = acertada;
@@ -23,16 +23,37 @@ public class Partida implements Serializable  {
 		this.peliculaPartida = peliculaPartida;
 	}
 	
+	public Partida(int numeroPartida, String textoAdivinado, Pelicula peliculaPartida) {
+		this.numeroPartida = numeroPartida;
+		this.puntajePartida = 0;
+		this.finalizada = false;
+		this.acertada = false;
+		this.textoAdivinado = textoAdivinado;
+		this.peliculaPartida = peliculaPartida;
+	}
+	
+	public Partida() {
+		this.numeroPartida = -1;
+		this.puntajePartida = 0;
+		this.finalizada = false;
+		this.acertada = false;
+		this.textoAdivinado = null;
+		this.peliculaPartida = null;
+	}
+
 	// getters & setters
-	public int getNumero() {
-		return numero;
+	public int getNumeroPartida() {
+		return numeroPartida;
 	}
-	public void setNumero(int numero) {
-		this.numero = numero;
+
+	public void setNumeroPartida(int numeroPartida) {
+		this.numeroPartida = numeroPartida;
 	}
+	
 	public int getPuntajePartida() {
 		return puntajePartida;
 	}
+
 	public void setPuntajePartida(int puntajePartida) {
 		this.puntajePartida = puntajePartida;
 	}
