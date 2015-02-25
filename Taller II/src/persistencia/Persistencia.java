@@ -47,8 +47,7 @@ public class Persistencia {
 
 	}
 
-	public Datos Recuperar(String path) throws IOException, ExceptionsPersistencia,
-			ClassNotFoundException {
+	public Datos Recuperar(String path) throws IOException, ExceptionsPersistencia,	ClassNotFoundException {
 		try {
 			FileInputStream fis = null;
 			File file = new File(path);

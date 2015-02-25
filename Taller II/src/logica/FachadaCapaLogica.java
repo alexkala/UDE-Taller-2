@@ -91,8 +91,8 @@ public class FachadaCapaLogica  {
 	}
 	
 
-	public void guardarCambios(String path) throws IOException {
-				
+	public void guardarCambios() throws IOException {
+		String path = ManageString.getRuta();
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
