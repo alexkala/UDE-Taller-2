@@ -8,7 +8,7 @@ import logica.ValueObjetcs.DataPelicula;
 import persistencia.*;
 
 
-public class PruebitaArchivos {
+public class MainPersistencia {
 
 
 	public static void main(String[] args) {
@@ -25,15 +25,6 @@ public class PruebitaArchivos {
 			Partida p2 = new Partida(0, 0, false, false, "a", pelicula2);
 			Partida p3 = new Partida(0, 0, false, false, "e", pelicula3);
 			Partida p4 = new Partida(0, 0, false, false, "t", pelicula4);
-			
-			/*ArrayList<Partida> partidasJugador1=null;
-			partidasJugador1.add(p1);
-			ArrayList<Partida> partidasJugador2= null;
-			partidasJugador2.add(p2);
-			ArrayList<Partida> partidasJugador3=null;
-			partidasJugador3.add(p3);
-			ArrayList<Partida> partidasJugador4=null;
-			partidasJugador4.add(p4);*/
 			
 			
 			Jugador jugador1= new Jugador("Pepe","123");

@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -7,17 +8,22 @@ import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionCodigoIncorrecto;
+import logica.exceptions.ExceptionsJugadores;
+import logica.exceptions.ExceptionsPeliculas;
+import persistencia.*;
+import logica.ManageString;
 
-public class FachadaCapaLogica {
+public class FachadaCapaLogica  {
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
-	
+		
 	// constructor
 	private FachadaCapaLogica() {
 		jugadores = new Jugadores();
 		peliculas = new Peliculas();
-	}
+		}
 
 	// getters y setters
 	public static FachadaCapaLogica getInstancia() {
@@ -44,13 +50,13 @@ public class FachadaCapaLogica {
 	}
 
 	// metodos de los requerimientos
-	public void nuevaPelicula(Pelicula pelicula) {
+	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
 		String s = pelicula.getTitulo();
-		s = corregirTexto(s);
+		s = ManageString.corregirTexto(s);
 		pelicula.setTitulo(s);
 		if (peliculas.containsKey(pelicula.getClave())) {
-			System.out.println("Error: ya existe la pelicula");
-			// Error: ya existe la pelicula Gaston
+			System.out.println("");
+			 throw new ExceptionsPeliculas("Error: ya existe la pelicula");
 		}
 		else {
 			peliculas.put(pelicula.getClave(), pelicula);
@@ -64,14 +70,14 @@ public class FachadaCapaLogica {
 		return  peliculas.obtenerPeliculas();
 	}
 
-	public void nuevoJugador(Jugador j) {
+	public void nuevoJugador(Jugador j) throws ExceptionsJugadores {
 		if (jugadores.containsKey(j.getClave())) {
-			// Error: ya existe el jugador Gaston
+			throw new ExceptionsJugadores("Error: ya existe la el jugador");
 			
 		}
 		else {
 			jugadores.put(j.getClave(), j);
-			// Error: jugador agregado Gaston
+			System.out.println("Jugador agregado");
 		}
 	}
 
@@ -82,29 +88,71 @@ public class FachadaCapaLogica {
 	}
 	
 	public DataPartida[] listarPartidas() {
-		//Felipe
+		
+		return partidas.obtenerPartidas();
 	}
 	
 
-	public void guardarCambios(String path) {
-		//Gaston
-
+	public void guardarCambios(String path) throws IOException {
+				
+		Persistencia db = new Persistencia();
+		Datos datos = new Datos(getPeliculas(), getJugadores());
+		db.Respaldar(datos, path);
 	}
 
-	public DataLogin logIn(String nombreJugador, String codigoJugador) {
-		//Felipe
-	}
+	
+	public DataLogin logIn(String nombreJugador, String codigoJugador) throws ExceptionsJugadores, ExceptionCodigoIncorrecto {
+			
+			if(jugadores.containsKey(nombreJugador)){
+				Jugador jugador= jugadores.get(nombreJugador);
+				String password=jugador.getCodigo();
+					if(password==codigoJugador){
+						DataLogin login= new DataLogin(nombreJugador,codigoJugador);
+						return login;
+					}
+					else
+						throw new ExceptionCodigoIncorrecto("Error: Codigo incorrecto");
+			}
+			else
+				throw new ExceptionsJugadores("Error: no existe  el jugador con dicho nombre");
+	}	
+
+	
 
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) {
-		//Alex
+		
+		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
+			Jugador jugador = jugadores.get(nombreJugador);
+			Partidas partidas = jugador.getPartidasJugador();
+			int numeroPartida = partidas.size() + 1;
+			
+			Pelicula peliculaPartida = peliculas.randomPelicula(partidas);
+			Partida nuevaPartida = new Partida();
+			if (peliculaPartida != null) {
+				String textoAdivinado = ManageString.transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
+				nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
+				partidas.add(nuevaPartida);
+				return nuevaPartida;
+			} 			
+		} else {
+			System.out.println("Error: Ya hay una partida en curso");
+			// Error: Ya hay una partida en curso
+		}
+		return null;
 	}
 
-	// PRECONDICION: tiene que haber al menos una partida
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) {		
-		Jugador jugador = jugadores.get(nombreJugador);
-		int indexUltimaPartida = jugador.getPartidasJugador().lastIndexOf(jugador);
-		Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
-		return actual;
+		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
+			Jugador jugador = jugadores.get(nombreJugador);
+			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
+			Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
+			return actual;
+		}
+		else {
+			System.out.println("Error: no hay ninguna partida creada");
+			// Error: no hay ninguna partida creada
+			return null;
+		}
 	}
 	
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {
@@ -161,10 +209,12 @@ public class FachadaCapaLogica {
 	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
-		corregirTexto(peliculaArriesgada);
+	
+		
+		ManageString.corregirTexto(peliculaArriesgada);
 		
 		if (peliculaArriesgada.equals(tituloPelicula)) {					// pelicula adivinada
-			if (faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
+			if (ManageString.faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
 				System.out.println("Falta una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 1);
 			} else {														// falta mas de 1 letra (suma 50)
@@ -188,30 +238,7 @@ public class FachadaCapaLogica {
 			//Alex
 	}
 	
-	// Metodos auxiliares (privados)Felipe
-	private String corregirTexto(String texto) {
-		texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
-		texto = texto.trim(); 					// elimina espacios al principio y final del string (si hay)
-		texto = texto.toUpperCase(); 			// convierte a mayusculas
-		return texto;
-	}
-
-	private boolean faltaUnaLetra(String textoAdivinado, String tituloPelicula) {
-		int index = textoAdivinado.indexOf("-");
-		char letraUnica = tituloPelicula.charAt(index);
-		
-		while (index != -1) {
-			index = textoAdivinado.indexOf("-", index);
-			if (index != -1) {
-				if (letraUnica != tituloPelicula.charAt(index)) {
-					return false;					
-				} else {
-					index++;
-				}
-			}
-		}
-		return true;
-	}
+	
 
 }
 

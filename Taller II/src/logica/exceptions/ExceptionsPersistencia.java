@@ -8,9 +8,7 @@ public class ExceptionsPersistencia extends Exception implements Serializable {
 
 	public ExceptionsPersistencia(String msj)
 	{
-		
-		System.out.print("\nNo existe archivo en la ruta:" + msj);
-				
+		super("\nNo existe archivo en la ruta:" + msj);
 	}
 	
 	
