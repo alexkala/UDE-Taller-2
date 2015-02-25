@@ -61,7 +61,11 @@ public class MainPersistencia {
 		//Guardar en archivo
 		FachadaCapaLogica.getInstancia().guardarCambios();
 		
+<<<<<<< HEAD
 		// Agrego conflicto
+=======
+		
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 
 	}
 
