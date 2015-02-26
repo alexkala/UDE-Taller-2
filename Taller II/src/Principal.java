@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 import java.util.TreeMap;
 
 import logica.FachadaCapaLogica;
@@ -12,7 +13,7 @@ import logica.exceptions.ExceptionsPeliculas;
 
 public class Principal {
 
-	public static void main(String[] args) throws ExceptionsPeliculas {
+	public static void main(String[] args) throws ExceptionsPeliculas, RemoteException {
 		
 		
 		

@@ -4,13 +4,12 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
-import java.util.ArrayList;
-
 import logica.FachadaCapaLogica;
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
 import logica.ManageString;
 import logica.Partida;
+import logica.Partidas;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataPelicula;
@@ -76,7 +75,7 @@ public class Cliente {
 			
 			
 			// PARTIDAS
-			ArrayList<Partida> partidas = new ArrayList<Partida>();
+			Partidas partidas = new Partidas();
 			
 			// agrega partidas
 			String textoAdivinado = ManageString.transformarTextoAdivinado(pelicula2.getTitulo());

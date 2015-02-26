@@ -3,10 +3,7 @@ package logica;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.TreeMap;
 
 import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataLogin;
@@ -53,9 +50,11 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		this.peliculas = peliculas;
 	}
 
-	// metodos de los requerimientos
+	// metodos de los requerimientos:
 	
-	// Requerimiento 1 Registrar Nueva Pelicula
+	// Requerimientos Administrador:
+	
+	// Requerimiento 1: Registrar Nueva Pelicula
 	public void nuevaPelicula(Pelicula pelicula) throws RemoteException, ExceptionsPeliculas {
 		String s = pelicula.getTitulo();
 		s = ManageString.corregirTexto(s);
@@ -70,12 +69,12 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			// Error: pelicula agregada Gaston
 		}
 	}
-	// Requerimiento 2 Listar Peliculas
+	// Requerimiento 2: Listar Peliculas
 	public DataPelicula[] listarPeliculas() throws RemoteException {
 	
 		return  peliculas.obtenerPeliculas();
 	}
-	// Requerimiento 3 Registrar Nuevo Jugador
+	// Requerimiento 3: Registrar Nuevo Jugador
 	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
 		if (jugadores.containsKey(j.getClave())) {
 			throw new ExceptionsJugadores("Error: ya existe la el jugador");
@@ -87,11 +86,12 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 	}
 
-	//Requerimiento 4 Listar Jugadores
+	//Requerimiento 4: Listar Jugadores
 	public DataJugador[] listarJugadores() throws RemoteException {		
 		return jugadores.obtenerJugadores();
 	}
 	
+	//Requerimiento 5: Listar Partidas De Un Jugador
 	public DataPartida[] listarPartidas(String nombreJugador) throws ExceptionsJugadores {
 		if(jugadores.containsKey(nombreJugador)){
 			Jugador jugador= jugadores.get(nombreJugador);
@@ -102,15 +102,18 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			throw new ExceptionsJugadores("Error: ya existe la el jugador");
 			
 	}
-
+	
+	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
 		String path = ManageString.getRuta();
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
 	}
-
 	
+	// Requerimientos Jugadores:
+
+	//Requerimiento 7: Loguearse Para Jugar
 	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionCodigoIncorrecto {
 			
 			if(jugadores.containsKey(nombreJugador)){
@@ -127,8 +130,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 				throw new ExceptionsJugadores("Error: no existe  el jugador con dicho nombre");
 	}	
 
-	
-
+	//Requerimiento 8: Iniciar Nueva Partida
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException {
 		
 		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
@@ -152,7 +154,8 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 		return null;
 	}
-
+	
+	//Requerimiento 9: Visualizar Partida En Curso
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException {		
 		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
 			Jugador jugador = jugadores.get(nombreJugador);
@@ -167,6 +170,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 	}
 	
+	//Requerimiento 10: Ingresar Un Caracter
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) throws RemoteException {
 		
 		int i = 0;
@@ -218,6 +222,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 	}
 	
+	//Requerimiento 11: Arriesgar Pelicula
 	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) throws RemoteException {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
@@ -244,7 +249,8 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 		partida.setFinalizada(true);
 	}
-
+	
+	//Requerimiento 12: Ranking General
 	public DataJugador[] listarRanking() throws RemoteException {
 			Jugadores ranking = new Jugadores(jugadores);
 			DataJugador[] dataRanking = ranking.obtenerJugadores();
