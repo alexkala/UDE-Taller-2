@@ -1,4 +1,6 @@
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import logica.FachadaCapaLogica;
 import logica.Jugador;
@@ -15,25 +17,39 @@ import logica.exceptions.ExceptionsPeliculas;
 
 public class PruebaFachada {
 
-	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas {
+	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, RemoteException {
 		
 		// JUGADORES
-		Jugador jugador = new Jugador("Alex", "123");	
+		Jugador jugador = new Jugador("Alex", "123");
+		jugador.setPuntajeJugador(60);
 		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
 		
 		jugador = new Jugador("Gaston", "789");
+		jugador.setPuntajeJugador(60);
 		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
 		
 		jugador = new Jugador("Felipe", "456");
+		jugador.setPuntajeJugador(30);
 		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
 
 		DataJugador[] dataJugadores = FachadaCapaLogica.getInstancia().listarJugadores();	// listarJugadores
 		
 		// muestra los jugadores
+		System.out.println("\nJUGADORES");
 		for (DataJugador elem: dataJugadores) {
-			System.out.println(elem.getNombre() + " - " + elem.getCodigo());
+			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 		}
 		
+		// RANKING
+		System.out.println("\nRANKING");
+		DataJugador[] ranking = FachadaCapaLogica.getInstancia().listarRanking();		// listarRanking
+		int i = 1;
+		for (DataJugador elem: ranking) {
+			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
+			i++;
+		}
+		
+		/*
 		// PELICULAS
 		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
 		Pelicula pelicula2 = new Pelicula("Birdman", "Humor negro");
@@ -55,6 +71,8 @@ public class PruebaFachada {
 			System.out.println(elem.getTitulo() + " - " + elem.getPista());
 		}
 
+		
+		
 		// PARTIDAS
 		ArrayList<Partida> partidas = new ArrayList<Partida>();
 		
@@ -96,6 +114,8 @@ public class PruebaFachada {
 				System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 			}
 		}
+		*/
+		
 	}
 
 }

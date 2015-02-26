@@ -1,6 +1,10 @@
 package logica;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -13,43 +17,43 @@ import logica.exceptions.ExceptionsPeliculas;
 import persistencia.*;
 import logica.ManageString;
 
-public class FachadaCapaLogica  {
+public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCapaLogica {
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
 	
 	// constructor
-	private FachadaCapaLogica() {
+	private FachadaCapaLogica() throws RemoteException{
 		jugadores = new Jugadores();
 		peliculas = new Peliculas();
 	}
 
 	// getters y setters
-	public static FachadaCapaLogica getInstancia() {
+	public static FachadaCapaLogica getInstancia() throws RemoteException{
 		if (instancia == null) {
 			instancia = new FachadaCapaLogica();
 		}
 		return instancia;
 	}
 
-	public Jugadores getJugadores() {
+	public Jugadores getJugadores() throws RemoteException {
 		return jugadores;
 	}
 
-	public void setJugadores(Jugadores jugadores) {
+	public void setJugadores(Jugadores jugadores) throws RemoteException {
 		this.jugadores = jugadores;
 	}
 
-	public Peliculas getPeliculas() {
+	public Peliculas getPeliculas() throws RemoteException {
 		return peliculas;
 	}
 
-	public void setPeliculas(Peliculas peliculas) {
+	public void setPeliculas(Peliculas peliculas) throws RemoteException {
 		this.peliculas = peliculas;
 	}
 
 	// metodos de los requerimientos
-	public void nuevaPelicula(Pelicula pelicula) throws ExceptionsPeliculas {
+	public void nuevaPelicula(Pelicula pelicula) throws RemoteException, ExceptionsPeliculas {
 		String s = pelicula.getTitulo();
 		s = ManageString.corregirTexto(s);
 		pelicula.setTitulo(s);
@@ -64,12 +68,12 @@ public class FachadaCapaLogica  {
 		}
 	}
 
-	public DataPelicula[] listarPeliculas() {
+	public DataPelicula[] listarPeliculas() throws RemoteException {
 	
 		return  peliculas.obtenerPeliculas();
 	}
 
-	public void nuevoJugador(Jugador j) throws ExceptionsJugadores {
+	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
 		if (jugadores.containsKey(j.getClave())) {
 			throw new ExceptionsJugadores("Error: ya existe la el jugador");
 			
@@ -81,28 +85,27 @@ public class FachadaCapaLogica  {
 	}
 
 	
-	public DataJugador[] listarJugadores() {
-				
+	public DataJugador[] listarJugadores() throws RemoteException {		
 		return jugadores.obtenerJugadores();
 	}
 	
-	public DataPartida[] listarPartidas() {
+	public DataPartida[] listarPartidas() throws RemoteException {
 		//Felipe
 	}
 	
 
-	public void guardarCambios() throws IOException {
+	public void guardarCambios() throws RemoteException, IOException {
 		String path = ManageString.getRuta();
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
 	}
 
-	public DataLogin logIn(String nombreJugador, String codigoJugador) {
+	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException {
 		//Felipe
 	}
 
-	public Partida nuevaPartida(String nombreJugador, String codigoJugador) {
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException {
 		
 		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
 			Jugador jugador = jugadores.get(nombreJugador);
@@ -124,7 +127,7 @@ public class FachadaCapaLogica  {
 		return null;
 	}
 
-	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) {		
+	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException {		
 		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
 			Jugador jugador = jugadores.get(nombreJugador);
 			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
@@ -138,7 +141,7 @@ public class FachadaCapaLogica  {
 		}
 	}
 	
-	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) {
+	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) throws RemoteException {
 		
 		int i = 0;
 		int puntaje = partida.getPuntajePartida();
@@ -189,7 +192,7 @@ public class FachadaCapaLogica  {
 		}
 	}
 	
-	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) {
+	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) throws RemoteException {
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
 		
@@ -216,8 +219,11 @@ public class FachadaCapaLogica  {
 		partida.setFinalizada(true);
 	}
 
-	public DataJugador[] listarRanking() {
-			//Alex
+	public DataJugador[] listarRanking() throws RemoteException {
+			Jugadores ranking = new Jugadores(jugadores);
+			DataJugador[] dataRanking = ranking.obtenerJugadores();
+			Arrays.sort(dataRanking);
+			return dataRanking;
 	}
 	
 	
