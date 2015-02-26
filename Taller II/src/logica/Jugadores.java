@@ -11,8 +11,12 @@ public class Jugadores extends TreeMap<String, Jugador> implements Serializable 
 
 	private static final long serialVersionUID = 1L;
 	
-	public Jugadores (){
+	public Jugadores(){
 		super();
+	}
+	
+	public Jugadores(Jugadores otro) {
+		super(otro);
 	}
 
 	public DataJugador[] obtenerJugadores()

@@ -1,4 +1,7 @@
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import logica.FachadaCapaLogica;
 import logica.Jugador;
 import logica.Jugadores;
@@ -113,12 +116,17 @@ public class PruebaFachada {
 				System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 			}
 		}
+
 		DataPartida[] partidasArre= FachadaCapaLogica.getInstancia().listarPartidas("Alex");
 		for(DataPartida elem: partidasArre)		{
 			
 			System.out.println (elem.getNumero());
 			
 		}
+
+		*/
+		
+
 	}
 	
 }

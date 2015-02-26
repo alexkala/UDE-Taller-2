@@ -62,5 +62,7 @@ public class Jugador implements Serializable  {
 	public void setPartidasJugador(Partidas partidasJugador) {
 		this.partidasJugador = partidasJugador;
 	}
+	
+	
 
 }

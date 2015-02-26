@@ -2,9 +2,10 @@ package logica.ValueObjetcs;
 import java.io.*;
 import java.util.ArrayList;
 
+import logica.Jugador;
 import logica.Partida;
 
-public class DataJugador implements Serializable {
+public class DataJugador implements Serializable, Comparable<DataJugador> {
 
 
 	private static final long serialVersionUID = 1L;
@@ -74,4 +75,14 @@ public class DataJugador implements Serializable {
 		this.partidasJugador = partidasJugador;
 	}
 	
+	public int compareTo(DataJugador j) {
+		int compararPuntaje = ((DataJugador) j).getPuntajeJugador(); 
+		 
+		//ascending order
+		//return this.puntajeJugador - compararPuntaje;
+ 
+		//descending order
+		return compararPuntaje - this.puntajeJugador;
+ 
+	}
 }
