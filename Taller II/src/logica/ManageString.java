@@ -38,7 +38,13 @@ public class ManageString {
 			return textoAdivinado;
 		}
 		
+<<<<<<< HEAD
+/*
+VOY A AGREGAR ACA PARA QUE MOLESTE
+*/
+=======
 
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 		//Metodo para obtener la ruta de propierties
 		public static String getRuta() throws IOException {
 			try {

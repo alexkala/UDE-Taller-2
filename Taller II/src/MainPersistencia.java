@@ -88,6 +88,7 @@ public class MainPersistencia {
 		
 		//Guardar en archivo
 		FachadaCapaLogica.getInstancia().guardarCambios();
+
 	}
 
 }
