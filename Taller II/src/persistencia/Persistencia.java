@@ -2,11 +2,6 @@ package persistencia;
 
 import java.io.*;
 
-import logica.*;
-
-import java.util.Properties;
-import java.util.TreeMap;
-
 import logica.exceptions.ExceptionsPersistencia;
 
 public class Persistencia {

@@ -1,15 +1,10 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
-
-import logica.FachadaCapaLogica;
 import logica.Jugador;
 import logica.Jugadores;
 import logica.Partida;
+import logica.Partidas;
 import logica.Pelicula;
 import logica.Peliculas;
 import logica.ValueObjetcs.DataJugador;
-import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.ManageString;
 
@@ -56,7 +51,7 @@ public class PruebaDiccionarios {
 		}
 		
 		// PARTIDAS
-		ArrayList<Partida> partidas = new ArrayList<Partida>();
+		Partidas partidas = new Partidas();
 		
 		String textoAdivinado = ManageString.transformarTextoAdivinado(pelicula2.getTitulo());
 		Partida partida1 = new Partida(0, textoAdivinado, pelicula2);
@@ -73,6 +68,6 @@ public class PruebaDiccionarios {
 		Pelicula peliculaNueva = peliculas.randomPelicula(partidas);
 		System.out.println("\nPELICULA NUEVA: " + peliculaNueva.getTitulo() + " - " + peliculaNueva.getPista());
 		
-	}
 
+	}
 }

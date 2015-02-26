@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class ManageString {
 
-	// Metodos auxiliares (privados)Felipe
+		// Metodos auxiliares 
 		public static String corregirTexto(String texto) {
 			texto = texto.replaceAll("\\s+", " "); 	// elimina los espacios blancos de sobra entre palabras
 			texto = texto.trim(); 					// elimina espacios al principio y final del string (si hay)
@@ -38,13 +38,6 @@ public class ManageString {
 			return textoAdivinado;
 		}
 		
-<<<<<<< HEAD
-/*
-VOY A AGREGAR ACA PARA QUE MOLESTE
-*/
-=======
-
->>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 		//Metodo para obtener la ruta de propierties
 		public static String getRuta() throws IOException {
 			try {

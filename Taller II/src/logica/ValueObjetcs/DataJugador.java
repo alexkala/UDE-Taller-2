@@ -2,9 +2,11 @@ package logica.ValueObjetcs;
 import java.io.*;
 import java.util.ArrayList;
 
+import logica.Jugador;
 import logica.Partida;
+import logica.Partidas;
 
-public class DataJugador implements Serializable {
+public class DataJugador implements Serializable, Comparable<DataJugador> {
 
 
 	private static final long serialVersionUID = 1L;
@@ -14,7 +16,7 @@ public class DataJugador implements Serializable {
 	private int puntajeJugador;
 	private int cantAciertos;
 	private int cantErrores;
-	private ArrayList<Partida> partidasJugador;
+	private Partidas partidasJugador;
 	
 	public DataJugador(String nombre, String codigo) {
 		this.nombre = nombre;
@@ -23,7 +25,7 @@ public class DataJugador implements Serializable {
 	
 	public DataJugador(String nombre, String codigo, int puntajeJugador,
 			int cantAciertos, int cantErrores,
-			ArrayList<Partida> partidasJugador) {
+			Partidas partidasJugador) {
 		this.nombre = nombre;
 		this.codigo = codigo;
 		this.puntajeJugador = puntajeJugador;
@@ -67,11 +69,21 @@ public class DataJugador implements Serializable {
 	public void setCantErrores(int cantErrores) {
 		this.cantErrores = cantErrores;
 	}
-	public ArrayList<Partida> getPartidasJugador() {
+	public Partidas getPartidasJugador() {
 		return partidasJugador;
 	}
-	public void setPartidasJugador(ArrayList<Partida> partidasJugador) {
+	public void setPartidasJugador(Partidas partidasJugador) {
 		this.partidasJugador = partidasJugador;
 	}
 	
+	public int compareTo(DataJugador j) {
+		int compararPuntaje = ((DataJugador) j).getPuntajeJugador(); 
+		 
+		//ascending order
+		//return this.puntajeJugador - compararPuntaje;
+ 
+		//descending order
+		return compararPuntaje - this.puntajeJugador;
+ 
+	}
 }
