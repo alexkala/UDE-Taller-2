@@ -102,7 +102,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			throw new ExceptionsJugadores("Error: ya existe la el jugador");
 			
 	}
-	
 	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
 		String path = ManageString.getRuta();
@@ -130,6 +129,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 				throw new ExceptionsJugadores("Error: no existe  el jugador con dicho nombre");
 	}	
 
+	
 	//Requerimiento 8: Iniciar Nueva Partida
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException {
 		
@@ -154,7 +154,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 		return null;
 	}
-	
 	//Requerimiento 9: Visualizar Partida En Curso
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException {		
 		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
@@ -249,7 +248,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 		partida.setFinalizada(true);
 	}
-	
 	//Requerimiento 12: Ranking General
 	public DataJugador[] listarRanking() throws RemoteException {
 			Jugadores ranking = new Jugadores(jugadores);
