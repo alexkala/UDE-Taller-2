@@ -21,8 +21,6 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public DataJugador[] listarJugadores() throws RemoteException, ExceptionsJugadores;
 	
-	public DataJugador listarJugador() throws RemoteException, ExceptionsJugadores;
-	
 	public DataPartida[] listarPartidas(String nombreJugador) throws RemoteException, ExceptionsJugadores;
 	
 	public void guardarCambios() throws RemoteException, IOException;
