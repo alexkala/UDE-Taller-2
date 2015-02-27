@@ -5,10 +5,8 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 
-import logica.FachadaCapaLogica;
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
-import logica.Jugadores;
 import logica.ManageString;
 import logica.Partida;
 import logica.Partidas;
