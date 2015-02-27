@@ -21,6 +21,11 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public DataJugador[] listarJugadores() throws RemoteException, ExceptionsJugadores;
 	
+<<<<<<< HEAD
+=======
+	public DataJugador listarJugador() throws RemoteException, ExceptionsJugadores;
+	
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 	public DataPartida[] listarPartidas(String nombreJugador) throws RemoteException, ExceptionsJugadores;
 	
 	public void guardarCambios() throws RemoteException, IOException;

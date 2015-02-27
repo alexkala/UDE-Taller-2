@@ -4,7 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
+<<<<<<< HEAD
+
+=======
 import logica.FachadaCapaLogica;
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
 import logica.ManageString;
@@ -22,7 +26,7 @@ public class Cliente {
 	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, MalformedURLException, NotBoundException, ExceptionCodigoIncorrecto {
 		try {
 			IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ALGO DEL SERVER 
-			
+
 			Jugador jugador = new Jugador("Alex","123");
 			jugador.setPuntajeJugador(60);
 			fachada.nuevoJugador(jugador);							// nuevoJugador
@@ -30,7 +34,7 @@ public class Cliente {
 			jugador = new Jugador("Felipe", "456");
 			jugador.setPuntajeJugador(60);
 			fachada.nuevoJugador(jugador);							// nuevoJugador
-			
+
 			jugador = new Jugador("Gaston", "789");
 			jugador.setPuntajeJugador(30);
 			fachada.nuevoJugador(jugador);					// nuevoJugador
@@ -76,9 +80,8 @@ public class Cliente {
 				System.out.println(elem.getTitulo() + " - " + elem.getPista());
 			}
 
-			
-			
 			// PARTIDAS
+
 			Partidas partidas = new Partidas();
 			
 			//agrega partidas			
@@ -119,6 +122,20 @@ public class Cliente {
 					System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 				}
 			}
+			
+			DataPartida[] partidasArre= fachada.listarPartidas("Alex");
+						
+			
+				for(DataPartida elem: partidasArre)		{
+					
+					System.out.println ("\nNumero de partida: " + elem.getNumero());
+					System.out.println ("Pelicula: " + elem.getPeliculaPartida().getTitulo());				
+					System.out.println ("Puntaje de la partida: " + elem.getPuntajePartida());
+					System.out.println ("Texto adivinado: " + elem.getTextoAdivinado());
+					System.out.println ("Es acertada?: " + elem.isAcertada());
+					System.out.println ("Esta finalizada?: " + elem.isFinalizada());
+					
+				}
 			
 			DataPartida[] partidasArre= fachada.listarPartidas("Alex");
 						
