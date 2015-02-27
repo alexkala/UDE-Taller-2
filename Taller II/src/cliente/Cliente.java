@@ -4,8 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
+
+import logica.FachadaCapaLogica;
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
+import logica.Jugadores;
 import logica.ManageString;
 import logica.Partida;
 import logica.Partidas;
@@ -84,8 +87,7 @@ public class Cliente {
 			//PARTIDAS
 			Partidas partidas = new Partidas();
 			
-			//agrega partidas
-			
+			//agrega partidas			
 			String textoAdivinado = ManageString.transformarTextoAdivinado(pelicula2.getTitulo());
 			Partida partida1 = new Partida(1, textoAdivinado, pelicula2);
 			partida1.setFinalizada(true);

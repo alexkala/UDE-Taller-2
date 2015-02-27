@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
+import java.rmi.RemoteException;
 import logica.FachadaCapaLogica;
 import logica.Partida;
 import logica.Pelicula;
