@@ -4,7 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
+<<<<<<< HEAD
 
+=======
+import logica.FachadaCapaLogica;
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
 import logica.ManageString;
@@ -82,7 +86,11 @@ public class Cliente {
 
 			
 			
+<<<<<<< HEAD
 			//PARTIDAS
+=======
+			// PARTIDAS
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 			Partidas partidas = new Partidas();
 			
 			//agrega partidas			
