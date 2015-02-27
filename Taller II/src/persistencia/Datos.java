@@ -30,7 +30,7 @@ public class Datos implements Serializable {
 
 	public Jugadores getJugadores() {
 		return jugadores;
-	}//getjogador
+	}
 
 	public void setJugadores(Jugadores jugadores) {
 		this.jugadores = jugadores;
@@ -39,14 +39,4 @@ public class Datos implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-
-
-
-
-
-
-
-
-
 }

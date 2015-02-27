@@ -1,10 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.TreeMap;
-
+import java.rmi.RemoteException;
 import logica.FachadaCapaLogica;
-import logica.Jugador;
 import logica.Partida;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataPelicula;
@@ -12,7 +10,7 @@ import logica.exceptions.ExceptionsPeliculas;
 
 public class Principal {
 
-	public static void main(String[] args) throws ExceptionsPeliculas {
+	public static void main(String[] args) throws ExceptionsPeliculas, RemoteException {
 		
 		
 		
