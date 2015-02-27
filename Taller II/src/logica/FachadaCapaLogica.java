@@ -262,10 +262,3 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	}
 
 }
-
-
-
-
-
-
-

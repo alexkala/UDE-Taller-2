@@ -106,7 +106,7 @@ public class PruebaFachada {
 		
 		Partida nueva = new Partida();
 		
-		for (i = 1; i <= 2; i++) {
+		for (int i = 1; i <= 2; i++) {
 			System.out.println("\nPARTIDA NUEVA");
 			nueva = FachadaCapaLogica.getInstancia().nuevaPartida("Alex", "123");			// nuevaPartida
 			if (nueva != null) {

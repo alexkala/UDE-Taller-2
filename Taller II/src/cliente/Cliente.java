@@ -76,6 +76,8 @@ public class Cliente {
 				System.out.println(elem.getTitulo() + " - " + elem.getPista());
 			}
 
+			
+			
 			// PARTIDAS
 			Partidas partidas = new Partidas();
 			
