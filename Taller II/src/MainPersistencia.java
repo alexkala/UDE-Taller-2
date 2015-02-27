@@ -1,7 +1,5 @@
 import logica.FachadaCapaLogica;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
 import java.io.*;
 
 import logica.*;
@@ -9,7 +7,7 @@ import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
-import persistencia.*;
+
 
 
 public class MainPersistencia {
@@ -18,6 +16,32 @@ public class MainPersistencia {
 	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, IOException {
 		// TODO Auto-generated method stub
 		
+		/*
+		String path = ManageString.getRuta();
+		Persistencia db = new Persistencia();
+		Datos d = new Datos();
+		try {
+			d=db.Recuperar(path);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExceptionsPersistencia e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		FachadaCapaLogica.getInstancia().setJugadores(d.getJugadores());
+		FachadaCapaLogica.getInstancia().setPeliculas(d.getPeliculas());
+		
+	
+		DataPelicula[] dataPeliculas2 = FachadaCapaLogica.getInstancia().listarPeliculas();	// listarPeliculas
+		 
+		// muestra las peliculas
+		System.out.println("\nPELICULAS");
+		for (DataPelicula elem : dataPeliculas2) {
+			System.out.println(elem.getTitulo() + " - " + elem.getPista());
+		}
+		*/
 		// JUGADORES
 		Jugador jugador = new Jugador("Alex", "123");	
 		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador

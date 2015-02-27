@@ -12,10 +12,13 @@ import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import logica.exceptions.ExceptionsPersistencia;
 import persistencia.*;
 import logica.ManageString;
 
 public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCapaLogica {
+	
+	private static final long serialVersionUID = 1L;
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
@@ -77,7 +80,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	// Requerimiento 3: Registrar Nuevo Jugador
 	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
 		if (jugadores.containsKey(j.getClave())) {
-			throw new ExceptionsJugadores("Error: ya existe la el jugador");
+			throw new ExceptionsJugadores("Error: ya existe  el jugador");
 			
 		}
 		else {
@@ -93,14 +96,18 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 5: Listar Partidas De Un Jugador
 	public DataPartida[] listarPartidas(String nombreJugador) throws ExceptionsJugadores {
-		if(jugadores.containsKey(nombreJugador)){
-			Jugador jugador= jugadores.get(nombreJugador);
-			DataPartida[] partidasArre= jugador.getPartidasJugador().obtenerPartidas();
-			return partidasArre;			
-		}
-		else
-			throw new ExceptionsJugadores("Error: ya existe la el jugador");
-			
+		
+			if(jugadores.containsKey(nombreJugador)){
+				if (jugadores.get(nombreJugador).getPartidasJugador() != null){	
+					Jugador jugador= jugadores.get(nombreJugador);
+					DataPartida[] partidasArre= jugador.getPartidasJugador().obtenerPartidas();
+					return partidasArre;									
+				}else
+					throw new ExceptionsJugadores("Error: el jugador no tiene partidas");
+			}
+			else
+				throw new ExceptionsJugadores("Error: no existe el jugador");
+				
 	}
 	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
@@ -110,14 +117,13 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		db.Respaldar(datos, path);
 	}
 	
-	// Requerimientos Jugadores:
 
 	//Requerimiento 7: Loguearse Para Jugar
 	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionCodigoIncorrecto {
 			
 			if(jugadores.containsKey(nombreJugador)){
 				Jugador jugador= jugadores.get(nombreJugador);
-				String password=jugador.getCodigo();
+				String password = jugador.getCodigo();
 					if(password==codigoJugador){
 						DataLogin login= new DataLogin(nombreJugador,codigoJugador);
 						return login;
@@ -131,7 +137,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 
 	
 	//Requerimiento 8: Iniciar Nueva Partida
-	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException {
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores {
 		
 		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
 			Jugador jugador = jugadores.get(nombreJugador);
@@ -155,7 +161,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		return null;
 	}
 	//Requerimiento 9: Visualizar Partida En Curso
-	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException {		
+	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores {		
 		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
 			Jugador jugador = jugadores.get(nombreJugador);
 			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
@@ -163,9 +169,8 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			return actual;
 		}
 		else {
-			System.out.println("Error: no hay ninguna partida creada");
-			// Error: no hay ninguna partida creada
-			return null;
+			throw new ExceptionsJugadores("Error: el jugador no tiene partidas");
+				
 		}
 	}
 	
@@ -255,10 +260,13 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			Arrays.sort(dataRanking);
 			return dataRanking;
 	}
+
 	
 	
 
 }
+
+
 
 
 

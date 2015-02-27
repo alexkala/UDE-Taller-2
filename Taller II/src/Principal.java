@@ -2,10 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
-import java.util.TreeMap;
-
 import logica.FachadaCapaLogica;
-import logica.Jugador;
 import logica.Partida;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataPelicula;
