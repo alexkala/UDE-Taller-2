@@ -3,7 +3,6 @@ package logica;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
 import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;

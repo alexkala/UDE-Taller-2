@@ -260,10 +260,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			Arrays.sort(dataRanking);
 			return dataRanking;
 	}
-
-	
-	
-
 }
 
 

@@ -23,7 +23,6 @@ public class Cliente {
 		try {
 			IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ALGO DEL SERVER 
 			
-			
 			Jugador jugador = new Jugador("Alex","123");
 			jugador.setPuntajeJugador(60);
 			fachada.nuevoJugador(jugador);							// nuevoJugador
@@ -31,7 +30,6 @@ public class Cliente {
 			jugador = new Jugador("Felipe", "456");
 			jugador.setPuntajeJugador(60);
 			fachada.nuevoJugador(jugador);							// nuevoJugador
-			
 			
 			jugador = new Jugador("Gaston", "789");
 			jugador.setPuntajeJugador(30);
@@ -41,8 +39,6 @@ public class Cliente {
 			
 			DataLogin log = fachada.logIn("Alex","123");
 			System.out.println("Logueo correcto del Jugador: " + log.getNombre());		
-			
-			
 			
 			// muestra los jugadores
 			System.out.println("\nJUGADORES");
@@ -133,11 +129,7 @@ public class Cliente {
 					System.out.println ("Texto adivinado: " + elem.getTextoAdivinado());
 					System.out.println ("Es acertada?: " + elem.isAcertada());
 					System.out.println ("Esta finalizada?: " + elem.isFinalizada());
-					
 				}
-			
-				
-			
 		}
 		catch (MalformedURLException e) {	e.printStackTrace(); }
 		catch (RemoteException e) {	e.printStackTrace(); }
