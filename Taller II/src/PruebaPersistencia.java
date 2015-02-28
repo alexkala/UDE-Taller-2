@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
+import logica.ManageString;
 import logica.Partida;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataJugador;
@@ -23,8 +24,10 @@ import logica.exceptions.ExceptionsPeliculas;
  */
 public class PruebaPersistencia {
 
-	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto {
-		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ACCEDE AL SERVER 
+	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException {
+		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
+		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
+		 
 	
 		DataPelicula[] dataPeliculas = fachada.listarPeliculas();
 		// Muestra las peliculas

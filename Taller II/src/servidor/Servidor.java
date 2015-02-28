@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 import logica.FachadaCapaLogica;
+import logica.ManageString;
 import logica.exceptions.ExceptionsPersistencia;
 
 public class Servidor {
@@ -16,8 +17,9 @@ public class Servidor {
 			// instancio mi Objeto Remoto y lo publico
 			FachadaCapaLogica.getInstancia();
 			System.out.println ("Antes de publicarlo");
-			Naming.rebind("//localhost:1099/cuenta", FachadaCapaLogica.getInstancia());		// LEVANTA EL SERVER
-					System.out.println ("Luego de publicarlo");
+			String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
+			Naming.rebind(url, FachadaCapaLogica.getInstancia());		// LEVANTA EL SERVER
+			System.out.println ("Luego de publicarlo");
 		}
 		catch (RemoteException e) {	e.printStackTrace(); }
 		catch (MalformedURLException e)	{ e.printStackTrace(); }
