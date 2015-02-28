@@ -1,14 +1,16 @@
 package servidor;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 import logica.FachadaCapaLogica;
+import logica.exceptions.ExceptionsPersistencia;
 
 public class Servidor {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, IOException, ExceptionsPersistencia {
 		try {
 			LocateRegistry.createRegistry(1099);
 			// instancio mi Objeto Remoto y lo publico
