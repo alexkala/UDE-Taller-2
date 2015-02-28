@@ -160,8 +160,7 @@ public class PruebaCliente {
 		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
 		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
-			
-			
+
 		dataJugadores = fachada.listarJugadores();	// listarJugadores
 
 		// muestra los jugadores
