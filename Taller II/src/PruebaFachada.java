@@ -101,11 +101,11 @@ public class PruebaFachada {
 		
 		System.out.println("\n---------------------\n");
 		
-		Partida actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");		// partidaEnCurso
+		Partida actual = FachadaCapaLogica.getInstancia().nuevaPartida("Alex", "123");		// partidaEnCurso
 		System.out.println("\nPARTIDA ACTUAL");
 		
 		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
-		System.out.println(actual.getPeliculaPartida().getTitulo() + " - " + actual.getPeliculaPartida().getPista());
+		System.out.println("PISTA: " + actual.getPeliculaPartida().getPista());
 		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
 
 		String letra = new String();
@@ -135,22 +135,22 @@ public class PruebaFachada {
 				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
 				peliculaArriesgada = peliculaArriesgada.trim();
 				peliculaArriesgada = peliculaArriesgada.toUpperCase();
-				FachadaCapaLogica.getInstancia().arriesgarPelicula("Alex", "123", nueva, peliculaArriesgada);
+				FachadaCapaLogica.getInstancia().arriesgarPelicula("Alex", "123", actual, peliculaArriesgada);
 								
 				
 			} else {
-				FachadaCapaLogica.getInstancia().ingresarCaracter("Alex", "123", nueva, letraChar);
+				FachadaCapaLogica.getInstancia().ingresarCaracter("Alex", "123", actual, letraChar);
 			}
-			System.out.println("Texto adivinado: " + nueva.getTextoAdivinado());
-			System.out.println("Puntaje: " + nueva.getPuntajePartida());
+			System.out.println("Texto adivinado: " + actual.getTextoAdivinado());
+			System.out.println("Puntaje: " + actual.getPuntajePartida());
 		}
 		
-		actual = new Partida();		
+		//actual = new Partida();		
 		actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");			// partidaEnCurso
 		System.out.println("\nPARTIDA ACTUAL");
-		System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
-		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
-		System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
+		System.out.println(nueva.getNumeroPartida() + ": " + actual.getTextoAdivinado());
+		System.out.println("PISTA: " + actual.getPeliculaPartida().getPista());
+		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
 		
 
 	}

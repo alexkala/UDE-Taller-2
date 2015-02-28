@@ -84,8 +84,8 @@ public class PruebaCliente {
 		// --------
 		// PARTIDAS
 		// --------
-		Partida nueva = new Partida();		
-		nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
+		//Partida nueva = new Partida();		
+		Partida nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
 		System.out.println("\nPARTIDA NUEVA");
 		System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
