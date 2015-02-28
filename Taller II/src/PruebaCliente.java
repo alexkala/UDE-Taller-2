@@ -6,9 +6,12 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import logica.FachadaCapaLogica;
+
+
+
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
+import logica.ManageString;
 import logica.Partida;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataJugador;
@@ -16,13 +19,15 @@ import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionCodigoIncorrecto;
+import logica.exceptions.ExceptionPartidas;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 
 
 public class PruebaCliente {
-	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto {
-		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ACCEDE AL SERVER 
+	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException, ExceptionPartidas {
+		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
+		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 		
 		// ---------
 		// JUGADORES
@@ -155,6 +160,40 @@ public class PruebaCliente {
 		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
 		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
+			
+			
+		dataJugadores = fachada.listarJugadores();	// listarJugadores
 
+		// muestra los jugadores
+		System.out.println("\nJUGADORES");
+		for (DataJugador elem: dataJugadores) {
+			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
+		}
+		
+		
+		// -------
+		// RANKING
+		// -------
+		System.out.println("\nRANKING");
+		DataJugador[] rankingFinal = fachada.listarRanking();		// listarRanking
+		i = 1;
+		for (DataJugador elem: rankingFinal) {
+			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
+			i++;
+		}
+		
+		fachada.guardarCambios();
+
+		
+		// -------
+		// RANKING
+		// -------
+		System.out.println("\nRANKING");
+		ranking = fachada.listarRanking();		// listarRanking
+		i = 1;
+		for (DataJugador elem: ranking) {
+			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
+			i++;
+		}
 	}
 }
