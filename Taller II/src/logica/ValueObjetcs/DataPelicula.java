@@ -12,6 +12,11 @@ public class DataPelicula implements Serializable {
 		this.pista = pista;
 	}
 	
+	public DataPelicula() {
+		this.titulo=null;
+		this.pista=null;
+	}
+	
 	
 	public String getClave() {
 		return titulo;

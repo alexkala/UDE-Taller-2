@@ -23,11 +23,15 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
-	private Monitor Monitor;
+	private Monitor MonitorJugadores;
+	private Monitor MonitorPeliculas;
+
 		
 	// constructor
 	private FachadaCapaLogica() throws ClassNotFoundException, IOException, ExceptionsPersistencia{
-		this.Monitor = new Monitor(); 
+		this.MonitorJugadores = new Monitor();
+		this.MonitorPeliculas = new Monitor();
+		
 		Persistencia persistencia = new Persistencia();
 		try{
 			Datos data = new Datos();
@@ -73,26 +77,32 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	// Requerimiento 1: Registrar Nueva Pelicula
 	public void nuevaPelicula(Pelicula pelicula) throws RemoteException, ExceptionsPeliculas {
+		MonitorPeliculas.comienzoEscritura();
 		String s = pelicula.getTitulo();
 		s = ManageString.corregirTexto(s);
 		pelicula.setTitulo(s);
 		if (peliculas.containsKey(pelicula.getClave())) {
-			System.out.println("");
-			 throw new ExceptionsPeliculas("Error: ya existe la pelicula");
+			MonitorPeliculas.terminoEscritura();			
+			throw new ExceptionsPeliculas("Error: ya existe la pelicula");
 		}
 		else {
 			peliculas.put(pelicula.getClave(), pelicula);
 			System.out.println("Pelicula agregada");
+			MonitorPeliculas.terminoEscritura();
 		}
 	}
 	// Requerimiento 2: Listar Peliculas
 	public DataPelicula[] listarPeliculas() throws RemoteException {
-	
-		return  peliculas.obtenerPeliculas();
+			MonitorPeliculas.comienzoLectura();
+			DataPelicula[]  result = peliculas.obtenerPeliculas();
+			MonitorPeliculas.terminoLectura();
+			return  result;
 	}
 	// Requerimiento 3: Registrar Nuevo Jugador
 	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
+		MonitorJugadores.comienzoEscritura();
 		if (jugadores.containsKey(j.getClave())) {
+			MonitorJugadores.terminoEscritura();
 			throw new ExceptionsJugadores("Error: ya existe  el jugador");
 			
 		}
@@ -100,40 +110,55 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			jugadores.put(j.getClave(), j);
 			System.out.println("Jugador agregado");
 		}
+		MonitorJugadores.terminoEscritura();
 	}
 
 	//Requerimiento 4: Listar Jugadores
-	public DataJugador[] listarJugadores() throws RemoteException {		
-		return jugadores.obtenerJugadores();
+	public DataJugador[] listarJugadores() throws RemoteException {	
+		MonitorJugadores.comienzoLectura();
+		DataJugador[] result =  jugadores.obtenerJugadores();
+		MonitorJugadores.terminoLectura();
+		return result;
 	}
 	
 	//Requerimiento 5: Listar Partidas De Un Jugador
 	public DataPartida[] listarPartidas(String nombreJugador) throws ExceptionsJugadores {
-		
+			MonitorJugadores.comienzoEscritura();
 			if(jugadores.containsKey(nombreJugador)){
 				if (jugadores.get(nombreJugador).getPartidasJugador() != null){	
 					Jugador jugador= jugadores.get(nombreJugador);
 					DataPartida[] partidasArre= jugador.getPartidasJugador().obtenerPartidas();
+					MonitorJugadores.terminoEscritura();
 					return partidasArre;									
-				}else
+				}else{
+					MonitorJugadores.terminoEscritura();
 					throw new ExceptionsJugadores("Error: el jugador no tiene partidas");
+				}
 			}
-			else
+			else{
+				MonitorJugadores.terminoEscritura();
 				throw new ExceptionsJugadores("Error: no existe el jugador");
+			}
+			
 				
 	}
 	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
+		MonitorJugadores.comienzoEscritura();
+		MonitorPeliculas.comienzoEscritura();
 		String path = ManageString.getProperty("rutaRespaldo");
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
+		MonitorJugadores.terminoEscritura();
+		MonitorPeliculas.terminoEscritura();
+		
 	}
 	
 
 	//Requerimiento 7: Loguearse Para Jugar
 	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionCodigoIncorrecto {
-			
+			MonitorJugadores.comienzoLectura();
 			if(jugadores.containsKey(nombreJugador)) {
 				Jugador jugador = jugadores.get(nombreJugador);
 				String password = jugador.getCodigo();
@@ -141,13 +166,16 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 				System.out.println("codigoJugador: " + codigoJugador);
 					if(password.equals(codigoJugador)) {
 						DataLogin login = new DataLogin(nombreJugador,codigoJugador);
+						MonitorJugadores.terminoLectura();
 						return login;
 					}
 					else {
+						MonitorJugadores.terminoLectura();
 						throw new ExceptionCodigoIncorrecto("Error: Codigo incorrecto");
 					}
 			}
 			else {
+				MonitorJugadores.terminoLectura();
 				throw new ExceptionsJugadores("Error: no existe  el jugador con dicho nombre");
 			}
 	}	
@@ -155,7 +183,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 8: Iniciar Nueva Partida
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionPartidas, ExceptionsPeliculas {
-		
+		//MonitorJugadores.comienzoEscritura();
 		System.out.println("\n\n--------------- \n" + nombreJugador);
 		System.out.println(jugadores == null);
 		Jugador jugador = jugadores.get(nombreJugador);
@@ -169,31 +197,39 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			if (actual.isFinalizada()) {												// Jugador tiene una partida sin finalizar
 				numeroPartida = partidas.size() + 1;
 			} else {
+				//MonitorJugadores.terminoEscritura();
 				throw new ExceptionPartidas("Error: Ya hay una partida en curso");
 			}
 		} else {												// si no tiene partidas
 			partidas = new Partidas();
 			numeroPartida = 1;
 		}
+		//MonitorPeliculas.comienzoLectura();
 		Pelicula peliculaPartida = peliculas.randomPelicula(partidas);			// Elije una pelicula al azar
+		//MonitorPeliculas.terminoLectura();
 		if (peliculaPartida != null) {								// randomPelicula pudo devolver una pelicula
 			String textoAdivinado = ManageString.transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
 			Partida nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
 			partidas.add(nuevaPartida);
 			jugador.setPartidasJugador(partidas);
+			//MonitorJugadores.terminoEscritura();
 			return nuevaPartida;
 		}
+		//MonitorJugadores.terminoEscritura();
 		return null;
 	}
 	//Requerimiento 9: Visualizar Partida En Curso
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores {		
+		MonitorJugadores.comienzoLectura();
 		if (jugadores.get(nombreJugador).getPartidasJugador() != null){		// El jugador tiene al menos una partida
 			Jugador jugador = jugadores.get(nombreJugador);
 			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
 			Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
+			MonitorJugadores.terminoLectura();
 			return actual;
 		}
 		else {
+			MonitorJugadores.terminoLectura();
 			throw new ExceptionsJugadores("Error: el jugador no tiene partidas");
 				
 		}
@@ -201,9 +237,11 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 10: Ingresar Un Caracter
 	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores {
+		
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
 		Jugador jugador = jugadores.get(nombreJugador);
-
+		
+		MonitorJugadores.comienzoEscritura();
 		c = Character.toUpperCase(c);
 		int i = 0;
 		int puntaje = partida.getPuntajePartida();
@@ -248,17 +286,21 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
 			
 		}
-		
+		MonitorJugadores.terminoEscritura();
 		return partida;
 	}
 	
 	//Requerimiento 11: Arriesgar Pelicula
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores {
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
-		
+
+		MonitorJugadores.comienzoEscritura();
 		Jugador jugador = jugadores.get(nombreJugador);
 
+		MonitorPeliculas.comienzoLectura();
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
+		MonitorPeliculas.terminoLectura();
+
 		String textoAdivinado = partida.getTextoAdivinado();
 	
 		ManageString.corregirTexto(peliculaArriesgada);
@@ -282,13 +324,16 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		}
 		partida.setFinalizada(true);
 		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+		MonitorJugadores.terminoEscritura();
 		return partida;
 	}
 	//Requerimiento 12: Ranking General
 	public DataJugador[] listarRanking() throws RemoteException {
+			MonitorJugadores.comienzoLectura();
 			Jugadores ranking = new Jugadores(jugadores);
 			DataJugador[] dataRanking = ranking.obtenerJugadores();
 			Arrays.sort(dataRanking);
+			MonitorJugadores.terminoLectura();
 			return dataRanking;
 	}
 }
