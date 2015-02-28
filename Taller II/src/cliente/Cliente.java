@@ -21,7 +21,8 @@ import logica.exceptions.*;
 public class Cliente {
 
 	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, MalformedURLException, NotBoundException, ExceptionCodigoIncorrecto {
-		try {
+		/*try {
+			
 			IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ALGO DEL SERVER 
 
 			Jugador jugador = new Jugador("Alex","123");
@@ -46,7 +47,7 @@ public class Cliente {
 			/*
 			DataLogin log = fachada.logIn("Alex","123");				// logIn
 			System.out.println("Logueo correcto del Jugador: " + log.getNombre());		
-			*/
+		
 			
 			// RANKING
 			System.out.println("\nRANKING");
@@ -128,7 +129,7 @@ public class Cliente {
 					System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 				}
 			}
-			/*
+			
 			System.out.println("\nPARTIDA ACTUAL");
 			nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
 			Partida actual = new Partida();
@@ -153,13 +154,13 @@ public class Cliente {
 					System.out.println ("Esta finalizada?: " + elem.isFinalizada());
 					
 				}
-				*/
+				
 		}
 		catch (MalformedURLException e) {	e.printStackTrace(); }
 		catch (RemoteException e) {	e.printStackTrace(); }
 		catch (ExceptionsJugadores e) {e.printStackTrace(); }
 
+	}*/
 	}
-
 }
 

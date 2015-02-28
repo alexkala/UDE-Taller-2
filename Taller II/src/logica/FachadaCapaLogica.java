@@ -31,7 +31,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		Persistencia persistencia = new Persistencia();
 		try{
 			Datos data = new Datos();
-			data = persistencia.Recuperar(ManageString.getRuta());
+			data = persistencia.Recuperar(ManageString.getProperty("rutaRespaldo"));
 			this.jugadores = data.getJugadores();
 			this.peliculas =  data.getPeliculas();
 
@@ -124,7 +124,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	}
 	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
-		String path = ManageString.getRuta();
+		String path = ManageString.getProperty("rutaRespaldo");
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);

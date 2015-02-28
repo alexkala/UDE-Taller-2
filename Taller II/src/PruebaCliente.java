@@ -179,7 +179,7 @@ public class PruebaCliente {
 			i++;
 		}
 		
-		//fachada.guardarCambios();
+		fachada.guardarCambios();
 
 	}
 }

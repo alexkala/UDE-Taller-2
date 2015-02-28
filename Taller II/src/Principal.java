@@ -12,7 +12,7 @@ public class Principal {
 
 	public static void main(String[] args) throws ExceptionsPeliculas, RemoteException {
 		
-		
+		/*
 		
 		DataPelicula[] peliculasArre = FachadaCapaLogica.getInstancia().listarPeliculas();
 		System.out.println("Vacio");
@@ -81,7 +81,7 @@ public class Principal {
 				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
 				peliculaArriesgada = peliculaArriesgada.trim();
 				peliculaArriesgada = peliculaArriesgada.toUpperCase();
-				FachadaCapaLogica.getInstancia().arriesgarPelicula("Nombre", "Codigo", p1, peliculaArriesgada);
+				FachadaCapaLogica.getInstancia().arriesgarPelicula("Nombre", "Codigo", peliculaArriesgada);
 								
 				
 			} else {
@@ -91,6 +91,6 @@ public class Principal {
 			System.out.println("Puntaje: " + p1.getPuntajePartida());
 		}
 		
-		
+		*/
 	}
 }
