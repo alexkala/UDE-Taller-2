@@ -13,6 +13,8 @@ import logica.exceptions.ExceptionsPeliculas;
 
 public interface IFachadaCapaLogica extends Remote {
 	
+	public String pruebaRemoto() throws RemoteException;
+	
 	public void nuevaPelicula(Pelicula pelicula) throws RemoteException, ExceptionsPeliculas;
 	
 	public DataPelicula[] listarPeliculas() throws RemoteException, ExceptionsPeliculas;
@@ -21,18 +23,13 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public DataJugador[] listarJugadores() throws RemoteException, ExceptionsJugadores;
 	
-<<<<<<< HEAD
-=======
-	public DataJugador listarJugador() throws RemoteException, ExceptionsJugadores;
-	
->>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 	public DataPartida[] listarPartidas(String nombreJugador) throws RemoteException, ExceptionsJugadores;
 	
 	public void guardarCambios() throws RemoteException, IOException;
 	
 	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException,ExceptionsJugadores, ExceptionCodigoIncorrecto ;
 	
-	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores;
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionsPeliculas;
 	
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores;
 	

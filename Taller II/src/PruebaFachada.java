@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +25,11 @@ public class PruebaFachada {
 	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, RemoteException {
 		
 		// JUGADORES
-		Jugador jugador = new Jugador("Alex", "123");
-		jugador.setPuntajeJugador(60);
-		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
+		Jugador jugador1 = new Jugador("Alex", "123");
+		jugador1.setPuntajeJugador(60);
+		FachadaCapaLogica.getInstancia().nuevoJugador(jugador1);							// nuevoJugador
 		
-		jugador = new Jugador("Gaston", "789");
+		Jugador jugador = new Jugador("Gaston", "789");
 		jugador.setPuntajeJugador(60);
 		FachadaCapaLogica.getInstancia().nuevoJugador(jugador);							// nuevoJugador
 		
@@ -51,7 +54,7 @@ public class PruebaFachada {
 			i++;
 		}
 		
-		/*
+		
 		// PELICULAS
 		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
 		Pelicula pelicula2 = new Pelicula("Birdman", "Humor negro");
@@ -72,43 +75,13 @@ public class PruebaFachada {
 		for (DataPelicula elem : dataPeliculas) {
 			System.out.println(elem.getTitulo() + " - " + elem.getPista());
 		}
-
-		
 		
 		// PARTIDAS
-		Partidas partidas = new Partidas();
-		
-		// agrega partidas
-		String textoAdivinado = ManageString.transformarTextoAdivinado(pelicula2.getTitulo());
-		Partida partida1 = new Partida(1, textoAdivinado, pelicula2);
-		partida1.setFinalizada(true);
-		partidas.add(partida1);
-
-		textoAdivinado = ManageString.transformarTextoAdivinado(pelicula5.getTitulo());
-		Partida partida2 = new Partida(2, textoAdivinado, pelicula5);
-		partida2.setFinalizada(true);
-		partidas.add(partida2);
-
-		textoAdivinado = ManageString.transformarTextoAdivinado(pelicula1.getTitulo());
-		Partida partida3 = new Partida(3, textoAdivinado, pelicula1);
-		partida3.setFinalizada(true);
-		partidas.add(partida3);
-		
-		Jugador alex = FachadaCapaLogica.getInstancia().getJugadores().get("Alex");
-		alex.setPartidasJugador(partidas);
-		
-		Partida actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");		// partidaEnCurso
-		System.out.println("\nPARTIDA ACTUAL");
-		
-		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
-		System.out.println(actual.getPeliculaPartida().getTitulo() + " - " + actual.getPeliculaPartida().getPista());
-		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
-		
 		Partida nueva = new Partida();
 		
-		for (int i = 1; i <= 2; i++) {
+		for (i = 1; i <= 3; i++) {
 			System.out.println("\nPARTIDA NUEVA");
-			nueva = FachadaCapaLogica.getInstancia().nuevaPartida("Alex", "123");			// nuevaPartida
+			nueva = FachadaCapaLogica.getInstancia().nuevaPartida(jugador1.getClave(), jugador1.getCodigo());			// nuevaPartida
 			if (nueva != null) {
 				nueva.setFinalizada(true);
 				System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
@@ -117,14 +90,67 @@ public class PruebaFachada {
 			}
 		}
 
-		DataPartida[] partidasArre= FachadaCapaLogica.getInstancia().listarPartidas("Alex");
+		DataPartida[] partidasArre= FachadaCapaLogica.getInstancia().listarPartidas("Alex");	// listarPartidas
+		System.out.println("\n---------------------\n");
+		System.out.println("LISTAR PARTIDAS\n");
 		for(DataPartida elem: partidasArre)		{
-			
-			System.out.println (elem.getNumero());
-			
+			System.out.println (elem.getNumero() + ": " + elem.getTextoAdivinado());
+			System.out.println(elem.getPeliculaPartida().getTitulo() + " - " + elem.getPeliculaPartida().getPista());
+			System.out.println(elem.isFinalizada() ? "Finalizada" : "En curso");			
 		}
+		
+		System.out.println("\n---------------------\n");
+		
+		Partida actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");		// partidaEnCurso
+		System.out.println("\nPARTIDA ACTUAL");
+		
+		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
+		System.out.println(actual.getPeliculaPartida().getTitulo() + " - " + actual.getPeliculaPartida().getPista());
+		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
 
-		*/
+		String letra = new String();
+		char letraChar = '9';
+		while (!actual.isFinalizada()) {
+			System.out.println("Adivina una letra: ");
+			 
+			try {
+				BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+				letra = bufferRead.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			letra = letra.toUpperCase(); // convierte la letra a mayuscula
+			letraChar = letra.charAt(0); // cambia el String con la letra a 1 char
+			
+			if (letraChar == '0') {				// arriesga la pelicula
+				String peliculaArriesgada = new String();
+				System.out.println("Arriesga el titulo de la pelicula: ");
+				try {
+				    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+				    peliculaArriesgada = bufferRead.readLine();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
+				peliculaArriesgada = peliculaArriesgada.trim();
+				peliculaArriesgada = peliculaArriesgada.toUpperCase();
+				FachadaCapaLogica.getInstancia().arriesgarPelicula("Alex", "123", nueva, peliculaArriesgada);
+								
+				
+			} else {
+				FachadaCapaLogica.getInstancia().ingresarCaracter("Alex", "123", nueva, letraChar);
+			}
+			System.out.println("Texto adivinado: " + nueva.getTextoAdivinado());
+			System.out.println("Puntaje: " + nueva.getPuntajePartida());
+		}
+		
+		actual = new Partida();		
+		actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");			// partidaEnCurso
+		System.out.println("\nPARTIDA ACTUAL");
+		System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
+		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
+		System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 		
 
 	}

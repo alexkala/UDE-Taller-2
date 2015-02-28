@@ -6,11 +6,12 @@ import logica.Pelicula;
 import logica.Peliculas;
 import logica.ValueObjetcs.DataJugador;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionsPeliculas;
 import logica.ManageString;
 
 public class PruebaDiccionarios {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ExceptionsPeliculas {
 		// JUGADORES
 		Jugador jugador1 = new Jugador("Alex", "123");
 		Jugador jugador2 = new Jugador("Felipe", "456");

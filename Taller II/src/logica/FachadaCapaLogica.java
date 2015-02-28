@@ -137,26 +137,35 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 
 	
 	//Requerimiento 8: Iniciar Nueva Partida
-	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores {
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionsPeliculas {
 		
-		if (partidaEnCurso(nombreJugador, codigoJugador).isFinalizada() || partidaEnCurso(nombreJugador, codigoJugador) == null) {		// Jugador no tiene ninguna partida sin finalizar
-			Jugador jugador = jugadores.get(nombreJugador);
-
-			Partidas partidas = jugador.getPartidasJugador();
-
-			int numeroPartida = partidas.size() + 1;
-			
-			Pelicula peliculaPartida = peliculas.randomPelicula(partidas);
-			Partida nuevaPartida = new Partida();
-			if (peliculaPartida != null) {
-				String textoAdivinado = ManageString.transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
-				nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
-				partidas.add(nuevaPartida);
-				return nuevaPartida;
-			} 			
-		} else {
-			System.out.println("Error: Ya hay una partida en curso");
-			// Error: Ya hay una partida en curso
+		System.out.println("\n\n--------------- \n" + nombreJugador);
+		System.out.println(jugadores == null);
+		Jugador jugador = jugadores.get(nombreJugador);
+		System.out.println(jugador == null);
+		Partidas partidas = jugador.getPartidasJugador();
+		System.out.println(jugador.getPartidasJugador() == null);
+		int numeroPartida;
+		if (partidas != null) {																			// si tiene partidas
+			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
+			Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
+			if (actual.isFinalizada()) {												// Jugador tiene una partida sin finalizar
+				numeroPartida = partidas.size() + 1;
+			} else {
+				throw new ExceptionsJugadores("Error: Ya hay una partida en curso");
+				// Error: Ya hay una partida en curso
+			}
+		} else {												// si no tiene partidas
+			partidas = new Partidas();
+			numeroPartida = 1;
+		}
+		Pelicula peliculaPartida = peliculas.randomPelicula(partidas);			// Elije una pelicula al azar
+		if (peliculaPartida != null) {								// randomPelicula pudo devolver una pelicula
+			String textoAdivinado = ManageString.transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
+			Partida nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
+			partidas.add(nuevaPartida);
+			jugador.setPartidasJugador(partidas);
+			return nuevaPartida;
 		}
 		return null;
 	}
@@ -176,7 +185,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 10: Ingresar Un Caracter
 	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) throws RemoteException {
-		
+		c = Character.toUpperCase(c);
 		int i = 0;
 		int puntaje = partida.getPuntajePartida();
 		boolean puntajeSumado = false;
@@ -185,16 +194,11 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		char[] textoAdivinadoChar = textoAdivinado.toCharArray();
 		
 		System.out.println("Letra: " + c);
-		if (textoAdivinado.indexOf(c) == -1) { // verifica que la letra
-														// no haya sido
-														// adivinada previamente
+		if (textoAdivinado.indexOf(c) == -1) { // verifica que la letra no haya sido adivinada previamente
 			while (i != -1) {
-				i = tituloPelicula.indexOf(c, i); // busca la posicion de la letra
-											// ingresada
+				i = tituloPelicula.indexOf(c, i); // busca la posicion de la letra ingresada
 				if (i != -1) { // letra correcta
-					textoAdivinadoChar[i] = c; // reemplaza la
-														// ocurrencia de la
-														// letra ingresada
+					textoAdivinadoChar[i] = c; // reemplaza la ocurrencia de la letra ingresada
 					i++;
 					if (!puntajeSumado) { // suma 1 punto
 						puntaje = puntaje + 1;
@@ -212,9 +216,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			System.out.println("La letra ya fue ingresada previamente");
 		}
 
-		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto
-															// adivinado de
-															// nuevo a String
+		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto adivinado de nuevo a String
 		partida.setTextoAdivinado(textoAdivinado);
 		partida.setPuntajePartida(puntaje);
 		
@@ -259,6 +261,10 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			DataJugador[] dataRanking = ranking.obtenerJugadores();
 			Arrays.sort(dataRanking);
 			return dataRanking;
+	}
+
+	public String pruebaRemoto() throws RemoteException {
+		return "HOLA MUNDO REMOTO";
 	}
 }
 

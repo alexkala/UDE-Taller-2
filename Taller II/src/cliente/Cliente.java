@@ -4,11 +4,8 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
-<<<<<<< HEAD
 
-=======
 import logica.FachadaCapaLogica;
->>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
 import logica.ManageString;
@@ -41,14 +38,15 @@ public class Cliente {
 
 			DataJugador[] dataJugadores = fachada.listarJugadores();	// listarJugadores
 			
-			DataLogin log = fachada.logIn("Alex","123");
-			System.out.println("Logueo correcto del Jugador: " + log.getNombre());		
-			
 			// muestra los jugadores
 			System.out.println("\nJUGADORES");
 			for (DataJugador elem: dataJugadores) {
 				System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 			}
+			/*
+			DataLogin log = fachada.logIn("Alex","123");				// logIn
+			System.out.println("Logueo correcto del Jugador: " + log.getNombre());		
+			*/
 			
 			// RANKING
 			System.out.println("\nRANKING");
@@ -81,38 +79,46 @@ public class Cliente {
 			}
 
 			// PARTIDAS
-
-			Partidas partidas = new Partidas();
+			Partida nueva = new Partida();
 			
-			//agrega partidas			
-			String textoAdivinado = ManageString.transformarTextoAdivinado(pelicula2.getTitulo());
-			Partida partida1 = new Partida(1, textoAdivinado, pelicula2);
-			partida1.setFinalizada(true);
-			partidas.add(partida1);
-
-			textoAdivinado = ManageString.transformarTextoAdivinado(pelicula5.getTitulo());
-			Partida partida2 = new Partida(2, textoAdivinado, pelicula5);
-			partida2.setFinalizada(true);
-			partidas.add(partida2);
-
-			textoAdivinado = ManageString.transformarTextoAdivinado(pelicula1.getTitulo());
-			Partida partida3 = new Partida(3, textoAdivinado, pelicula1);
-			partida3.setFinalizada(true);
-			partidas.add(partida3);
+			System.out.println("Despues add");
 			
-			//Jugador alex = fachada.getJugadores().get("Alex");
-			//alex.setPartidasJugador(partidas);
+			for (i = 1; i <= 3; i++) {
+				System.out.println("\nPARTIDA NUEVA");
+				nueva = FachadaCapaLogica.getInstancia().nuevaPartida("Alex", "123");			// nuevaPartida
+				if (nueva != null) {
+					nueva.setFinalizada(true);
+					System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
+					System.out.println(nueva.getPeliculaPartida().getTitulo() + " - " + nueva.getPeliculaPartida().getPista());
+					System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
+				}
+			}
+
+			DataPartida[] partidasArre= FachadaCapaLogica.getInstancia().listarPartidas("Alex");	// listarPartidas
+			System.out.println("\n---------------------\n");
+			System.out.println("LISTAR PARTIDAS\n");
+			for(DataPartida elem: partidasArre)		{
+				System.out.println (elem.getNumero() + ": " + elem.getTextoAdivinado());
+				System.out.println(elem.getPeliculaPartida().getTitulo() + " - " + elem.getPeliculaPartida().getPista());
+				System.out.println(elem.isFinalizada() ? "Finalizada" : "En curso");			
+			}
 			
-			Partida actual = fachada.partidaEnCurso("Alex", "123");		// partidaEnCurso
+			System.out.println("\n---------------------\n");
+			
+			Partida actual = FachadaCapaLogica.getInstancia().partidaEnCurso("Alex", "123");		// partidaEnCurso
 			System.out.println("\nPARTIDA ACTUAL");
 			
 			System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
 			System.out.println(actual.getPeliculaPartida().getTitulo() + " - " + actual.getPeliculaPartida().getPista());
 			System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
 			
+			
+			/*
+			// PARTIDAS
+			
 			Partida nueva = new Partida();
 			
-			for (i = 1; i <= 2; i++) {
+			for (i = 1; i <= 3; i++) {
 				System.out.println("\nPARTIDA NUEVA");
 				nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
 				if (nueva != null) {
@@ -122,8 +128,19 @@ public class Cliente {
 					System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 				}
 			}
-			
-			DataPartida[] partidasArre= fachada.listarPartidas("Alex");
+			/*
+			System.out.println("\nPARTIDA ACTUAL");
+			nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
+			Partida actual = new Partida();
+			if (nueva != null) {
+				actual = fachada.partidaEnCurso("Alex", "123");		// partidaEnCurso
+				System.out.println("\nPARTIDA ACTUAL");
+				
+				System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
+				System.out.println(actual.getPeliculaPartida().getTitulo() + " - " + actual.getPeliculaPartida().getPista());
+				System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
+			}
+			DataPartida[] partidasArre= fachada.listarPartidas("Alex");			// listarPartidas
 						
 			
 				for(DataPartida elem: partidasArre)		{
@@ -136,19 +153,7 @@ public class Cliente {
 					System.out.println ("Esta finalizada?: " + elem.isFinalizada());
 					
 				}
-			
-			DataPartida[] partidasArre= fachada.listarPartidas("Alex");
-						
-			
-				for(DataPartida elem: partidasArre)		{
-					
-					System.out.println ("\nNumero de partida: " + elem.getNumero());
-					System.out.println ("Pelicula: " + elem.getPeliculaPartida().getTitulo());				
-					System.out.println ("Puntaje de la partida: " + elem.getPuntajePartida());
-					System.out.println ("Texto adivinado: " + elem.getTextoAdivinado());
-					System.out.println ("Es acertada?: " + elem.isAcertada());
-					System.out.println ("Esta finalizada?: " + elem.isFinalizada());
-				}
+				*/
 		}
 		catch (MalformedURLException e) {	e.printStackTrace(); }
 		catch (RemoteException e) {	e.printStackTrace(); }
