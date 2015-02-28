@@ -13,8 +13,6 @@ import logica.exceptions.ExceptionsPeliculas;
 
 public interface IFachadaCapaLogica extends Remote {
 	
-	public String pruebaRemoto() throws RemoteException;
-	
 	public void nuevaPelicula(Pelicula pelicula) throws RemoteException, ExceptionsPeliculas;
 	
 	public DataPelicula[] listarPeliculas() throws RemoteException, ExceptionsPeliculas;
@@ -33,9 +31,9 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores;
 	
-	public void ingresarCaracter(String nombreJugador, String codigoJugador, Partida partida, char c) throws RemoteException;
+	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores;
 	
-	public void arriesgarPelicula(String nombreJugador, String codigoJugador, Partida partida, String peliculaArriesgada) throws RemoteException;
+	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores;
 	
 	public DataJugador[] listarRanking() throws RemoteException;
 

@@ -14,7 +14,7 @@ public class Servidor {
 			// instancio mi Objeto Remoto y lo publico
 			FachadaCapaLogica.getInstancia();
 			System.out.println ("Antes de publicarlo");
-			Naming.rebind("//localhost:1099/cuenta", FachadaCapaLogica.getInstancia());		// ALGO DEL SERVER
+			Naming.rebind("//localhost:1099/cuenta", FachadaCapaLogica.getInstancia());		// LEVANTA EL SERVER
 					System.out.println ("Luego de publicarlo");
 		}
 		catch (RemoteException e) {	e.printStackTrace(); }

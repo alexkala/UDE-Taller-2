@@ -12,15 +12,17 @@ import logica.Jugador;
 import logica.Partida;
 import logica.Pelicula;
 import logica.ValueObjetcs.DataJugador;
+import logica.ValueObjetcs.DataLogin;
+import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 
 
 public class PruebaCliente {
-	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ExceptionsJugadores, ExceptionsPeliculas {
-		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ALGO DEL SERVER 
-		System.out.println(fachada.pruebaRemoto());	
+	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto {
+		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup("//localhost:1099/cuenta"); 	// ACCEDE AL SERVER 
 		
 		// ---------
 		// JUGADORES
@@ -28,7 +30,7 @@ public class PruebaCliente {
 		Jugador jugador = new Jugador("Alex", "123");
 		jugador.setPuntajeJugador(60);
 		fachada.nuevoJugador(jugador);							// nuevoJugador
-/*
+
 		jugador = new Jugador("Gaston", "789");
 		jugador.setPuntajeJugador(60);
 		fachada.nuevoJugador(jugador);							// nuevoJugador
@@ -36,7 +38,7 @@ public class PruebaCliente {
 		jugador = new Jugador("Felipe", "456");
 		jugador.setPuntajeJugador(30);
 		fachada.nuevoJugador(jugador);							// nuevoJugador
-*/
+
 		DataJugador[] dataJugadores = fachada.listarJugadores();	// listarJugadores
 
 		// muestra los jugadores
@@ -56,6 +58,14 @@ public class PruebaCliente {
 			i++;
 		}
 		
+		// -----
+		// LOGIN
+		// -----
+		
+		System.out.println("\n\nLOGIN");
+		DataLogin dataLogin = fachada.logIn("Alex", "123");
+		System.out.println(dataLogin.getNombre());
+		System.out.println(dataLogin.getCodigo());
 		
 		// ---------
 		// PELICULAS
@@ -85,19 +95,27 @@ public class PruebaCliente {
 		// PARTIDAS
 		// --------
 		//Partida nueva = new Partida();		
-		Partida nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
+		Partida nueva = fachada.nuevaPartida(dataLogin.getNombre(), dataLogin.getCodigo());			// nuevaPartida
 		System.out.println("\nPARTIDA NUEVA");
 		System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
 		System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
 		
-		
+		DataPartida[] dataPartidas = fachada.listarPartidas(dataLogin.getNombre());
+		System.out.println("\n\nPARTIDAS ALEX\n");
+		for (DataPartida elem: dataPartidas) {
+			System.out.println("\nPARTIDA " + elem.getNumero());
+			System.out.println("TEXTO ADIVINADO: " + elem.getTextoAdivinado());
+			System.out.println("PISTA: " + elem.getPeliculaPartida().getPista());
+			System.out.println("PUNTAJE: " + elem.getPuntajePartida());
+			System.out.println(elem.isFinalizada() ? "Finalizada" : "En curso");
+		}
 		
 		
 		String letra = new String();
 		char letraChar = '9';
-		while (letraChar != '1') {
-			System.out.println("Adivina una letra: ");
+		while (!nueva.isFinalizada()) {
+			System.out.println("Adivina una letra (0 para arriesgar): ");
 			 
 			try {
 				BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -121,42 +139,22 @@ public class PruebaCliente {
 				peliculaArriesgada = peliculaArriesgada.replaceAll("\\s+", " "); 
 				peliculaArriesgada = peliculaArriesgada.trim();
 				peliculaArriesgada = peliculaArriesgada.toUpperCase();
-				fachada.arriesgarPelicula("Alex", "123", fachada.partidaEnCurso("Alex", "123"), peliculaArriesgada);
+				nueva = fachada.arriesgarPelicula(dataLogin.getNombre(), dataLogin.getCodigo(), peliculaArriesgada);
 								
 				
 			} else {
-				fachada.ingresarCaracter("Alex", "123", fachada.partidaEnCurso("Alex", "123"), letraChar);
+				nueva = fachada.ingresarCaracter(dataLogin.getNombre(), dataLogin.getCodigo(), letraChar);
 			}
 			System.out.println("Texto adivinado: " + nueva.getTextoAdivinado());
 			System.out.println("Puntaje: " + nueva.getPuntajePartida());
 		}
 		
 		Partida actual = new Partida();		
-		actual = fachada.partidaEnCurso("Alex", "123");			// partidaEnCurso
+		actual = fachada.partidaEnCurso(dataLogin.getNombre(), dataLogin.getCodigo());			// partidaEnCurso
 		System.out.println("\nPARTIDA ACTUAL");
-		System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
+		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
-		System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/*
-		for (i = 1; i <= 3; i++) {
-			System.out.println("\nPARTIDA NUEVA");
-			nueva = fachada.nuevaPartida("Alex", "123");			// nuevaPartida
-			if (nueva != null) {
-				nueva.setFinalizada(true);
-				System.out.println(nueva.getNumeroPartida() + ": " + nueva.getTextoAdivinado());
-				System.out.println(nueva.getPeliculaPartida().getTitulo() + " - " + nueva.getPeliculaPartida().getPista());
-				System.out.println(nueva.isFinalizada() ? "Finalizada" : "En curso");
-			}
-		}
-		*/
+		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
+
 	}
 }

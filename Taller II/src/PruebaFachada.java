@@ -14,15 +14,17 @@ import logica.Partidas;
 import logica.Pelicula;
 import logica.Peliculas;
 import logica.ValueObjetcs.DataJugador;
+import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 
 
 public class PruebaFachada {
 
-	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, RemoteException {
+	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, RemoteException, ExceptionCodigoIncorrecto {
 		
 		// JUGADORES
 		Jugador jugador1 = new Jugador("Alex", "123");
@@ -53,7 +55,16 @@ public class PruebaFachada {
 			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 			i++;
 		}
-		
+
+		// -----
+		// LOGIN
+		// -----
+		System.out.println("\n\nLOGIN");
+		DataLogin dataLogin = FachadaCapaLogica.getInstancia().logIn("Alex", "123");
+		System.out.println(dataLogin.getNombre());
+		System.out.println(dataLogin.getCodigo());
+
+		/*
 		
 		// PELICULAS
 		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
@@ -139,7 +150,7 @@ public class PruebaFachada {
 								
 				
 			} else {
-				FachadaCapaLogica.getInstancia().ingresarCaracter("Alex", "123", actual, letraChar);
+				FachadaCapaLogica.getInstancia().ingresarCaracter("Alex", "123", letraChar);
 			}
 			System.out.println("Texto adivinado: " + actual.getTextoAdivinado());
 			System.out.println("Puntaje: " + actual.getPuntajePartida());
@@ -152,6 +163,7 @@ public class PruebaFachada {
 		System.out.println("PISTA: " + actual.getPeliculaPartida().getPista());
 		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
 		
+		*/
 
 	}
 	
