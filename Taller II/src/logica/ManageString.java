@@ -39,15 +39,15 @@ public class ManageString {
 		}
 		
 		//Metodo para obtener la ruta de propierties
-		public static String getRuta() throws IOException {
+		public static String getProperty(String s) throws IOException {
 			try {
 				Properties p = new Properties();
 				String f = "config/app.properties";
 				p.load(new FileInputStream(f));
-				return p.getProperty("rutaRespaldo");
+				return p.getProperty(s);
 			} catch (IOException e) {
 				throw e;
-			}
+		}
 
 		}
 }

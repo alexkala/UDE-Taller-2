@@ -26,6 +26,7 @@ public class PruebaFachada {
 
 	public static void main(String[] args) throws ExceptionsJugadores, ExceptionsPeliculas, RemoteException, ExceptionCodigoIncorrecto {
 		
+		/*
 		// JUGADORES
 		Jugador jugador1 = new Jugador("Alex", "123");
 		jugador1.setPuntajeJugador(60);

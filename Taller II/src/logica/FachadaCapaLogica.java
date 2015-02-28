@@ -10,6 +10,7 @@ import logica.ValueObjetcs.DataLogin;
 import logica.ValueObjetcs.DataPartida;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionCodigoIncorrecto;
+import logica.exceptions.ExceptionPartidas;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
 import logica.exceptions.ExceptionsPersistencia;
@@ -22,15 +23,28 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	private static FachadaCapaLogica instancia;
 	private Jugadores jugadores;
 	private Peliculas peliculas;
+	private Monitor Monitor;
 		
 	// constructor
-	private FachadaCapaLogica() throws RemoteException{
-		jugadores = new Jugadores();
-		peliculas = new Peliculas();
+	private FachadaCapaLogica() throws ClassNotFoundException, IOException, ExceptionsPersistencia{
+		this.Monitor = new Monitor(); 
+		Persistencia persistencia = new Persistencia();
+		try{
+			Datos data = new Datos();
+			data = persistencia.Recuperar(ManageString.getProperty("rutaRespaldo"));
+			this.jugadores = data.getJugadores();
+			this.peliculas =  data.getPeliculas();
+
+		}catch(ExceptionsPersistencia e)
+		{
+			jugadores = new Jugadores();
+			peliculas = new Peliculas();
+		}
+		
 	}
 
 	// getters y setters
-	public static FachadaCapaLogica getInstancia() throws RemoteException{
+	public static FachadaCapaLogica getInstancia() throws ClassNotFoundException, IOException, ExceptionsPersistencia{
 		if (instancia == null) {
 			instancia = new FachadaCapaLogica();
 		}
@@ -69,7 +83,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		else {
 			peliculas.put(pelicula.getClave(), pelicula);
 			System.out.println("Pelicula agregada");
-			// Error: pelicula agregada Gaston
 		}
 	}
 	// Requerimiento 2: Listar Peliculas
@@ -111,7 +124,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	}
 	//Requerimiento 6: Guardar Cambios
 	public void guardarCambios() throws RemoteException, IOException {
-		String path = ManageString.getRuta();
+		String path = ManageString.getProperty("rutaRespaldo");
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
@@ -141,7 +154,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 
 	
 	//Requerimiento 8: Iniciar Nueva Partida
-	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionsPeliculas {
+	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionPartidas, ExceptionsPeliculas {
 		
 		System.out.println("\n\n--------------- \n" + nombreJugador);
 		System.out.println(jugadores == null);
@@ -156,8 +169,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			if (actual.isFinalizada()) {												// Jugador tiene una partida sin finalizar
 				numeroPartida = partidas.size() + 1;
 			} else {
-				throw new ExceptionsJugadores("Error: Ya hay una partida en curso");
-				// Error: Ya hay una partida en curso
+				throw new ExceptionPartidas("Error: Ya hay una partida en curso");
 			}
 		} else {												// si no tiene partidas
 			partidas = new Partidas();
@@ -190,6 +202,8 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	//Requerimiento 10: Ingresar Un Caracter
 	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores {
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
+		Jugador jugador = jugadores.get(nombreJugador);
+
 		c = Character.toUpperCase(c);
 		int i = 0;
 		int puntaje = partida.getPuntajePartida();
@@ -208,12 +222,14 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 					if (!puntajeSumado) { // suma 1 punto
 						puntaje = puntaje + 1;
 						puntajeSumado = true;
+						jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 					}
 				} else { // letra erronea
 					if (!puntajeSumado) { // resta 5 puntos
 						System.out.println("Letra erronea!");
 						puntaje = puntaje - 5;
 						puntajeSumado = true;
+						jugador.setCantErrores(jugador.getCantErrores() + 1);
 					}
 				}
 			}
@@ -227,9 +243,10 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		
 		if (textoAdivinado.equals(tituloPelicula)) {					// adivino la pelicula
 			System.out.println("Película adivinada!");
-			// Error: pelicula adivinada
 			partida.setAcertada(true);
 			partida.setFinalizada(true);
+			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+			
 		}
 		
 		return partida;
@@ -238,6 +255,9 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	//Requerimiento 11: Arriesgar Pelicula
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores {
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
+		
+		Jugador jugador = jugadores.get(nombreJugador);
+
 		String tituloPelicula = partida.getPeliculaPartida().getTitulo();
 		String textoAdivinado = partida.getTextoAdivinado();
 	
@@ -254,14 +274,14 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			partida.setAcertada(true);
 			partida.setTextoAdivinado(tituloPelicula);
 			System.out.println("Película adivinada! :)");
-			// Error: pelicula adivinada
+
 		} else {													// pelicula errada
 			partida.setPuntajePartida(partida.getPuntajePartida() - 50);
 			partida.setAcertada(false);
 			System.out.println("Película errada! :(");
-			// Error: pelicula errada
 		}
 		partida.setFinalizada(true);
+		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
 		return partida;
 	}
 	//Requerimiento 12: Ranking General
