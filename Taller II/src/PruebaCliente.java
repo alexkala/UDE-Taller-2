@@ -160,8 +160,8 @@ public class PruebaCliente {
 		System.out.println(actual.getNumeroPartida() + ": " + actual.getTextoAdivinado());
 		System.out.println("PISTA: " + nueva.getPeliculaPartida().getPista());
 		System.out.println(actual.isFinalizada() ? "Finalizada" : "En curso");
-			
-			
+		
+		
 		dataJugadores = fachada.listarJugadores();	// listarJugadores
 
 		// muestra los jugadores
@@ -184,16 +184,5 @@ public class PruebaCliente {
 		
 		fachada.guardarCambios();
 
-		
-		// -------
-		// RANKING
-		// -------
-		System.out.println("\nRANKING");
-		ranking = fachada.listarRanking();		// listarRanking
-		i = 1;
-		for (DataJugador elem: ranking) {
-			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
-			i++;
-		}
 	}
 }
