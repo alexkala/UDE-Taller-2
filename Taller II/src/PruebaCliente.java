@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 
 
 
+
 import logica.IFachadaCapaLogica;
 import logica.Jugador;
 import logica.ManageString;
@@ -22,10 +23,11 @@ import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionPartidas;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import logica.exceptions.ExceptionsPersistencia;
 
 
 public class PruebaCliente {
-	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException, ExceptionPartidas {
+	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException, ExceptionPartidas, ClassNotFoundException, ExceptionsPersistencia {
 		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
 		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 		
@@ -55,14 +57,16 @@ public class PruebaCliente {
 		// -------
 		// RANKING
 		// -------
+		int i = 1;
+		/*
 		System.out.println("\nRANKING");
 		DataJugador[] ranking = fachada.listarRanking();		// listarRanking
-		int i = 1;
+		
 		for (DataJugador elem: ranking) {
 			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 			i++;
 		}
-		
+		*/
 		// -----
 		// LOGIN
 		// -----
@@ -169,6 +173,7 @@ public class PruebaCliente {
 			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 		}
 		
+		fachada.guardarCambios();
 		
 		// -------
 		// RANKING
@@ -181,7 +186,7 @@ public class PruebaCliente {
 			i++;
 		}
 		
-		fachada.guardarCambios();
+	
 
 	}
 }

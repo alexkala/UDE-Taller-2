@@ -49,11 +49,13 @@ public class Persistencia {
 
 			if (file.exists()) {
 				fis = new FileInputStream(file);
+				
 				ObjectInputStream o = new ObjectInputStream(fis);
 				datos = (Datos) o.readObject();
 				o.close();
 				fis.close();
 			} else {
+				
 				 throw new ExceptionsPersistencia(path);
 			}
 			return datos;
