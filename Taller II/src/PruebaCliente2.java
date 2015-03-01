@@ -59,13 +59,16 @@ public class PruebaCliente2 {
 		// -------
 		// RANKING
 		// -------
+		int i = 1;
+		/*
+
 		System.out.println("\nRANKING");
 		DataJugador[] ranking = fachada.listarRanking();		// listarRanking
-		int i = 1;
 		for (DataJugador elem: ranking) {
 			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 			i++;
 		}
+		*/
 		
 		// -----
 		// LOGIN
