@@ -150,6 +150,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		Persistencia db = new Persistencia();
 		Datos datos = new Datos(getPeliculas(), getJugadores());
 		db.Respaldar(datos, path);
+		System.out.println("Se guardo correctamente.");
 		MonitorJugadores.terminoEscritura();
 		MonitorPeliculas.terminoEscritura();
 		
@@ -328,11 +329,17 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		return partida;
 	}
 	//Requerimiento 12: Ranking General
-	public DataJugador[] listarRanking() throws RemoteException {
+	public DataJugador[] listarRanking() throws ClassNotFoundException, IOException, ExceptionsPersistencia {
 			MonitorJugadores.comienzoLectura();
-			Jugadores ranking = new Jugadores(jugadores);
+			
+			Jugadores ranking = new Jugadores();
+			Persistencia db = new Persistencia();
+			Datos d = db.Recuperar(ManageString.getProperty("rutaRespaldo"));
+			ranking = d.getJugadores();
+			
 			DataJugador[] dataRanking = ranking.obtenerJugadores();
 			Arrays.sort(dataRanking);
+			
 			MonitorJugadores.terminoLectura();
 			return dataRanking;
 	}

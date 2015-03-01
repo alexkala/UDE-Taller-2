@@ -18,13 +18,14 @@ import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import logica.exceptions.ExceptionsPersistencia;
 /*
  Este main se utiliza para probar que la capa de persistencia, recupere correctamente los datos
  Privamente se debera haber ejecutado el main PruebaCliente.java, para que guarde los datos de las peliculas y los jugadores.
  */
 public class PruebaPersistencia {
 
-	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException {
+	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException, ClassNotFoundException, ExceptionsPersistencia {
 		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
 		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 		 
@@ -35,14 +36,17 @@ public class PruebaPersistencia {
 		for (DataPelicula elem : dataPeliculas) {
 				System.out.println(elem.getTitulo() + " - " + elem.getPista());
 		}
-		
-		DataJugador[] dataJugadores = fachada.listarJugadores();
-		// Muestra las peliculas
-		System.out.println("\nJUGADORES");
-		for (DataJugador elem : dataJugadores) {
-			System.out.println(elem.getNombre() + " - " + elem.getPuntajeJugador());
-		}
 
+		// -------
+		// RANKING
+		// -------
+		System.out.println("\nRANKING");
+		DataJugador[] rankingFinal = fachada.listarRanking();		// listarRanking
+		int i = 1;
+		for (DataJugador elem: rankingFinal) {
+			System.out.println(i + " - " + elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
+			i++;
+		}
 						
 		
 	}

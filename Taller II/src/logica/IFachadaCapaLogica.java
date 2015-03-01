@@ -12,6 +12,7 @@ import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionPartidas;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+import logica.exceptions.ExceptionsPersistencia;
 
 public interface IFachadaCapaLogica extends Remote {
 	
@@ -37,6 +38,6 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores;
 	
-	public DataJugador[] listarRanking() throws RemoteException;
+	public DataJugador[] listarRanking() throws RemoteException, ClassNotFoundException, IOException, ExceptionsPersistencia;
 
 }
