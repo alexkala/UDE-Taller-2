@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -42,8 +43,10 @@ public class ManageString {
 		public static String getProperty(String s) throws IOException {
 			try {
 				Properties p = new Properties();
-				String f = "config/app.properties";
-				p.load(new FileInputStream(f));
+				String f = "./config/app.properties";
+				File file = new File(f);
+				FileInputStream fis = new FileInputStream(file);
+				p.load(fis);
 				return p.getProperty(s);
 			} catch (IOException e) {
 				throw e;
