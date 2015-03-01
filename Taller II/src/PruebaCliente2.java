@@ -27,11 +27,15 @@ import logica.exceptions.ExceptionsPersistencia;
 
 
 public class PruebaCliente2 {
+<<<<<<< HEAD
 	public static void main(String[] args) throws NotBoundException,
 			ExceptionsJugadores, ExceptionsPeliculas,
 			ExceptionCodigoIncorrecto, IOException, ExceptionPartidas,
 			ClassNotFoundException, ExceptionsPersistencia {
 		
+=======
+	public static void main(String[] args) throws NotBoundException, ExceptionsJugadores, ExceptionsPeliculas, ExceptionCodigoIncorrecto, IOException, ExceptionPartidas, ClassNotFoundException, ExceptionsPersistencia {
+>>>>>>> branch 'master' of https://github.com/alexkala/UDE-Taller-2.git
 		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
 		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 		
@@ -171,7 +175,8 @@ public class PruebaCliente2 {
 			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 		}
 		
-		
+		fachada.guardarCambios();
+
 		// -------
 		// RANKING
 		// -------
@@ -183,7 +188,6 @@ public class PruebaCliente2 {
 			i++;
 		}
 		
-		fachada.guardarCambios();
-
+		
 	}
 }
