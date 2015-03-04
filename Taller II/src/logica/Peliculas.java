@@ -55,11 +55,11 @@ public class Peliculas extends TreeMap<String, Pelicula> implements
 						peliculasDisponibles.remove(p.getPeliculaPartida().getClave());
 					}
 				} else {
-					throw new ExceptionsPeliculas("Error: no hay mas peliculas para adivinar.");
+					throw new ExceptionsPeliculas("No hay mas peliculas para adivinar.");
 					// Error: en este momento no hay peliculas para adivinar.
 				}
 			} else {
-				throw new ExceptionsPeliculas("Error: no hay peliculas cargadas.");
+				throw new ExceptionsPeliculas("No hay peliculas cargadas.");
 				// Error: en este momento no hay peliculas para adivinar.
 			}
 		}

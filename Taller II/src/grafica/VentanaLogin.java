@@ -1,6 +1,7 @@
 package grafica;
 import grafica.TextPrompt;
 import grafica.VentanaPartida;
+import grafica.controladoras.ControladoraLogin;
 
 import java.awt.EventQueue;
 
@@ -45,15 +46,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
-
 import javax.swing.ImageIcon;
+
+import logica.ValueObjetcs.DataLogin;
+import logica.exceptions.ExceptionCodigoIncorrecto;
+import logica.exceptions.ExceptionsJugadores;
+import javax.swing.UIManager;
 
 
 public class VentanaLogin {
 
-	private JFrame frmPruebaVentana;
+	private JFrame frmLogin;
 	private JTextField txtNombre;
 	private JPasswordField passwordField;
+	private ControladoraLogin controladoraLogin;
 
 	/**
 	 * Launch the application.
@@ -63,7 +69,7 @@ public class VentanaLogin {
 			public void run() {
 				try {
 					VentanaLogin window = new VentanaLogin();
-					window.frmPruebaVentana.setVisible(true);
+					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -82,13 +88,14 @@ public class VentanaLogin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmPruebaVentana = new JFrame();
-		frmPruebaVentana.getContentPane().setBackground(new Color(247, 247, 247));
-		frmPruebaVentana.setTitle("Prueba ventana - Login");
-		frmPruebaVentana.setResizable(false);
-		frmPruebaVentana.setBounds(100, 100, 580, 456);
-		frmPruebaVentana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLogin = new JFrame();
+		frmLogin.getContentPane().setBackground(new Color(247, 247, 247));
+		frmLogin.setTitle("Adivina la pel\u00EDcula - Login");
+		frmLogin.setResizable(false);
+		frmLogin.setBounds(100, 100, 580, 456);
+		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		controladoraLogin = new ControladoraLogin();
 		
 		// NOMBRE
 		txtNombre = new JTextField();
@@ -125,8 +132,28 @@ public class VentanaLogin {
 		JButton btnNewButton = new JButton("Iniciar sesi\u00F3n");		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaPartida ventana = new VentanaPartida();
-				ventana.setVisible(true);
+				
+				String nombreJugador = txtNombre.getText();
+				char[] array = passwordField.getPassword();
+				String codigoJugador = new String(array);
+				Border border = BorderFactory.createCompoundBorder(
+						BorderFactory.createLineBorder(Color.RED, 2), 
+				        BorderFactory.createEmptyBorder(5, 10, 5, 10));
+				try {
+					controladoraLogin.login(nombreJugador, codigoJugador);
+					VentanaMenuJugador menuJugador = new VentanaMenuJugador();
+					menuJugador.setVisible(true);
+					frmLogin.setVisible(false);
+				} catch (ExceptionsJugadores e1) {
+					txtNombre.setBorder(border);
+					passwordField.setBorder(border);
+				} catch (ExceptionCodigoIncorrecto e1) {
+					txtNombre.setBorder(BorderFactory.createCompoundBorder(
+							BorderFactory.createLineBorder(Color.GRAY, 1), 
+					        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+					passwordField.setBorder(border);
+				}
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 13));
@@ -137,7 +164,7 @@ public class VentanaLogin {
 		
 		
 		// LAYOUT
-		GroupLayout groupLayout = new GroupLayout(frmPruebaVentana.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -148,7 +175,7 @@ public class VentanaLogin {
 						.addComponent(txtNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
 					.addContainerGap(155, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(305, Short.MAX_VALUE)
+					.addContainerGap(106, Short.MAX_VALUE)
 					.addComponent(lblNewLabel)
 					.addGap(105))
 		);
@@ -162,15 +189,15 @@ public class VentanaLogin {
 					.addGap(18)
 					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+					.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
 					.addGap(113))
 		);
-		frmPruebaVentana.getContentPane().setLayout(groupLayout);
-		frmPruebaVentana.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, btnNewButton, passwordField, tpPasswordField, txtNombre, tpNombre}));
+		frmLogin.getContentPane().setLayout(groupLayout);
+		frmLogin.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, btnNewButton, passwordField, tpPasswordField, txtNombre, tpNombre}));
 		
 	
 	}
 	public void setVisible (boolean visible) {
-		frmPruebaVentana.setVisible(visible);
+		frmLogin.setVisible(visible);
 	}
 }

@@ -1,7 +1,11 @@
 package grafica;
 
+import grafica.controladoras.ControladoraLogin;
+import grafica.controladoras.ControladoraMenuJugador;
+
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Menu;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -16,6 +20,7 @@ import java.awt.Font;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
@@ -31,9 +36,18 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import logica.Partida;
+import logica.exceptions.ExceptionPartidas;
+import logica.exceptions.ExceptionsJugadores;
+import logica.exceptions.ExceptionsPeliculas;
+
 public class VentanaMenuJugador {
 
 	private JFrame frame;
+	private ControladoraMenuJugador controladoraMenuJugador;
 
 	/**
 	 * Launch the application.
@@ -72,6 +86,11 @@ public class VentanaMenuJugador {
 		frame.setBounds(100, 100, 732, 557);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		controladoraMenuJugador = new ControladoraMenuJugador();
+		
+		// ---------------
+		// IMAGEN DE FONDO
+		// ---------------
 		Image backgroundImage = ImageIO.read(new File("imagenes/6.jpg"));
 		BackgroundPanel panel_2 = new BackgroundPanel(backgroundImage);
 		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
@@ -81,6 +100,9 @@ public class VentanaMenuJugador {
 		panel_2.add(panel, BorderLayout.NORTH);
 		panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 		
+		// ------
+		// TITULO
+		// ------
 		JLabel lblNewLabel = new JLabel("ADIVINA LA PEL\u00CDCULA");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -103,11 +125,119 @@ public class VentanaMenuJugador {
 		JPanel panel_1 = new JPanel();
 		panel_2.add(panel_1, BorderLayout.CENTER);
 		
+		// --------------
+		// BOTON REANUDAR
+		// --------------
 		JButton btnPartidaActual = new JButton("REANUDAR");
 		
+		// Activado solo si se puede reanudar una partida
+		try {
+			Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+			if (actual.isFinalizada()) {
+				btnPartidaActual.setEnabled(false);
+			}			
+		} catch (ExceptionsJugadores e1) {
+			btnPartidaActual.setEnabled(false);
+		}
+		
+		btnPartidaActual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+					if (!actual.isFinalizada()) {
+						VentanaPartida partida = new VentanaPartida(actual);
+						partida.setVisible(true);
+						frame.setVisible(false);
+					}			
+				} catch (ExceptionsJugadores e1) {
+					Object[] options = {"OK"};
+					int opcion = JOptionPane.showOptionDialog(frame,
+							"No tienes ninguna partida en curso",
+							"Reanudar partida",
+							JOptionPane.OK_OPTION,
+							JOptionPane.INFORMATION_MESSAGE,
+							null,		//do not use a custom Icon
+							options,	//the titles of buttons
+							null);		//default button title
+				}
+			}
+		});
+		
+		// -------------------
+		// BOTON NUEVA PARTIDA
+		// -------------------
 		JButton btnNuevaPartida = new JButton("NUEVA PARTIDA");
 		
+		// Activado solo si se puede crear una partida nueva
+		try {
+			Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+			if (!actual.isFinalizada()) {
+				btnNuevaPartida.setEnabled(false);
+			}			
+		} catch (ExceptionsJugadores e1) {
+			btnNuevaPartida.setEnabled(false);
+		}
+		
+		btnNuevaPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Partida nueva = controladoraMenuJugador.nuevaPartida("Alex", "123");
+					if (nueva != null) {
+						VentanaPartida partida = new VentanaPartida(nueva);
+						partida.setVisible(true);
+						frame.setVisible(false);
+					} 					
+				} catch (ExceptionPartidas e1) {
+					Object[] options = {"REANUDAR PARTIDA", "CANCLEAR"};
+					int opcion = JOptionPane.showOptionDialog(frame,
+							"Ya tienes una partida en curso. ¿Deseas reanudarla?",
+							"Nueva partida",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE,
+							null,		//do not use a custom Icon
+							options,	//the titles of buttons
+							null);		//default button title
+					
+					switch (opcion) {
+					case 0:
+					{
+						try {
+							Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+							VentanaPartida partida = new VentanaPartida(actual);
+							partida.setVisible(true);
+							frame.setVisible(false);
+						} catch (ExceptionsJugadores e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+						
+					}
+						break;
+
+					}
+				} catch (ExceptionsPeliculas e1) {
+					Object[] options = {"OK"};
+					JOptionPane.showOptionDialog(frame,
+							e1.getMessage(),
+							"Nueva partida",
+							JOptionPane.OK_OPTION,
+							JOptionPane.INFORMATION_MESSAGE,
+							null,		//do not use a custom Icon
+							options,	//the titles of buttons
+							null);		//default button title
+				} catch (ExceptionsJugadores e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// -------------
+		// BOTON RANKING
+		// -------------
 		JButton btnRanking = new JButton("RANKING");
+		
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)

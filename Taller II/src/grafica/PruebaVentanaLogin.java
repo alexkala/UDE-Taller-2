@@ -22,8 +22,11 @@ public class PruebaVentanaLogin {
 		VentanaLogin ventana = new VentanaLogin();
 		ventana.setVisible(true);
 		
+		/*
 		VentanaMenuJugador jugador = new VentanaMenuJugador();
 		jugador.setVisible(true);
+		*/
+		
 	}
 
 }

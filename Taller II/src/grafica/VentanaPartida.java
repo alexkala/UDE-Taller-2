@@ -1,5 +1,8 @@
 package grafica;
 
+import grafica.controladoras.ControladoraLogin;
+import grafica.controladoras.ControladoraVentanaPartida;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -24,12 +28,19 @@ import javax.swing.border.EmptyBorder;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import logica.Partida;
+
 
 
 public class VentanaPartida {
 
 	private JFrame frame;
 	private JTextField textFieldIngresarCaracter;
+	private Partida partida;
+	private ControladoraVentanaPartida controladoraVentanaPartida;
 
 	/**
 	 * Launch the application.
@@ -39,7 +50,14 @@ public class VentanaPartida {
 	/**
 	 * Create the application.
 	 */
+	/*
 	public VentanaPartida() {
+		initialize();
+	}
+	*/
+
+	public VentanaPartida(Partida actual) {
+		partida = actual;
 		initialize();
 	}
 
@@ -52,8 +70,9 @@ public class VentanaPartida {
 		frame.setBounds(100, 100, 696, 680);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
-		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		controladoraVentanaPartida = new ControladoraVentanaPartida();
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
@@ -105,7 +124,7 @@ public class VentanaPartida {
 		body.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("-L -RA-----RA--R");
+		JLabel lblNewLabel = new JLabel(partida.getTextoAdivinado());
 		panel.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.DARK_GRAY);
@@ -118,7 +137,7 @@ public class VentanaPartida {
 		JPanel panelPuntaje = new JPanel();
 		bodyArriba.add(panelPuntaje, BorderLayout.NORTH);
 		
-		JLabel lblPuntaje = new JLabel("PUNTAJE: -2");
+		JLabel lblPuntaje = new JLabel("PUNTAJE: " + partida.getPuntajePartida());
 		lblPuntaje.setBorder(new EmptyBorder(0, 10, 0, 10));
 		GroupLayout gl_panelPuntaje = new GroupLayout(panelPuntaje);
 		gl_panelPuntaje.setHorizontalGroup(
@@ -143,7 +162,7 @@ public class VentanaPartida {
 		panelPista.setBackground(Color.WHITE);
 		panelPista.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblPista = new JLabel("CIENCIA FICCI\u00D3N");
+		JLabel lblPista = new JLabel(partida.getPeliculaPartida().getPista());
 		lblPista.setBorder(new EmptyBorder(0, 10, 0, 10));
 		lblPista.setForeground(Color.GRAY);
 		lblPista.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -151,7 +170,49 @@ public class VentanaPartida {
 		panelPista.add(lblPista);
 		
 		JButton btnIngresar = new JButton("INGRESAR");
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		JButton btnArriesgar = new JButton("ARRIESGAR");
+		btnArriesgar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// DIALOGO FIN DE LA PARTIDA
+				Object[] options = {"NUEVA PARTIDA",
+				"MENU"};
+				int opcion = JOptionPane.showOptionDialog(frame,
+						"¡Has finalizado la partida! ¿Qué deseas hacer a continuación?",
+						"Fin de la partida",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,		//do not use a custom Icon
+						options,	//the titles of buttons
+						null);		//default button title
+				
+				/*
+				switch (opcion) {
+				case 0:		// OPCION: NUEVA PARTIDA
+				{
+					VentanaPartida partidaNueva = new VentanaPartida();
+					partidaNueva.setVisible(true);
+				}
+				break;
+				case 1:		// OPCION: MENU
+				case -1:	// OPCION: SALIR (cerrar el dialogo)
+				{
+					VentanaMenuJugador menu = new VentanaMenuJugador();
+					menu.setVisible(true);
+					frame.setVisible(false);
+				}
+					break;
+				default:
+					break;
+				} 
+				*/
+				// TERMINA DIALOGO FIN DE LA PARTIDA
+			}
+		});
 		
 		JPanel barraAbajo = new JPanel();
 		barraAbajo.setBorder(new EmptyBorder(0, 10, 0, 10));
