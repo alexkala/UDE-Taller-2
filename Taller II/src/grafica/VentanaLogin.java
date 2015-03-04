@@ -98,7 +98,6 @@ public class VentanaLogin {
 		tpNombre.setFont(new Font("Arial", Font.PLAIN, 13));
 		tpNombre.setForeground( Color.LIGHT_GRAY );
 		tpNombre.changeAlpha(0.5f);
-		tpNombre.changeStyle(Font.BOLD + Font.ITALIC);
 		txtNombre.setHorizontalAlignment(SwingConstants.LEFT);
 		txtNombre.setBorder(BorderFactory.createCompoundBorder(
 				txtNombre.getBorder(), 
@@ -114,7 +113,6 @@ public class VentanaLogin {
 		tpPasswordField.setFont(new Font("Arial", Font.PLAIN, 13));
 		tpPasswordField.setForeground(Color.LIGHT_GRAY);
 		tpPasswordField.changeAlpha(0.5f);
-		tpPasswordField.changeStyle(Font.BOLD + Font.ITALIC);
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
 		passwordField.setBorder(BorderFactory.createCompoundBorder(
 				passwordField.getBorder(), 
