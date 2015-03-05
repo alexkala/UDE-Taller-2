@@ -67,6 +67,7 @@ public class PruebaCliente {
 			i++;
 		}
 		*/
+		
 		// -----
 		// LOGIN
 		// -----
@@ -120,7 +121,7 @@ public class PruebaCliente {
 			System.out.println(elem.isFinalizada() ? "Finalizada" : "En curso");
 		}
 		
-		
+		/*
 		String letra = new String();
 		char letraChar = '9';
 		while (!nueva.isFinalizada()) {
@@ -157,7 +158,7 @@ public class PruebaCliente {
 			System.out.println("Texto adivinado: " + nueva.getTextoAdivinado());
 			System.out.println("Puntaje: " + nueva.getPuntajePartida());
 		}
-		
+		*/
 		Partida actual = new Partida();		
 		actual = fachada.partidaEnCurso(dataLogin.getNombre(), dataLogin.getCodigo());			// partidaEnCurso
 		System.out.println("\nPARTIDA ACTUAL");
