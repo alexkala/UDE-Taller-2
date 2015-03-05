@@ -1,6 +1,6 @@
 package grafica;
-import grafica.TextPrompt;
 import grafica.VentanaPartida;
+import grafica.auxiliares.TextPrompt;
 import grafica.controladoras.ControladoraLogin;
 
 import java.awt.EventQueue;
@@ -51,6 +51,7 @@ import javax.swing.ImageIcon;
 import logica.ValueObjetcs.DataLogin;
 import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
+
 import javax.swing.UIManager;
 
 

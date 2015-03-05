@@ -1,5 +1,6 @@
 package grafica;
 
+import grafica.auxiliares.BackgroundPanel;
 import grafica.controladoras.ControladoraLogin;
 import grafica.controladoras.ControladoraMenuJugador;
 
@@ -236,6 +237,12 @@ public class VentanaMenuJugador {
 		// BOTON RANKING
 		// -------------
 		JButton btnRanking = new JButton("RANKING");
+		btnRanking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaRanking ventanaRanking = new VentanaRanking();
+				ventanaRanking.setVisible(true);
+			}
+		});
 		
 		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -265,7 +272,6 @@ public class VentanaMenuJugador {
 
 	public void setVisible(boolean visible) {
 		frame.setVisible(visible);
-		
 	}
 
 }

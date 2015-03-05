@@ -1,4 +1,4 @@
-package grafica;
+package grafica.auxiliares;
 
 import java.awt.*;
 import java.awt.image.*;
