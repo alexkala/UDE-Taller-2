@@ -34,7 +34,7 @@ public interface IFachadaCapaLogica extends Remote {
 	
 	public Partida partidaEnCurso(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores;
 	
-	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores;
+	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores, ExceptionPartidas;
 	
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores;
 	

@@ -18,15 +18,14 @@ public class PruebaVentanaLogin {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
-		
+		/*
 		VentanaLogin ventana = new VentanaLogin();
 		ventana.setVisible(true);
-		
-		/*
+		*/
+
 		VentanaMenuJugador jugador = new VentanaMenuJugador();
 		jugador.setVisible(true);
-		*/
-		
+
 	}
 
 }

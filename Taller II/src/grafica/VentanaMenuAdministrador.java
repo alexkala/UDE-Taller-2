@@ -4,19 +4,25 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 
@@ -54,6 +60,10 @@ public class VentanaMenuAdministrador {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 732, 557);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		ImageIcon imagen = new ImageIcon(this.getClass().getResource("/imagenes/titulo.png"));
+		System.out.println(imagen);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);

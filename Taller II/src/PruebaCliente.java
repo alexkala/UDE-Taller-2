@@ -104,6 +104,7 @@ public class PruebaCliente {
 		// --------
 		// PARTIDAS
 		// --------
+		/*
 		//Partida nueva = new Partida();		
 		Partida nueva = fachada.nuevaPartida(dataLogin.getNombre(), dataLogin.getCodigo());			// nuevaPartida
 		System.out.println("\nPARTIDA NUEVA");
@@ -159,6 +160,7 @@ public class PruebaCliente {
 			System.out.println("Puntaje: " + nueva.getPuntajePartida());
 		}
 		*/
+		/*
 		Partida actual = new Partida();		
 		actual = fachada.partidaEnCurso(dataLogin.getNombre(), dataLogin.getCodigo());			// partidaEnCurso
 		System.out.println("\nPARTIDA ACTUAL");
@@ -173,7 +175,7 @@ public class PruebaCliente {
 		for (DataJugador elem: dataJugadores) {
 			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 		}
-		
+		*/
 		fachada.guardarCambios();
 		
 		// -------

@@ -237,7 +237,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	}
 	
 	//Requerimiento 10: Ingresar Un Caracter
-	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores {
+	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores, ExceptionPartidas {
 		
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
 		Jugador jugador = jugadores.get(nombreJugador);
@@ -273,7 +273,9 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 				}
 			}
 		} else {
-			System.out.println("La letra ya fue ingresada previamente");
+			MonitorJugadores.terminoEscritura();
+			throw new ExceptionPartidas("La letra ya fue ingresada previamente");
+			
 		}
 
 		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto adivinado de nuevo a String
@@ -285,7 +287,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			partida.setAcertada(true);
 			partida.setFinalizada(true);
 			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
-			
 		}
 		MonitorJugadores.terminoEscritura();
 		return partida;

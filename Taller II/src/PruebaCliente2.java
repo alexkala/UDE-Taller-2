@@ -32,7 +32,7 @@ public class PruebaCliente2 {
 
 		String url ="//" + ManageString.getProperty("ip")+ ":" + ManageString.getProperty("puerto")	+ "/" + ManageString.getProperty("nombre");		
 		IFachadaCapaLogica fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
-		
+		/*
 		// ---------
 		// JUGADORES
 		// ---------
@@ -69,7 +69,7 @@ public class PruebaCliente2 {
 			i++;
 		}
 		*/
-		
+		/*
 		// -----
 		// LOGIN
 		// -----
@@ -171,9 +171,9 @@ public class PruebaCliente2 {
 		for (DataJugador elem: dataJugadores) {
 			System.out.println(elem.getNombre() + " - " + elem.getCodigo() + " - PUNTAJE: " + elem.getPuntajeJugador());
 		}
-		
+		*/
 		fachada.guardarCambios();
-
+/*
 		// -------
 		// RANKING
 		// -------
@@ -185,6 +185,6 @@ public class PruebaCliente2 {
 			i++;
 		}
 		
-		
+		*/
 	}
 }
