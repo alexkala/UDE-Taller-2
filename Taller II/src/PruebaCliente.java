@@ -81,19 +81,21 @@ public class PruebaCliente {
 		// PELICULAS
 		// ---------
 		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
-		/*
 		Pelicula pelicula2 = new Pelicula("Birdman", "Humor negro");
 		Pelicula pelicula3 = new Pelicula("Selma", "Drama");
 		Pelicula pelicula4 = new Pelicula("La   teoria del todo  ", "Romance - Biografia");
 		Pelicula pelicula5 = new Pelicula("Momentos de una vida", "Drama");
-*/
+		Pelicula pelicula6 = new Pelicula(" El hobbit un viaje inesperado", "Aventuras - Fantasía - Acción");
+		Pelicula pelicula7 = new Pelicula("El codigo Enigma", "Drama - Thriller - Bélica");
+		
 		fachada.nuevaPelicula(pelicula1);							// nuevaPelicula
-		/*
 		fachada.nuevaPelicula(pelicula2);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula3);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula4);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula5);							// nuevaPelicula
-*/
+		fachada.nuevaPelicula(pelicula6);							// nuevaPelicula
+		fachada.nuevaPelicula(pelicula7);							// nuevaPelicula
+		
 		DataPelicula[] dataPeliculas = fachada.listarPeliculas();	// listarPeliculas
 		
 		// muestra las peliculas

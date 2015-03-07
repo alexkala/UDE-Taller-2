@@ -115,8 +115,15 @@ public class VentanaPartida {
 		
 		menuItemRankingVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaRanking ventanaRanking = new VentanaRanking();
-				ventanaRanking.setVisible(true);
+				VentanaRanking ventanaRanking;
+				try {
+					ventanaRanking = new VentanaRanking();
+					ventanaRanking.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		
