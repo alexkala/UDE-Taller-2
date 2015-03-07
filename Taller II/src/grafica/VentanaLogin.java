@@ -1,10 +1,13 @@
 package grafica;
 import grafica.VentanaPartida;
+import grafica.auxiliares.BackgroundPanel;
+import grafica.auxiliares.Constantes;
 import grafica.auxiliares.TextPrompt;
 import grafica.controladoras.ControladoraLogin;
 
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -14,6 +17,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
+import java.awt.Image;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
@@ -44,6 +48,8 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -53,6 +59,8 @@ import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
 
 import javax.swing.UIManager;
+
+import net.miginfocom.swing.MigLayout;
 
 
 public class VentanaLogin {
@@ -80,58 +88,83 @@ public class VentanaLogin {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public VentanaLogin() {
+	public VentanaLogin() throws IOException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 		frmLogin = new JFrame();
 		frmLogin.getContentPane().setBackground(new Color(247, 247, 247));
 		frmLogin.setTitle("Adivina la pel\u00EDcula - Login");
 		frmLogin.setResizable(false);
-		frmLogin.setBounds(100, 100, 580, 456);
+		frmLogin.setBounds(100, 100, 800, 700);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraLogin = new ControladoraLogin();
+		/*passwordField.setBorder(BorderFactory.createCompoundBorder(
+				passwordField.getBorder(), 
+		        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+		*/
+		frmLogin.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
+		
+		BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
+		frmLogin.getContentPane().add(panelContenido, BorderLayout.CENTER);
+		panelContenido.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelArriba = new JPanel();
+		panelArriba.setBackground(Color.PINK);
+		panelContenido.add(panelArriba, BorderLayout.NORTH);
+		panelArriba.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelTitulo = new JPanel();
+		panelTitulo.setBackground(new Color(231, 76, 60));
+		panelArriba.add(panelTitulo);
+		panelTitulo.setBorder(new EmptyBorder(15, 0, 15, 0));
+		
+		JLabel lblTitulo = new JLabel("");
+		panelTitulo.add(lblTitulo);
+		lblTitulo.setIcon(new ImageIcon(Constantes.RUTA_TITULO));
+		lblTitulo.setFont(new Font("Arial", Font.PLAIN, 34));
+		
+		JPanel panelLogin = new JPanel();
+		panelContenido.add(panelLogin, BorderLayout.CENTER);
+		
+		JPanel panelCampos = new JPanel();
+		panelCampos.setBackground(new Color(52, 73, 94));
+		panelCampos.setBorder(new EmptyBorder(40, 40, 30, 40));
 		
 		// NOMBRE
 		txtNombre = new JTextField();
-		txtNombre.setForeground(Color.DARK_GRAY);
-		txtNombre.setFont(new Font("Arial", Font.PLAIN, 13));
 		TextPrompt tpNombre = new TextPrompt("Nombre", txtNombre);
 		tpNombre.setFont(new Font("Arial", Font.PLAIN, 13));
 		tpNombre.setForeground( Color.LIGHT_GRAY );
-		tpNombre.changeAlpha(0.5f);
+		txtNombre.setForeground(Color.DARK_GRAY);
+		txtNombre.setFont(new Font("Arial", Font.PLAIN, 13));
 		txtNombre.setHorizontalAlignment(SwingConstants.LEFT);
-		txtNombre.setBorder(BorderFactory.createCompoundBorder(
-				txtNombre.getBorder(), 
-		        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
-		txtNombre.setColumns(40);
+		txtNombre.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		
 		
 		
 		// CODIGO
 		passwordField = new JPasswordField();
-		passwordField.setFont(new Font("Arial", Font.PLAIN, 13));
-		passwordField.setForeground(Color.DARK_GRAY);
 		TextPrompt tpPasswordField = new TextPrompt("Password", passwordField);
 		tpPasswordField.setFont(new Font("Arial", Font.PLAIN, 13));
 		tpPasswordField.setForeground(Color.LIGHT_GRAY);
-		tpPasswordField.changeAlpha(0.5f);
+		passwordField.setFont(new Font("Arial", Font.PLAIN, 13));
+		passwordField.setForeground(Color.DARK_GRAY);
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
-		passwordField.setBorder(BorderFactory.createCompoundBorder(
-				passwordField.getBorder(), 
-		        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
-		
+		passwordField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 		// BOTON
-		
-		
-		
-		JButton btnNewButton = new JButton("Iniciar sesi\u00F3n");		
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("Iniciar sesi\u00F3n");
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				String nombreJugador = txtNombre.getText();
@@ -142,9 +175,12 @@ public class VentanaLogin {
 				        BorderFactory.createEmptyBorder(5, 10, 5, 10));
 				try {
 					controladoraLogin.login(nombreJugador, codigoJugador);
+					
+					BufferSesion.getInstancia().setNombreJugador(nombreJugador);
+					BufferSesion.getInstancia().setCodigoJugador(codigoJugador);
 					VentanaMenuJugador menuJugador = new VentanaMenuJugador();
-					menuJugador.setVisible(true);
 					frmLogin.setVisible(false);
+					menuJugador.setVisible(true);
 				} catch (ExceptionsJugadores e1) {
 					txtNombre.setBorder(border);
 					passwordField.setBorder(border);
@@ -157,44 +193,49 @@ public class VentanaLogin {
 				
 			}
 		});
-		btnNewButton.setFont(new Font("Arial", Font.BOLD, 13));
-		btnNewButton.setForeground(Color.DARK_GRAY);
-		
-		JLabel lblNewLabel = new JLabel("ADIVINA LA PEL\u00CDCULA");
-		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 34));
-		
-		
-		// LAYOUT
-		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(156)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(passwordField, Alignment.TRAILING, 263, 263, Short.MAX_VALUE)
-						.addComponent(txtNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-					.addContainerGap(155, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(106, Short.MAX_VALUE)
-					.addComponent(lblNewLabel)
-					.addGap(105))
+		btnLogin.setFont(new Font("Arial", Font.BOLD, 13));
+		btnLogin.setForeground(Color.DARK_GRAY);
+		GroupLayout gl_panelLogin = new GroupLayout(panelLogin);
+		gl_panelLogin.setHorizontalGroup(
+			gl_panelLogin.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelLogin.createSequentialGroup()
+					.addGap(223)
+					.addComponent(panelCampos, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(222, Short.MAX_VALUE))
 		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(37)
-					.addComponent(lblNewLabel)
-					.addGap(64)
-					.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-					.addGap(113))
+		gl_panelLogin.setVerticalGroup(
+			gl_panelLogin.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelLogin.createSequentialGroup()
+					.addGap(56)
+					.addComponent(panelCampos, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(199, Short.MAX_VALUE))
 		);
-		frmLogin.getContentPane().setLayout(groupLayout);
-		frmLogin.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, btnNewButton, passwordField, tpPasswordField, txtNombre, tpNombre}));
+		
+		JLabel lblIconoLogin = new JLabel("");
+		lblIconoLogin.setIcon(new ImageIcon(Constantes.RUTA_ICONO_LOGIN));
+		lblIconoLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		GroupLayout gl_panelCampos = new GroupLayout(panelCampos);
+		gl_panelCampos.setHorizontalGroup(
+			gl_panelCampos.createParallelGroup(Alignment.LEADING)
+				.addComponent(btnLogin, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+				.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+				.addComponent(txtNombre, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+				.addComponent(lblIconoLogin, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+		);
+		gl_panelCampos.setVerticalGroup(
+			gl_panelCampos.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelCampos.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblIconoLogin)
+					.addPreferredGap(ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+					.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
+		);
+		panelCampos.setLayout(gl_panelCampos);
+		panelLogin.setLayout(gl_panelLogin);
 		
 	
 	}

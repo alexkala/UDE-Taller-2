@@ -35,15 +35,15 @@ public class PruebaCliente {
 		// JUGADORES
 		// ---------
 		Jugador jugador = new Jugador("Alex", "123");
-		jugador.setPuntajeJugador(60);
+		fachada.nuevoJugador(jugador);							// nuevoJugador
+		
+		jugador = new Jugador("Alexis", "alexis");
 		fachada.nuevoJugador(jugador);							// nuevoJugador
 
 		jugador = new Jugador("Gaston", "789");
-		jugador.setPuntajeJugador(60);
 		fachada.nuevoJugador(jugador);							// nuevoJugador
 
 		jugador = new Jugador("Felipe", "456");
-		jugador.setPuntajeJugador(30);
 		fachada.nuevoJugador(jugador);							// nuevoJugador
 
 		DataJugador[] dataJugadores = fachada.listarJugadores();	// listarJugadores
@@ -81,17 +81,19 @@ public class PruebaCliente {
 		// PELICULAS
 		// ---------
 		Pelicula pelicula1 = new Pelicula("El francotirador", "Accion");
+		/*
 		Pelicula pelicula2 = new Pelicula("Birdman", "Humor negro");
 		Pelicula pelicula3 = new Pelicula("Selma", "Drama");
 		Pelicula pelicula4 = new Pelicula("La   teoria del todo  ", "Romance - Biografia");
 		Pelicula pelicula5 = new Pelicula("Momentos de una vida", "Drama");
-
+*/
 		fachada.nuevaPelicula(pelicula1);							// nuevaPelicula
+		/*
 		fachada.nuevaPelicula(pelicula2);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula3);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula4);							// nuevaPelicula
 		fachada.nuevaPelicula(pelicula5);							// nuevaPelicula
-
+*/
 		DataPelicula[] dataPeliculas = fachada.listarPeliculas();	// listarPeliculas
 		
 		// muestra las peliculas

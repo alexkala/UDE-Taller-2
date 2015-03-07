@@ -1,16 +1,22 @@
 package grafica;
 
+import grafica.auxiliares.BackgroundPanel;
+import grafica.auxiliares.Constantes;
 import grafica.auxiliares.MyTableModel;
 import grafica.controladoras.ControladoraRanking;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,6 +25,11 @@ import javax.swing.JLabel;
 import javax.swing.table.TableColumn;
 
 import logica.exceptions.ExceptionsPersistencia;
+
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.Color;
 
 public class VentanaRanking {
 
@@ -45,31 +56,44 @@ public class VentanaRanking {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public VentanaRanking() {
+	public VentanaRanking() throws IOException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 		frame = new JFrame();
 		frame.setTitle("Ranking");
 		frame.setAlwaysOnTop(true);
-		frame.setBounds(100, 100, 808, 572);
+		frame.setBounds(100, 100, 800, 400);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraRanking = new ControladoraRanking();
 		
+		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
+		BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
+		frame.getContentPane().add(panelContenido, BorderLayout.CENTER);
+		panelContenido.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelTitulo = new JPanel();
+		panelContenido.add(panelTitulo, BorderLayout.NORTH);
+		panelTitulo.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setBackground(new Color(231, 76, 60));
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		panelTitulo.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("RANKING");
-		panel.add(lblNewLabel);
-		
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
+		JLabel lblTitulo = new JLabel("");
+		lblTitulo.setIcon(new ImageIcon(Constantes.RUTA_TITULO_RANKING));
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblTitulo);
 		/*
 		table_1 = new JTable();
 		table_1.setEnabled(false);
@@ -91,10 +115,10 @@ public class VentanaRanking {
 			Object[][] data = controladoraRanking.listarRanking();
 			if (data != null) {
 				table = new JTable(data, columnas);
+				table.getTableHeader().setReorderingAllowed(false);
 				table.setEnabled(false);
-				table.setDragEnabled(true);
 				JScrollPane scrollPane = new JScrollPane(table);
-				frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+				panelContenido.add(scrollPane, BorderLayout.CENTER);
 			} else {
 				
 				Object[] options = {"NUEVA PARTIDA",

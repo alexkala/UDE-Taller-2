@@ -19,6 +19,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -55,7 +56,6 @@ public class VentanaPartida {
 	private JTextField textFieldIngresarCaracter;
 	//private Partida partida;
 	private ControladoraVentanaPartida controladoraVentanaPartida;
-	private JTextField textFieldArriesgar;
 	private JTextField textFieldArriesgarPelicula;
 
 	/**
@@ -90,13 +90,13 @@ public class VentanaPartida {
 	private void initialize() throws IOException, ExceptionsJugadores {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 800, 680);
+		frame.setBounds(100, 100, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		controladoraVentanaPartida = new ControladoraVentanaPartida();
-		Partida partida = controladoraVentanaPartida.partidaEnCurso("Alex", "123");
+		Partida partida = controladoraVentanaPartida.partidaEnCurso(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 		
 		
 		// --------
@@ -152,6 +152,7 @@ public class VentanaPartida {
 	
 		
 		JPanel headerTitulo = new JPanel();
+		headerTitulo.setBorder(new EmptyBorder(15, 0, 15, 0));
 		headerTitulo.setBackground(new Color(231, 76, 60));
 		header.setLayout(new BorderLayout(0, 0));
 		header.add(headerTitulo, BorderLayout.NORTH);
@@ -266,10 +267,18 @@ public class VentanaPartida {
 				if (!textFieldIngresarCaracter.getText().trim().isEmpty()) {
 					String letra = textFieldIngresarCaracter.getText();
 					try {
-						boolean letraCorrecta = controladoraVentanaPartida.ingresarCaracter("Alex", "123", letra);
-						Partida partidaActual = controladoraVentanaPartida.partidaEnCurso("Alex", "123");
+						boolean letraCorrecta = controladoraVentanaPartida
+								.ingresarCaracter(BufferSesion.getInstancia()
+										.getNombreJugador(), BufferSesion
+										.getInstancia().getCodigoJugador(),
+										letra);
+						Partida partidaActual = controladoraVentanaPartida
+								.partidaEnCurso(BufferSesion.getInstancia()
+										.getNombreJugador(), BufferSesion
+										.getInstancia().getCodigoJugador());
 						lblTextoAdivinado.setText(partidaActual.getTextoAdivinado());
 						lblPuntaje.setText("PUNTAJE: " + partidaActual.getPuntajePartida());
+						
 						if (letraCorrecta) {
 							lblLetraCorrecta.setText("¡Letra correcta!");	
 						} else {
@@ -279,7 +288,9 @@ public class VentanaPartida {
 						panelContenido.updateUI();
 						// si adivino la pelicula
 						if (partidaActual.isFinalizada()) {
+							
 							Object[] options = {"NUEVA PARTIDA", "MENU"};
+							JDialog dialogo1 = new JDialog();
 							int opcion = JOptionPane.showOptionDialog(frame,
 									"FIN DE LA PARTIDA\n\n" +
 									"PELÍCULA: " + partidaActual.getPeliculaPartida().getTitulo() + "\n" + 
@@ -296,7 +307,7 @@ public class VentanaPartida {
 							case 0:
 							{
 								try {
-									Partida partidaNueva = controladoraVentanaPartida.nuevaPartida("Alex", "123");
+									Partida partidaNueva = controladoraVentanaPartida.nuevaPartida(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 									if (partidaNueva != null) {
 										VentanaPartida ventanaPartida = new VentanaPartida();
 										frame.setVisible(false);
@@ -306,8 +317,18 @@ public class VentanaPartida {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								} catch (ExceptionsPeliculas e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
+									Object[] opciones = {"OK"};
+									JOptionPane.showOptionDialog(frame,
+											e1.getMessage(),
+											"Nueva partida",
+											JOptionPane.OK_OPTION,
+											JOptionPane.INFORMATION_MESSAGE,
+											null,		//do not use a custom Icon
+											opciones,	//the titles of buttons
+											null);		//default button title
+									VentanaMenuJugador menu = new VentanaMenuJugador();
+									frame.setVisible(false);
+									menu.setVisible(true);
 								}
 												
 							}
@@ -403,73 +424,93 @@ public class VentanaPartida {
 		JButton btnArriesgar_1 = new JButton("ARRIESGAR");
 		btnArriesgar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String peliculaArriesgada = textFieldArriesgarPelicula.getText();
-				try {
-					boolean adivinada = controladoraVentanaPartida.arriesgarPelicula("Alex", "123", peliculaArriesgada);
-					Partida partidaActual = controladoraVentanaPartida.partidaEnCurso("Alex", "123");
-					lblTextoAdivinado.setText(partidaActual.getTextoAdivinado());
-					lblPuntaje.setText("PUNTAJE: " + partidaActual.getPuntajePartida());
-					textFieldArriesgarPelicula.setText(null);
-					
-					String titulo;
-					if (adivinada) {
-						titulo = new String("¡Película adivinada!");
-					} else {
-						titulo = new String("¡Película errada!");
-					}
-					lblLetraCorrecta.setText(titulo);
-					Object[] options = {"NUEVA PARTIDA", "MENU"};
-					int opcion = JOptionPane.showOptionDialog(frame,
-							"FIN DE LA PARTIDA\n\n" +
-							"PELÍCULA: " + partidaActual.getPeliculaPartida().getTitulo() + "\n" + 
-							"PUNTAJE: " + partidaActual.getPuntajePartida() + "\n\n" +
-									"Has finalizado la partida. ¿Deseas empezar una nueva pertida?",
-							titulo,
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.PLAIN_MESSAGE,
-							null,		//do not use a custom Icon
-							options,	//the titles of buttons
-							null);		//default button title
-					
-					switch (opcion) {
-					case 0:
-					{
-						try {
-							Partida partidaNueva = controladoraVentanaPartida.nuevaPartida("Alex", "123");
-							if (partidaNueva != null) {
-								VentanaPartida ventanaPartida = new VentanaPartida();
-								frame.setVisible(false);
-								ventanaPartida.setVisible(true);
-							} 	
-						} catch (ExceptionPartidas e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (ExceptionsPeliculas e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+				if (!textFieldArriesgarPelicula.getText().trim().isEmpty()) {			// Verifica que el textfield no este vacio
+					String peliculaArriesgada = textFieldArriesgarPelicula.getText();
+					try {
+						boolean adivinada = controladoraVentanaPartida
+								.arriesgarPelicula(BufferSesion.getInstancia()
+										.getNombreJugador(), BufferSesion
+										.getInstancia().getCodigoJugador(),
+										peliculaArriesgada);
+						Partida partidaActual = controladoraVentanaPartida
+								.partidaEnCurso(BufferSesion.getInstancia()
+										.getNombreJugador(), BufferSesion
+										.getInstancia().getCodigoJugador());
+						lblTextoAdivinado.setText(partidaActual.getTextoAdivinado());
+						lblPuntaje.setText("PUNTAJE: " + partidaActual.getPuntajePartida());
+						textFieldArriesgarPelicula.setText(null);
+
+						String titulo;
+						if (adivinada) {
+							titulo = new String("¡Película adivinada!");
+						} else {
+							titulo = new String("¡Película errada!");
 						}
-										
+						lblLetraCorrecta.setText(titulo);
+						Object[] options = {"NUEVA PARTIDA", "MENU"};
+						int opcion = JOptionPane.showOptionDialog(frame,
+								"FIN DE LA PARTIDA\n\n" +
+										"PELÍCULA: " + partidaActual.getPeliculaPartida().getTitulo() + "\n" + 
+										"PUNTAJE: " + partidaActual.getPuntajePartida() + "\n\n" +
+										"Has finalizado la partida. ¿Deseas empezar una nueva pertida?",
+										titulo,
+										JOptionPane.YES_NO_OPTION,
+										JOptionPane.PLAIN_MESSAGE,
+										null,		//do not use a custom Icon
+										options,	//the titles of buttons
+										null);		//default button title
+
+						switch (opcion) {
+						case 0:
+						{
+							try {
+								Partida partidaNueva = controladoraVentanaPartida.nuevaPartida(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
+								if (partidaNueva != null) {
+									VentanaPartida ventanaPartida = new VentanaPartida();
+									frame.setVisible(false);
+									ventanaPartida.setVisible(true);
+								} 	
+							} catch (ExceptionPartidas e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (ExceptionsPeliculas e1) {
+								Object[] opciones = {"OK"};
+								JOptionPane.showOptionDialog(frame,
+										e1.getMessage(),
+										"Nueva partida",
+										JOptionPane.OK_OPTION,
+										JOptionPane.INFORMATION_MESSAGE,
+										null,		//do not use a custom Icon
+										opciones,	//the titles of buttons
+										null);		//default button title
+								VentanaMenuJugador menu = new VentanaMenuJugador();
+								frame.setVisible(false);
+								menu.setVisible(true);
+
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+
+						}
+						break;
+						case 1:
+						case -1:
+						{
+							VentanaMenuJugador menu = new VentanaMenuJugador();
+							frame.setVisible(false);
+							menu.setVisible(true);
+						}
+						break;
+						}
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ExceptionsJugadores e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					break;
-					case 1:
-					case -1:
-					{
-						VentanaMenuJugador menu = new VentanaMenuJugador();
-						frame.setVisible(false);
-						menu.setVisible(true);
-					}
-					break;
-					}
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ExceptionsJugadores e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} else {
+					lblLetraCorrecta.setText("Adivina el titulo de la película.");
 				}
 			}					
 		});

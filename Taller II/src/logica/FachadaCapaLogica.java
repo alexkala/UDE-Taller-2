@@ -238,7 +238,6 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 10: Ingresar Un Caracter
 	public Partida ingresarCaracter(String nombreJugador, String codigoJugador, char c) throws RemoteException, ExceptionsJugadores, ExceptionPartidas {
-		
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
 		Jugador jugador = jugadores.get(nombreJugador);
 		

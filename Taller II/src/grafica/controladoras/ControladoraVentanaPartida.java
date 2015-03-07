@@ -1,5 +1,7 @@
 package grafica.controladoras;
 
+import grafica.BufferSesion;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 

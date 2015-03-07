@@ -1,6 +1,7 @@
 package grafica;
 
 import grafica.auxiliares.BackgroundPanel;
+import grafica.auxiliares.Constantes;
 import grafica.controladoras.ControladoraLogin;
 import grafica.controladoras.ControladoraMenuJugador;
 
@@ -45,9 +46,12 @@ import logica.Partida;
 import logica.exceptions.ExceptionPartidas;
 import logica.exceptions.ExceptionsJugadores;
 import logica.exceptions.ExceptionsPeliculas;
+
 import java.awt.FlowLayout;
 import java.awt.Component;
+
 import javax.swing.SwingConstants;
+import java.awt.Dimension;
 
 public class VentanaMenuJugador {
 
@@ -89,7 +93,7 @@ public class VentanaMenuJugador {
 	private void initialize() throws IOException  {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraMenuJugador = new ControladoraMenuJugador();
@@ -98,14 +102,18 @@ public class VentanaMenuJugador {
 		// ---------------
 		// IMAGEN DE FONDO
 		// ---------------
-		Image backgroundImage = ImageIO.read(new File("imagenes/background.png"));
+		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
 		BackgroundPanel panel_2 = new BackgroundPanel(backgroundImage);
 		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel_3 = new JPanel();
+		panel_2.add(panel_3, BorderLayout.NORTH);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panel = new JPanel();
-		panel_2.add(panel, BorderLayout.NORTH);
-		panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+		panel_3.add(panel, BorderLayout.NORTH);
+		panel.setBorder(new EmptyBorder(15, 20, 15, 20));
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.setBackground(new Color(231, 76, 60));
 		
@@ -115,7 +123,7 @@ public class VentanaMenuJugador {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("imagenes/titulo.png"));
+		lblNewLabel.setIcon(new ImageIcon(Constantes.RUTA_TITULO));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
 		panel.add(lblNewLabel);
 		
@@ -126,10 +134,10 @@ public class VentanaMenuJugador {
 		// BOTON REANUDAR
 		// --------------
 		JButton btnPartidaActual = new JButton("REANUDAR");
-		
+		btnPartidaActual.setPreferredSize(new Dimension(87, 40));
 		// Activado solo si se puede reanudar una partida
 		try {
-			Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+			Partida actual = controladoraMenuJugador.partidaEnCurso(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 			if (actual.isFinalizada()) {
 				btnPartidaActual.setEnabled(false);
 			}			
@@ -140,22 +148,10 @@ public class VentanaMenuJugador {
 		btnPartidaActual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
-					if (!actual.isFinalizada()) {
-						VentanaPartida partida = new VentanaPartida();
-						partida.setVisible(true);
-						frame.setVisible(false);
-					}			
-				} catch (ExceptionsJugadores e1) {
-					Object[] options = {"OK"};
-					int opcion = JOptionPane.showOptionDialog(frame,
-							"No tienes ninguna partida en curso",
-							"Reanudar partida",
-							JOptionPane.OK_OPTION,
-							JOptionPane.INFORMATION_MESSAGE,
-							null,		//do not use a custom Icon
-							options,	//the titles of buttons
-							null);		//default button title
+					//Partida actual = controladoraMenuJugador.partidaEnCurso(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
+					VentanaPartida partida = new VentanaPartida();
+					partida.setVisible(true);
+					frame.setVisible(false);	
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -170,7 +166,7 @@ public class VentanaMenuJugador {
 		
 		// Activado solo si se puede crear una partida nueva
 		try {
-			Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+			Partida actual = controladoraMenuJugador.partidaEnCurso(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 			if (!actual.isFinalizada()) {
 				btnNuevaPartida.setEnabled(false);
 			}			
@@ -181,7 +177,7 @@ public class VentanaMenuJugador {
 		btnNuevaPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Partida nueva = controladoraMenuJugador.nuevaPartida("Alex", "123");
+					Partida nueva = controladoraMenuJugador.nuevaPartida(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 					if (nueva != null) {
 						VentanaPartida partida = new VentanaPartida();
 						partida.setVisible(true);
@@ -202,7 +198,7 @@ public class VentanaMenuJugador {
 					case 0:
 					{
 						try {
-							Partida actual = controladoraMenuJugador.partidaEnCurso("Alex", "123");
+							Partida actual = controladoraMenuJugador.partidaEnCurso(BufferSesion.getInstancia().getNombreJugador(), BufferSesion.getInstancia().getCodigoJugador());
 							VentanaPartida partida = new VentanaPartida();
 							partida.setVisible(true);
 							frame.setVisible(false);
@@ -242,6 +238,7 @@ public class VentanaMenuJugador {
 		// BOTON RANKING
 		// -------------
 		JButton btnRanking = new JButton("RANKING");
+		btnRanking.setPreferredSize(new Dimension(77, 40));
 		btnRanking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaRanking ventanaRanking = new VentanaRanking();
@@ -254,23 +251,23 @@ public class VentanaMenuJugador {
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(261)
+					.addGap(289)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnRanking, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNuevaPartida, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-						.addComponent(btnPartidaActual, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(261, Short.MAX_VALUE))
+						.addComponent(btnNuevaPartida, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnRanking, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnPartidaActual, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(288, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(97)
-					.addComponent(btnPartidaActual, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnNuevaPartida, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnRanking, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(293, Short.MAX_VALUE))
+					.addGap(131)
+					.addComponent(btnPartidaActual, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnNuevaPartida, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnRanking, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(300, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 	}
