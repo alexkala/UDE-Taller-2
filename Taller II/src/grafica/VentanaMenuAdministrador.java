@@ -4,31 +4,27 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.Font;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
-import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaMenuAdministrador {
 
-	private JFrame frame;
+	private JFrame frmMenuAdministrador;
 
 	/**
 	 * Launch the application.
@@ -38,7 +34,7 @@ public class VentanaMenuAdministrador {
 			public void run() {
 				try {
 					VentanaMenuAdministrador window = new VentanaMenuAdministrador();
-					window.frame.setVisible(true);
+					window.frmMenuAdministrador.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -57,26 +53,31 @@ public class VentanaMenuAdministrador {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 732, 557);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		ImageIcon imagen = new ImageIcon(this.getClass().getResource("/imagenes/titulo.png"));
-		System.out.println(imagen);
-		
+		frmMenuAdministrador = new JFrame();
+		frmMenuAdministrador.setTitle("Menu Administrador");
+		frmMenuAdministrador.setResizable(false);
+		frmMenuAdministrador.setBounds(100, 100, 732, 557);
+		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
+		frmMenuAdministrador.getContentPane().add(menuBar, BorderLayout.NORTH);
 		
 		JMenu mnArchivo = new JMenu("Archivo");
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmGuardar = new JMenuItem("Guardar");
+		mntmGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaGuardar guardar = new VentanaGuardar();
+				guardar.setVisible(true);
+				frmMenuAdministrador.setVisible(false);
+			}
+		});
 		mntmGuardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 		mnArchivo.add(mntmGuardar);
 		
 		JPanel panel_2 = new JPanel();
-		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
+		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -91,12 +92,40 @@ public class VentanaMenuAdministrador {
 		panel_2.add(panel_1, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("NUEVA PEL\u00CDCULA");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaNuevaPelicula nuevaPelicula = new VentanaNuevaPelicula();
+				nuevaPelicula.setVisible(true);
+				frmMenuAdministrador.setVisible(false);
+			}
+		});
 		
 		JButton btnNuevoJugador = new JButton("NUEVO JUGADOR");
+		btnNuevoJugador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaNuevoJugador nuevoJugador = new VentanaNuevoJugador();
+				nuevoJugador.setVisible(true);
+				frmMenuAdministrador.setVisible(false);
+			}
+		});
 		
 		JButton btnMostrarPelculas = new JButton("VER PEL\u00CDCULAS");
+		btnMostrarPelculas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaListarPeliculas listaPeliculas = new VentanaListarPeliculas();
+				listaPeliculas.setVisible(true);
+				frmMenuAdministrador.setVisible(false);
+			}
+		});
 		
 		JButton btnMostrarJugadores = new JButton("VER JUGADORES");
+		btnMostrarJugadores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaListarJugadores listaJugadores = new VentanaListarJugadores();
+				listaJugadores.setVisible(true);
+				frmMenuAdministrador.setVisible(false);
+			}
+		});
 		
 		JButton btnVerPartidas = new JButton("VER PARTIDAS");
 		
@@ -133,5 +162,11 @@ public class VentanaMenuAdministrador {
 					.addGap(77))
 		);
 		panel_1.setLayout(gl_panel_1);
+	}
+
+	public void setVisible(boolean b) {
+		frmMenuAdministrador.setVisible(b);
+		// TODO Auto-generated method stub
+		
 	}
 }
