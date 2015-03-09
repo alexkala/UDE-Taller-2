@@ -208,7 +208,13 @@ public class VentanaNuevoJugador {
 	}
 	public void errorJugador(String s){
 		
-		JOptionPane.showMessageDialog(null, "Error.\n" + s, "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null,  s, "Error", JOptionPane.ERROR_MESSAGE);
+		
+	}
+	
+	public void okJugador(String s){
+		
+		JOptionPane.showMessageDialog(null, s, "Jugador Agregado " , JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 	

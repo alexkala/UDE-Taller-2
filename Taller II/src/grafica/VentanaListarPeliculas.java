@@ -1,28 +1,55 @@
 package grafica;
 
+import grafica.controladoras.ControladoraListarPeliculas;
+
 import java.awt.EventQueue;
+
+
+
+
+
+
+
 
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.rmi.RemoteException;
+
+import javax.swing.JTable;
+
+import logica.ValueObjetcs.DataJugador;
+import logica.ValueObjetcs.DataPelicula;
+import logica.exceptions.ExceptionsJugadores;
+import logica.exceptions.ExceptionsPeliculas;
 
 public class VentanaListarPeliculas {
 
 	private JFrame frmAdivinaLaPelcula;
+	private grafica.controladoras.ControladoraListarPeliculas controladoraListarPeliculas;
+	private JTable tablePeliculas;
+	private DefaultTableModel modelo;
 
 	/**
 	 * Launch the application.
@@ -58,6 +85,8 @@ public class VentanaListarPeliculas {
 		frmAdivinaLaPelcula.setBounds(100, 100, 697, 501);
 		frmAdivinaLaPelcula.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		controladoraListarPeliculas = new ControladoraListarPeliculas();
+		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(40, 0, 40, 0));
 		panel.setBackground(Color.DARK_GRAY);
@@ -77,6 +106,19 @@ public class VentanaListarPeliculas {
 		JButton btnMostrar = new JButton("Mostrar");
 		btnMostrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String columnas[] = {"Titulo","Pista"};
+				modelo = new DefaultTableModel(columnas,0);
+				tablePeliculas.setModel(modelo);
+				modelo.fireTableDataChanged();				
+				try {
+					ListarPeliculas();
+				} catch (ExceptionsJugadores e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ExceptionsPeliculas e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -84,7 +126,13 @@ public class VentanaListarPeliculas {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmAdivinaLaPelcula.setVisible(false);
-				VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
+				VentanaMenuAdministrador menuAdministrador = null;
+				try {
+					menuAdministrador = new VentanaMenuAdministrador();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				menuAdministrador.setVisible(true);
 				
 			}
@@ -113,17 +161,13 @@ public class VentanaListarPeliculas {
 		panel_1.setLayout(gl_panel_1);
 		
 		JPanel panel_2 = new JPanel();
-		
-		JScrollBar scrollBar = new JScrollBar();
 		GroupLayout groupLayout = new GroupLayout(frmAdivinaLaPelcula.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(71, Short.MAX_VALUE))
+					.addContainerGap(99, Short.MAX_VALUE))
 				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
 		);
@@ -134,15 +178,41 @@ public class VentanaListarPeliculas {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(30, Short.MAX_VALUE))
 		);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		tablePeliculas = new JTable();
+		panel_2.add(tablePeliculas, BorderLayout.CENTER);
 		frmAdivinaLaPelcula.getContentPane().setLayout(groupLayout);
+		
+		panel_2.add(tablePeliculas.getTableHeader(),BorderLayout.PAGE_START);
+		panel_2.add(tablePeliculas,BorderLayout.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane(tablePeliculas);
+		panel_2.add(scrollPane, BorderLayout.CENTER);
+		
+		tablePeliculas.getTableHeader().setReorderingAllowed(false);
+		tablePeliculas.setEnabled(false);
 	}
 
 	public void setVisible(boolean b) {
-		frmAdivinaLaPelcula.setVisible(b);	
+		frmAdivinaLaPelcula.setVisible(b);
+		// TODO Auto-generated method stub		
+	}
+	
+public void ListarPeliculas() throws ExceptionsJugadores, ExceptionsPeliculas{
+		
+		try 
+		{
+			DataPelicula data[] = controladoraListarPeliculas.listaPeliculas();
+			for(int i=0;i<data.length;i++)
+			{
+				Object[] nuevaFila = {data[i].getTitulo(),data[i].getPista()};
+				modelo.addRow(nuevaFila);
+			}
+		} 
+		catch (RemoteException e) { e.printStackTrace(); }
 	}
 }

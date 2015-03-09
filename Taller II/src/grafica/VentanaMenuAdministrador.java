@@ -35,8 +35,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
-
 
 import logica.exceptions.ExceptionsJugadores;
 
@@ -73,6 +71,12 @@ public class VentanaMenuAdministrador {
 	 * @throws IOException 
 	 */
 
+
+	private void initialize() {
+		frmMenuAdministrador = new JFrame();
+		frmMenuAdministrador.setTitle("Menu Administrador");
+		frmMenuAdministrador.setResizable(false);
+		frmMenuAdministrador.setBounds(100, 100, 732, 557);
 
 		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -174,6 +178,9 @@ public class VentanaMenuAdministrador {
 				}
 			}
 		});
+
+		
+		
 	}
 
 	public void setVisible(boolean b) {

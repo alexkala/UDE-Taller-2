@@ -29,10 +29,12 @@ import java.rmi.RemoteException;
 
 
 
+
 import logica.ValueObjetcs.DataJugador;
 import logica.exceptions.ExceptionsJugadores;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
 
 public class VentanaListarJugadores {
@@ -106,7 +108,13 @@ public class VentanaListarJugadores {
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmListarJugadores.setVisible(false);
-				VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
+				VentanaMenuAdministrador menuAdministrador = null;
+				try {
+					menuAdministrador = new VentanaMenuAdministrador();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				menuAdministrador.setVisible(true);
 				
 			}
@@ -180,6 +188,8 @@ public class VentanaListarJugadores {
 		
 		JScrollPane scrollPane = new JScrollPane(tableJugadores);
 		panel_2.add(scrollPane, BorderLayout.CENTER);
+		tableJugadores.getTableHeader().setReorderingAllowed(false);
+		tableJugadores.setEnabled(false);
 	}
 
 	public void setVisible(boolean b) {

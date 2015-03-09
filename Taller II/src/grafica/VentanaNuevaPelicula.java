@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
@@ -25,6 +26,7 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import logica.exceptions.ExceptionsPeliculas;
@@ -93,9 +95,15 @@ public class VentanaNuevaPelicula {
 							} catch (RemoteException | ExceptionsPeliculas e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
-						}
-					}
+						}else
+							errorPelicula("Debe ingresar una pista.");
+					}else
+						errorPelicula("Debe ingresar un titulo.");
+					
 				}
 			});
 			
@@ -103,7 +111,13 @@ public class VentanaNuevaPelicula {
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					frmNuevaPelicula.setVisible(false);
-					VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
+					VentanaMenuAdministrador menuAdministrador = null;
+					try {
+						menuAdministrador = new VentanaMenuAdministrador();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					menuAdministrador.setVisible(true);
 					
 				}
@@ -241,4 +255,16 @@ public class VentanaNuevaPelicula {
 	public void setVisible (boolean visible) {
 		frmNuevaPelicula.setVisible(visible);
 	}
+	
+public void errorPelicula(String s){
+		
+		JOptionPane.showMessageDialog(null, "Error.\n" + s, "Error", JOptionPane.ERROR_MESSAGE);
+		
+	}
+
+public void okPelicula(String s){
+	
+	JOptionPane.showMessageDialog(null, s, "Pelicula Agregada " , JOptionPane.INFORMATION_MESSAGE);
+	
+}
 }
