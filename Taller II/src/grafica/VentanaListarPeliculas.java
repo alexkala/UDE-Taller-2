@@ -142,7 +142,6 @@ public class VentanaListarPeliculas {
 	}
 
 	public void setVisible(boolean b) {
-		frmAdivinaLaPelcula.setVisible(b);
-		// TODO Auto-generated method stub		
+		frmAdivinaLaPelcula.setVisible(b);	
 	}
 }
