@@ -1,3 +1,4 @@
+
 package grafica;
 
 import grafica.controladoras.ControladoraNuevoJugador;
@@ -24,6 +25,7 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import javax.swing.JPasswordField;
@@ -109,7 +111,7 @@ public class VentanaNuevoJugador {
 							menuAdministrador.setVisible(true);
 							frmNuevoJugador.setVisible(false);
 							
-						}catch (RemoteException | ExceptionsJugadores | NullPointerException e1) {
+						}catch (ExceptionsJugadores | NullPointerException | IOException e1) {
 								e1.printStackTrace();
 						}	
 					}else
@@ -124,7 +126,13 @@ public class VentanaNuevoJugador {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmNuevoJugador.setVisible(false);
-				VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
+				VentanaMenuAdministrador menuAdministrador = null;
+				try {
+					menuAdministrador = new VentanaMenuAdministrador();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				menuAdministrador.setVisible(true);
 			}
 		});

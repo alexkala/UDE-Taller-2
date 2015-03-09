@@ -1,9 +1,6 @@
 package grafica.controladoras;
 
-import java.awt.event.ActionListener;
-
 import java.rmi.RemoteException;
-
 import servidor.ObjectCliente;
 import grafica.VentanaNuevoJugador;
 import logica.IFachadaCapaLogica;

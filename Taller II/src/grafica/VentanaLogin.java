@@ -60,8 +60,6 @@ import logica.exceptions.ExceptionsJugadores;
 
 import javax.swing.UIManager;
 
-import net.miginfocom.swing.MigLayout;
-
 
 public class VentanaLogin {
 
