@@ -13,7 +13,7 @@ import logica.exceptions.ExceptionsPersistencia;
 public class Servidor {
 	public static void main(String[] args) throws ClassNotFoundException, IOException, ExceptionsPersistencia {
 		try {
-			LocateRegistry.createRegistry(1099);
+			LocateRegistry.createRegistry(Integer.parseInt((ManageString.getProperty("puerto"))));
 			// instancio mi Objeto Remoto y lo publico
 			FachadaCapaLogica.getInstancia();
 			System.out.println ("Antes de publicarlo");

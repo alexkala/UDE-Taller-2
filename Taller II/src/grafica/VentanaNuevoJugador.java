@@ -17,6 +17,7 @@ import java.awt.Font;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -97,7 +98,7 @@ public class VentanaNuevoJugador {
 		JButton btnConfirmar = new JButton("Aceptar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!textField.getText().isEmpty())	{
+				if(!textField.getText().isEmpty()){
 					if(!(passwordField.getPassword().length==0)){
 						String nombre = textField.getText();
 						char[] array = passwordField.getPassword();
@@ -111,8 +112,10 @@ public class VentanaNuevoJugador {
 						}catch (RemoteException | ExceptionsJugadores | NullPointerException e1) {
 								e1.printStackTrace();
 						}	
-					}
-				}
+					}else
+						errorJugador("Necesita un codigo para crear un jugador.");
+				}else
+					errorJugador("Necesita un nombre para crear un jugador.");
 			}
 		
 		});
@@ -194,6 +197,11 @@ public class VentanaNuevoJugador {
 	
 	public void setVisible (boolean visible) {
 		frmNuevoJugador.setVisible(visible);
+	}
+	public void errorJugador(String s){
+		
+		JOptionPane.showMessageDialog(null, "Error.\n" + s, "Error", JOptionPane.ERROR_MESSAGE);
+		
 	}
 	
 	/*

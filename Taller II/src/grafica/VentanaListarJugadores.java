@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
+import javax.swing.JScrollPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 
@@ -19,20 +20,19 @@ import java.awt.Font;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
 
-import javax.swing.SwingConstants;
 
 
 
 import logica.ValueObjetcs.DataJugador;
 import logica.exceptions.ExceptionsJugadores;
+
+import java.awt.BorderLayout;
 
 
 public class VentanaListarJugadores {
@@ -76,17 +76,7 @@ public class VentanaListarJugadores {
 		frmListarJugadores.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraListarJugadores= new ControladoraListarJugadores();
-		
-		tableJugadores = new JTable();
-		String []columnas = {"Nombre","Codigo","Puntos","CantAciertos","CantErrores"};
-		
-		
-		
-		
-		String [][]matrizDatos = {};
-		modelo = new DefaultTableModel(matrizDatos, columnas);
-		tableJugadores.setModel(modelo);
-		
+			
 		JPanel panel_1 = new JPanel();
 		panel_1.setForeground(Color.WHITE);
 		panel_1.setBackground(Color.LIGHT_GRAY);
@@ -98,6 +88,12 @@ public class VentanaListarJugadores {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					String columnas[] = {"Nombre","Codigo","Puntos","CantAciertos","CantErrores"};
+					modelo = new DefaultTableModel(columnas,0);
+					tableJugadores.setModel(modelo);
+					modelo.fireTableDataChanged();
+					
+					
 					ListarJugadores();
 				} catch (ExceptionsJugadores e1) {
 					// TODO Auto-generated catch block
@@ -140,8 +136,6 @@ public class VentanaListarJugadores {
 		
 		JPanel panel_2 = new JPanel();
 		
-		JScrollBar scrollBar = new JScrollBar();
-		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(40, 0, 40, 0));
 		panel.setBackground(Color.DARK_GRAY);
@@ -157,9 +151,7 @@ public class VentanaListarJugadores {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(17)
-							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 580, GroupLayout.PREFERRED_SIZE))
 						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 691, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -171,24 +163,23 @@ public class VentanaListarJugadores {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 247, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(30, Short.MAX_VALUE))
 		);
 		
-		tableJugadores = new JTable();
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addComponent(tableJugadores, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-		);
-		gl_panel_2.setVerticalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addComponent(tableJugadores, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-		);
-		panel_2.setLayout(gl_panel_2);
+				
+		
 		frmListarJugadores.getContentPane().setLayout(groupLayout);
+		
+		tableJugadores = new JTable();
+		
+		
+		panel_2.setLayout(new BorderLayout());
+		panel_2.add(tableJugadores.getTableHeader(),BorderLayout.PAGE_START);
+		panel_2.add(tableJugadores,BorderLayout.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane(tableJugadores);
+		panel_2.add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public void setVisible(boolean b) {

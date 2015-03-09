@@ -2,6 +2,7 @@ package grafica;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -43,6 +44,7 @@ public class VentanaListarPeliculas {
 	 */
 	public VentanaListarPeliculas() {
 		initialize();
+		
 	}
 
 	/**
@@ -141,8 +143,6 @@ public class VentanaListarPeliculas {
 
 	public void setVisible(boolean b) {
 		frmAdivinaLaPelcula.setVisible(b);
-		
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 }

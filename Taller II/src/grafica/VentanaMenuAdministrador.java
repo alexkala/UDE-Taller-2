@@ -4,9 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -17,10 +21,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+
+import logica.exceptions.ExceptionsJugadores;
 
 public class VentanaMenuAdministrador {
 
@@ -121,7 +129,8 @@ public class VentanaMenuAdministrador {
 		JButton btnMostrarJugadores = new JButton("VER JUGADORES");
 		btnMostrarJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaListarJugadores listaJugadores = new VentanaListarJugadores();
+				VentanaListarJugadores listaJugadores = null;
+				listaJugadores = new VentanaListarJugadores();
 				listaJugadores.setVisible(true);
 				frmMenuAdministrador.setVisible(false);
 			}
@@ -130,6 +139,18 @@ public class VentanaMenuAdministrador {
 		JButton btnVerPartidas = new JButton("VER PARTIDAS");
 		
 		JButton btnRanking = new JButton("RANKING");
+		btnRanking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaRanking ventanaRanking;
+				try {
+					ventanaRanking = new VentanaRanking();
+					ventanaRanking.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
