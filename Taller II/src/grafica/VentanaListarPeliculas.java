@@ -2,6 +2,7 @@ package grafica;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -17,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class VentanaListarPeliculas {
 
@@ -141,8 +143,6 @@ public class VentanaListarPeliculas {
 
 	public void setVisible(boolean b) {
 		frmAdivinaLaPelcula.setVisible(b);
-		
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 }

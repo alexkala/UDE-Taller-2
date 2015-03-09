@@ -3,37 +3,41 @@ package grafica;
 import grafica.auxiliares.BackgroundPanel;
 import grafica.auxiliares.Constantes;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
-
-import javax.swing.SwingConstants;
-
-import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
+
+import logica.exceptions.ExceptionsJugadores;
 
 public class VentanaMenuAdministrador {
 
@@ -74,12 +78,6 @@ public class VentanaMenuAdministrador {
 		frmMenuAdministrador.setResizable(false);
 		frmMenuAdministrador.setBounds(100, 100, 800, 700);
 
-	private void initialize() {
-		frmMenuAdministrador = new JFrame();
-		frmMenuAdministrador.setTitle("Menu Administrador");
-		frmMenuAdministrador.setResizable(false);
-		frmMenuAdministrador.setBounds(100, 100, 732, 557);
-
 		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -100,18 +98,19 @@ public class VentanaMenuAdministrador {
 		mnArchivo.add(mntmGuardar);
 		
 
-		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
-		BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
-		frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
-		panelContenido.setLayout(new BorderLayout(0, 0));
+		//Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
+		//BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
+		//frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
+		//panelContenido.setLayout(new BorderLayout(0, 0));
+
 
 		JPanel panel_2 = new JPanel();
-		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.CENTER);
+		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.SOUTH);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		
 		JPanel panelArriba = new JPanel();
-		panelContenido.add(panelArriba, BorderLayout.NORTH);
+		//panelContenido.add(panelArriba, BorderLayout.NORTH);
 		panelArriba.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelTitulo = new JPanel();
@@ -125,7 +124,7 @@ public class VentanaMenuAdministrador {
 		panelTitulo.add(lblTitulo);
 		
 		JPanel panelMenu = new JPanel();
-		panelContenido.add(panelMenu, BorderLayout.CENTER);
+		//panelContenido.add(panelMenu, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("NUEVA PEL\u00CDCULA");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -166,38 +165,22 @@ public class VentanaMenuAdministrador {
 		JButton btnVerPartidas = new JButton("VER PARTIDAS");
 		
 		JButton btnRanking = new JButton("RANKING");
-		GroupLayout gl_panelMenu = new GroupLayout(panelMenu);
-		gl_panelMenu.setHorizontalGroup(
-			gl_panelMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelMenu.createSequentialGroup()
-					.addGap(273)
-					.addGroup(gl_panelMenu.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(btnRanking, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnVerPartidas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnMostrarJugadores, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnMostrarPelculas, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNuevoJugador, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(273, Short.MAX_VALUE))
-		);
-		gl_panelMenu.setVerticalGroup(
-			gl_panelMenu.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelMenu.createSequentialGroup()
-					.addGap(61)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnNuevoJugador, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnMostrarPelculas, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnMostrarJugadores, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnVerPartidas, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnRanking, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(191, Short.MAX_VALUE))
-		);
-		panelMenu.setLayout(gl_panelMenu);
+
+		btnRanking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaRanking ventanaRanking;
+				try {
+					ventanaRanking = new VentanaRanking();
+					ventanaRanking.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		
+		
 	}
 
 	public void setVisible(boolean b) {
