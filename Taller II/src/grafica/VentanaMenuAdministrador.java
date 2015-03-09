@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+<<<<<<< HEAD
 
 import javax.swing.SwingConstants;
 
@@ -66,11 +67,19 @@ public class VentanaMenuAdministrador {
 	 * Initialize the contents of the frame.
 	 * @throws IOException 
 	 */
+
 	private void initialize() throws IOException {
 		frmMenuAdministrador = new JFrame();
 		frmMenuAdministrador.setTitle("Menu Administrador");
 		frmMenuAdministrador.setResizable(false);
 		frmMenuAdministrador.setBounds(100, 100, 800, 700);
+
+	private void initialize() {
+		frmMenuAdministrador = new JFrame();
+		frmMenuAdministrador.setTitle("Menu Administrador");
+		frmMenuAdministrador.setResizable(false);
+		frmMenuAdministrador.setBounds(100, 100, 732, 557);
+
 		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -90,10 +99,16 @@ public class VentanaMenuAdministrador {
 		mntmGuardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 		mnArchivo.add(mntmGuardar);
 		
+
 		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
 		BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
 		frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
 		panelContenido.setLayout(new BorderLayout(0, 0));
+
+		JPanel panel_2 = new JPanel();
+		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new BorderLayout(0, 0));
+
 		
 		JPanel panelArriba = new JPanel();
 		panelContenido.add(panelArriba, BorderLayout.NORTH);
@@ -187,11 +202,5 @@ public class VentanaMenuAdministrador {
 
 	public void setVisible(boolean b) {
 		frmMenuAdministrador.setVisible(b);
-	}
-
-	public void setVisible(boolean b) {
-		frmMenuAdministrador.setVisible(b);
-		// TODO Auto-generated method stub
-		
 	}
 }
