@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
 
+
 import logica.exceptions.ExceptionsJugadores;
 
 public class VentanaMenuAdministrador {
@@ -72,11 +73,6 @@ public class VentanaMenuAdministrador {
 	 * @throws IOException 
 	 */
 
-	private void initialize() throws IOException {
-		frmMenuAdministrador = new JFrame();
-		frmMenuAdministrador.setTitle("Menu Administrador");
-		frmMenuAdministrador.setResizable(false);
-		frmMenuAdministrador.setBounds(100, 100, 800, 700);
 
 		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -155,7 +151,8 @@ public class VentanaMenuAdministrador {
 		JButton btnMostrarJugadores = new JButton("VER JUGADORES");
 		btnMostrarJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaListarJugadores listaJugadores = new VentanaListarJugadores();
+				VentanaListarJugadores listaJugadores = null;
+				listaJugadores = new VentanaListarJugadores();
 				listaJugadores.setVisible(true);
 				frmMenuAdministrador.setVisible(false);
 			}

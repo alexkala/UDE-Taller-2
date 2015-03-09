@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -25,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -35,7 +37,7 @@ import grafica.controladoras.ControladoraGuardar;
 public class VentanaGuardar {
 
 	private JFrame frmGuardar;
-	private ControladoraGuardar ControladoraGuardar;
+	private ControladoraGuardar ControladoraGuardarI;
 
 	/**
 	 * Launch the application.
@@ -59,10 +61,9 @@ public class VentanaGuardar {
 		frmGuardar.setBounds(100, 100, 422, 349);
 		frmGuardar.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGuardar.getContentPane().setBackground(Color.WHITE);
-		
-		
-		
 		frmGuardar.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		ControladoraGuardarI = new ControladoraGuardar();
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
@@ -93,10 +94,6 @@ public class VentanaGuardar {
 		body.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblError = new JLabel("Mensaje de error o mensaje de exito");
-		lblError.setForeground(Color.RED);
-		panel.add(lblError, BorderLayout.SOUTH);
-		
 		JProgressBar progressBar = new JProgressBar();
 		panel.add(progressBar, BorderLayout.CENTER);
 		
@@ -112,14 +109,19 @@ public class VentanaGuardar {
 		JButton btnGuardar = new JButton("GUARDAR");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-	
-				JOptionPane.showMessageDialog(null, "Error.\n Nentro metodo.\n", "Error", JOptionPane.ERROR_MESSAGE);
-				ControladoraGuardar.guardarCambios();
-				
+			
+				ControladoraGuardarI.guardarCambios();		
 			}
 		});
 		
 		JButton btnCancelar = new JButton("CANCELAR");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmGuardar.setVisible(false);
+				VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
+				menuAdministrador.setVisible(true);
+			}
+		});
 		
 		GroupLayout gl_barraAbajo = new GroupLayout(barraAbajo);
 		gl_barraAbajo.setHorizontalGroup(
@@ -128,8 +130,8 @@ public class VentanaGuardar {
 					.addGap(64)
 					.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
 					.addGap(84)
-					.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(63, Short.MAX_VALUE))
+					.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(52, Short.MAX_VALUE))
 		);
 		gl_barraAbajo.setVerticalGroup(
 			gl_barraAbajo.createParallelGroup(Alignment.LEADING)
@@ -149,4 +151,14 @@ public class VentanaGuardar {
 		frmGuardar.setVisible(visible);
 		
 	}
-}
+	
+	public void ioMensaje(){
+		
+		JOptionPane.showMessageDialog(null, "Error.\n Entro al intenar guardar datos.\n", "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	public void guardadoOK(){
+		
+		JOptionPane.showMessageDialog(null, "Guardado OK", "", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	}

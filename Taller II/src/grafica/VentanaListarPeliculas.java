@@ -45,6 +45,7 @@ public class VentanaListarPeliculas {
 	 */
 	public VentanaListarPeliculas() {
 		initialize();
+		
 	}
 
 	/**
