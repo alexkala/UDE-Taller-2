@@ -103,7 +103,6 @@ public class VentanaMenuAdministrador {
 		//frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
 		//panelContenido.setLayout(new BorderLayout(0, 0));
 
-
 		JPanel panel_2 = new JPanel();
 		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.SOUTH);
 		panel_2.setLayout(new BorderLayout(0, 0));
@@ -178,9 +177,6 @@ public class VentanaMenuAdministrador {
 				}
 			}
 		});
-
-		
-		
 	}
 
 	public void setVisible(boolean b) {
