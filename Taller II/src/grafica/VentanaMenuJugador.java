@@ -94,6 +94,7 @@ public class VentanaMenuJugador {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 800, 700);
+		frame.setTitle("¡Adivina la película! - Menú principal");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraMenuJugador = new ControladoraMenuJugador();

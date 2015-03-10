@@ -92,6 +92,7 @@ public class VentanaPartida {
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("¡Adivina la película!");
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		

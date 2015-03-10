@@ -2,6 +2,7 @@ package grafica;
 
 import grafica.auxiliares.BackgroundPanel;
 import grafica.auxiliares.Constantes;
+import grafica.controladoras.ControladoraGuardar;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -35,14 +36,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
-
 
 import logica.exceptions.ExceptionsJugadores;
 
 public class VentanaMenuAdministrador {
 
 	private JFrame frmMenuAdministrador;
+	private ControladoraGuardar controladoraGuardar;	
 
 	/**
 	 * Launch the application.
@@ -74,7 +74,15 @@ public class VentanaMenuAdministrador {
 	 */
 
 
+	private void initialize() throws IOException {
+		frmMenuAdministrador = new JFrame();
+		frmMenuAdministrador.setTitle("¡Adivina la película! - Menu Administrador");
+		frmMenuAdministrador.setResizable(false);
+		frmMenuAdministrador.setBounds(100, 100, 800, 700);
+
 		frmMenuAdministrador.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		controladoraGuardar = new ControladoraGuardar();
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmMenuAdministrador.getContentPane().add(menuBar, BorderLayout.NORTH);
@@ -85,19 +93,22 @@ public class VentanaMenuAdministrador {
 		JMenuItem mntmGuardar = new JMenuItem("Guardar");
 		mntmGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controladoraGuardar.guardarCambios();
+				/*
 				VentanaGuardar guardar = new VentanaGuardar();
 				guardar.setVisible(true);
 				frmMenuAdministrador.setVisible(false);
+				*/
 			}
 		});
 		mntmGuardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_MASK));
 		mnArchivo.add(mntmGuardar);
 		
 
-		//Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
-		//BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
-		//frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
-		//panelContenido.setLayout(new BorderLayout(0, 0));
+		Image backgroundImage = ImageIO.read(new File(Constantes.RUTA_BACKGROUND));
+		BackgroundPanel panelContenido = new BackgroundPanel(backgroundImage);
+		frmMenuAdministrador.getContentPane().add(panelContenido, BorderLayout.CENTER);
+		panelContenido.setLayout(new BorderLayout(0, 0));
 
 		JPanel panel_2 = new JPanel();
 		frmMenuAdministrador.getContentPane().add(panel_2, BorderLayout.SOUTH);
@@ -105,13 +116,13 @@ public class VentanaMenuAdministrador {
 
 		
 		JPanel panelArriba = new JPanel();
-		//panelContenido.add(panelArriba, BorderLayout.NORTH);
+		panelContenido.add(panelArriba, BorderLayout.NORTH);
 		panelArriba.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelTitulo = new JPanel();
 		panelTitulo.setBackground(new Color(231, 76, 60));
 		panelArriba.add(panelTitulo);
-		panelTitulo.setBorder(new EmptyBorder(20, 20, 20, 20));
+		panelTitulo.setBorder(new EmptyBorder(15, 20, 15, 20));
 		
 		JLabel lblTitulo = new JLabel("");
 		lblTitulo.setIcon(new ImageIcon(Constantes.RUTA_TITULO));
@@ -119,49 +130,78 @@ public class VentanaMenuAdministrador {
 		panelTitulo.add(lblTitulo);
 		
 		JPanel panelMenu = new JPanel();
-		//panelContenido.add(panelMenu, BorderLayout.CENTER);
+		panelContenido.add(panelMenu, BorderLayout.CENTER);
 		
-		JButton btnNewButton = new JButton("NUEVA PEL\u00CDCULA");
-		btnNewButton.addActionListener(new ActionListener() {
+		// --------------
+		// NUEVA PELICULA
+		// --------------
+		JButton btnNuevaPelicula = new JButton("NUEVA PEL\u00CDCULA");
+		btnNuevaPelicula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaNuevaPelicula nuevaPelicula = new VentanaNuevaPelicula();
 				nuevaPelicula.setVisible(true);
-				frmMenuAdministrador.setVisible(false);
+				//frmMenuAdministrador.setVisible(false);
 			}
 		});
 		
+		// -------------
+		// NUEVO JUGADOR
+		// -------------
 		JButton btnNuevoJugador = new JButton("NUEVO JUGADOR");
 		btnNuevoJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaNuevoJugador nuevoJugador = new VentanaNuevoJugador();
 				nuevoJugador.setVisible(true);
-				frmMenuAdministrador.setVisible(false);
+				//frmMenuAdministrador.setVisible(false);
 			}
 		});
 		
+		// -------------
+		// VER PELICULAS
+		// -------------		
 		JButton btnMostrarPelculas = new JButton("VER PEL\u00CDCULAS");
 		btnMostrarPelculas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaListarPeliculas listaPeliculas = new VentanaListarPeliculas();
 				listaPeliculas.setVisible(true);
-				frmMenuAdministrador.setVisible(false);
+				//frmMenuAdministrador.setVisible(false);
 			}
 		});
 		
+		// -------------
+		// VER JUGADORES
+		// -------------
 		JButton btnMostrarJugadores = new JButton("VER JUGADORES");
 		btnMostrarJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaListarJugadores listaJugadores = null;
 				listaJugadores = new VentanaListarJugadores();
 				listaJugadores.setVisible(true);
-				frmMenuAdministrador.setVisible(false);
+				//frmMenuAdministrador.setVisible(false);
 			}
 		});
 		
+		// ------------
+		// VER PARTIDAS
+		// ------------
 		JButton btnVerPartidas = new JButton("VER PARTIDAS");
+		btnVerPartidas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaListarPartidas listarPartidas;
+				try {
+					listarPartidas = new VentanaListarPartidas();
+					listarPartidas.setVisible(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
+		// -------
+		// RANKING
+		// -------
 		JButton btnRanking = new JButton("RANKING");
-
 		btnRanking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaRanking ventanaRanking;
@@ -169,11 +209,48 @@ public class VentanaMenuAdministrador {
 					ventanaRanking = new VentanaRanking();
 					ventanaRanking.setVisible(true);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
+		
+		GroupLayout gl_panelMenu = new GroupLayout(panelMenu);
+		gl_panelMenu.setHorizontalGroup(
+			gl_panelMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelMenu.createSequentialGroup()
+					.addGap(296)
+					.addGroup(gl_panelMenu.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnMostrarPelculas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNuevoJugador, 0, 0, Short.MAX_VALUE)
+						.addComponent(btnMostrarJugadores, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnVerPartidas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnRanking, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNuevaPelicula, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(295, Short.MAX_VALUE))
+		);
+		gl_panelMenu.setVerticalGroup(
+			gl_panelMenu.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelMenu.createSequentialGroup()
+					.addGap(67)
+					.addComponent(btnNuevaPelicula, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNuevoJugador, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnMostrarPelculas, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnMostrarJugadores, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnVerPartidas, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnRanking, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(203, Short.MAX_VALUE))
+		);
+		panelMenu.setLayout(gl_panelMenu);
+
+
+
+		
+		
 	}
 
 	public void setVisible(boolean b) {

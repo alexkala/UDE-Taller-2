@@ -68,7 +68,7 @@ public class VentanaRanking {
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-		frame.setTitle("Ranking");
+		frame.setTitle("¡Adivina la película! - Ranking");
 		frame.setAlwaysOnTop(true);
 		frame.setBounds(100, 100, 800, 400);
 		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,14 +94,6 @@ public class VentanaRanking {
 		lblTitulo.setIcon(new ImageIcon(Constantes.RUTA_TITULO_RANKING));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblTitulo);
-		/*
-		table_1 = new JTable();
-		table_1.setEnabled(false);
-		table_1.setDragEnabled(true);
-		panel_1.add(table_1);
-		*/
-		//JScrollPane scrollPane = new JScrollPane();
-		//frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 	
 		String[] columnas = {"POSICION",
@@ -113,34 +105,11 @@ public class VentanaRanking {
 		
 		try {
 			Object[][] data = controladoraRanking.listarRanking();
-			if (data != null) {
-				table = new JTable(data, columnas);
-				table.getTableHeader().setReorderingAllowed(false);
-				table.setEnabled(false);
-				JScrollPane scrollPane = new JScrollPane(table);
-				panelContenido.add(scrollPane, BorderLayout.CENTER);
-			} else {
-				
-				Object[] options = {"NUEVA PARTIDA",
-				"MENU"};
-				int opcion = JOptionPane.showOptionDialog(frame,
-						"NO NULL",
-						"Fin de la partida",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,		//do not use a custom Icon
-						options,	//the titles of buttons
-						null);		//default button title
-			}
-			
-			//table = new JTable(data, columnas);
-			//JScrollPane scrollPane2 = new JScrollPane(table);
-			//table.setFillsViewportHeight(true);
-			//frame.getContentPane().add(scrollPane2, BorderLayout.CENTER);
-			/*
-			JPanel panel_1 = new JPanel();
-			frame.getContentPane().add(panel_1, BorderLayout.CENTER);
-			*/
+			table = new JTable(data, columnas);
+			table.getTableHeader().setReorderingAllowed(false);
+			table.setEnabled(false);
+			JScrollPane scrollPane = new JScrollPane(table);
+			panelContenido.add(scrollPane, BorderLayout.CENTER);
 		} catch (ExceptionsPersistencia e){
 			Object[] options = {"OK"};
 			JOptionPane.showOptionDialog(frame,
@@ -158,30 +127,6 @@ public class VentanaRanking {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
-		
-		/*
-		TableColumn column = null;
-		for (int i = 0; i < 6; i++) {
-		    switch (i) {
-			case 0:
-			{
-				column = table.getColumnModel().getColumn(i);
-				column.setPreferredWidth(50);
-			}
-				break;
-
-			default:
-			{
-				column = table.getColumnModel().getColumn(i);
-				column.setPreferredWidth(100);
-			}
-				break;
-		    }	
-		}
-		*/
-		
 
 	}
 

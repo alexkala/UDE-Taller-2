@@ -99,7 +99,7 @@ public class VentanaLogin {
 	private void initialize() throws IOException {
 		frmLogin = new JFrame();
 		frmLogin.getContentPane().setBackground(new Color(247, 247, 247));
-		frmLogin.setTitle("Adivina la pel\u00EDcula - Login");
+		frmLogin.setTitle("¡Adivina la película! - Login");
 		frmLogin.setResizable(false);
 		frmLogin.setBounds(100, 100, 800, 700);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

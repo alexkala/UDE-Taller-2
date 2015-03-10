@@ -27,8 +27,10 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.JProgressBar;
 
@@ -37,7 +39,7 @@ import grafica.controladoras.ControladoraGuardar;
 public class VentanaGuardar {
 
 	private JFrame frmGuardar;
-	private ControladoraGuardar ControladoraGuardarI;
+	private ControladoraGuardar controladoraGuardar;
 
 	/**
 	 * Launch the application.
@@ -63,7 +65,7 @@ public class VentanaGuardar {
 		frmGuardar.getContentPane().setBackground(Color.WHITE);
 		frmGuardar.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		ControladoraGuardarI = new ControladoraGuardar();
+		controladoraGuardar = new ControladoraGuardar();
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
@@ -110,7 +112,7 @@ public class VentanaGuardar {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				ControladoraGuardarI.guardarCambios();		
+				controladoraGuardar.guardarCambios();		
 			}
 		});
 		
@@ -118,8 +120,15 @@ public class VentanaGuardar {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frmGuardar.setVisible(false);
-				VentanaMenuAdministrador menuAdministrador = new VentanaMenuAdministrador();
-				menuAdministrador.setVisible(true);
+				VentanaMenuAdministrador menuAdministrador;
+				try {
+					menuAdministrador = new VentanaMenuAdministrador();
+					menuAdministrador.setVisible(true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		

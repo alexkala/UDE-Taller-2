@@ -17,17 +17,17 @@ public class ControladoraGuardar {
 	{
 		fachada = ObjectCliente.Inicializar();
 		try {
-			window= new  VentanaGuardar();
+			//window = new  VentanaGuardar();
 			fachada.guardarCambios();
-			window.guardadoOK();
+			//window.guardadoOK();
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			window.ioMensaje();
+			e.printStackTrace();
+			//window.ioMensaje();
 		}
 	}
 }
