@@ -41,7 +41,7 @@ public class ControladoraListarPartidas {
 				} else {
 					data[i][3] = new String("No");
 				}
-				if (elem.isAcertada()) {										// FINALIZADA
+				if (elem.isFinalizada()) {										// FINALIZADA
 					data[i][4] = new String("Si");					
 				} else {
 					data[i][4] = new String("No");

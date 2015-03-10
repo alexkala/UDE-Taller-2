@@ -247,6 +247,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		MonitorJugadores.comienzoEscritura();
 		c = Character.toUpperCase(c);
 		int i = 0;
+		int puntajeJugador=0;
 		int puntaje = partida.getPuntajePartida();
 		boolean puntajeSumado = false;
 		String textoAdivinado = partida.getTextoAdivinado();
@@ -263,6 +264,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 					if (!puntajeSumado) { // suma 1 punto
 						puntaje = puntaje + 1;
 						puntajeSumado = true;
+						puntajeJugador=1;
 						//jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 					}
 				} else { // letra erronea
@@ -270,6 +272,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 						System.out.println("Letra erronea!");
 						puntaje = puntaje - 5;
 						puntajeSumado = true;
+						puntajeJugador=-5;
 						//jugador.setCantErrores(jugador.getCantErrores() + 1);
 					}
 				}
@@ -283,12 +286,13 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto adivinado de nuevo a String
 		partida.setTextoAdivinado(textoAdivinado);
 		partida.setPuntajePartida(puntaje);
+		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + puntajeJugador);
 		
 		if (textoAdivinado.equals(tituloPelicula)) {					// adivino la pelicula
 			System.out.println("Película adivinada!");
 			partida.setAcertada(true);
 			partida.setFinalizada(true);
-			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+			
 			jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 		}
 		MonitorJugadores.terminoEscritura();
@@ -298,7 +302,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	//Requerimiento 11: Arriesgar Pelicula
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores {
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
-
+		int puntaje=0;
 		MonitorJugadores.comienzoEscritura();
 		Jugador jugador = jugadores.get(nombreJugador);
 
@@ -314,9 +318,11 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			if (ManageString.faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
 				System.out.println("Falta una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 1);
+				puntaje=1;
 			} else {														// falta mas de 1 letra (suma 50)
 				System.out.println("Falta mas de una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 50);
+				puntaje=50;
 			}
 			partida.setAcertada(true);
 			partida.setTextoAdivinado(tituloPelicula);
@@ -327,10 +333,12 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			partida.setPuntajePartida(partida.getPuntajePartida() - 50);
 			partida.setAcertada(false);
 			jugador.setCantErrores(jugador.getCantErrores() + 1);
+			puntaje=-50;
 			System.out.println("Película errada! :(");
 		}
+
 		partida.setFinalizada(true);
-		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + puntaje);
 		MonitorJugadores.terminoEscritura();
 		return partida;
 	}
