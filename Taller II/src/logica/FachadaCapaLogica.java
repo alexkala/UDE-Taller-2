@@ -101,6 +101,9 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	// Requerimiento 3: Registrar Nuevo Jugador
 	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
 		MonitorJugadores.comienzoEscritura();
+		String s = j.getNombre();
+		s = ManageString.corregirTexto(s);
+		j.setNombre(s);
 		if (jugadores.containsKey(j.getClave())) {
 			MonitorJugadores.terminoEscritura();
 			throw new ExceptionsJugadores("Error: ya existe  el jugador");
@@ -260,14 +263,14 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 					if (!puntajeSumado) { // suma 1 punto
 						puntaje = puntaje + 1;
 						puntajeSumado = true;
-						jugador.setCantAciertos(jugador.getCantAciertos() + 1);
+						//jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 					}
 				} else { // letra erronea
 					if (!puntajeSumado) { // resta 5 puntos
 						System.out.println("Letra erronea!");
 						puntaje = puntaje - 5;
 						puntajeSumado = true;
-						jugador.setCantErrores(jugador.getCantErrores() + 1);
+						//jugador.setCantErrores(jugador.getCantErrores() + 1);
 					}
 				}
 			}
@@ -286,6 +289,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			partida.setAcertada(true);
 			partida.setFinalizada(true);
 			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+			jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 		}
 		MonitorJugadores.terminoEscritura();
 		return partida;
@@ -316,11 +320,13 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			}
 			partida.setAcertada(true);
 			partida.setTextoAdivinado(tituloPelicula);
+			jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 			System.out.println("Película adivinada! :)");
 
 		} else {													// pelicula errada
 			partida.setPuntajePartida(partida.getPuntajePartida() - 50);
 			partida.setAcertada(false);
+			jugador.setCantErrores(jugador.getCantErrores() + 1);
 			System.out.println("Película errada! :(");
 		}
 		partida.setFinalizada(true);
@@ -331,13 +337,14 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	//Requerimiento 12: Ranking General
 	public DataJugador[] listarRanking() throws ClassNotFoundException, IOException, ExceptionsPersistencia {
 			MonitorJugadores.comienzoLectura();
-			
+			/*
 			Jugadores ranking = new Jugadores();
 			Persistencia db = new Persistencia();
 			Datos d = db.Recuperar(ManageString.getProperty("rutaRespaldo"));
 			ranking = d.getJugadores();
+			*/
 			
-			DataJugador[] dataRanking = ranking.obtenerJugadores();
+			DataJugador[] dataRanking = jugadores.obtenerJugadores();
 			Arrays.sort(dataRanking);
 			
 			MonitorJugadores.terminoLectura();
