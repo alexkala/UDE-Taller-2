@@ -1,5 +1,6 @@
 package grafica;
 
+
 import grafica.auxiliares.Constantes;
 import grafica.controladoras.ControladoraListarPeliculas;
 
@@ -82,8 +83,9 @@ public class VentanaListarPeliculas {
 		//frmAdivinaLaPelcula.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		controladoraListarPeliculas = new ControladoraListarPeliculas();
-		frmAdivinaLaPelcula.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		frmAdivinaLaPelcula.getContentPane().setLayout(new BorderLayout(0, 0));
+	
 		JPanel panelContenido = new JPanel();
 		frmAdivinaLaPelcula.getContentPane().add(panelContenido, BorderLayout.CENTER);
 		panelContenido.setLayout(new BorderLayout(0, 0));
@@ -101,6 +103,7 @@ public class VentanaListarPeliculas {
 		labelTitulo.setFont(new Font("Arial", Font.BOLD, 34));
 		panelTitulo.add(labelTitulo);
 		
+
 		JPanel panelTabla = new JPanel();
 		panelContenido.add(panelTabla);
 		panelTabla.setLayout(new BorderLayout(0, 0));
@@ -119,7 +122,7 @@ public class VentanaListarPeliculas {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		//panelTabla.add(tablePeliculas.getTableHeader(),BorderLayout.PAGE_START);
 		//panelTabla.add(tablePeliculas,BorderLayout.CENTER);
 		

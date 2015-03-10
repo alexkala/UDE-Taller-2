@@ -15,10 +15,11 @@ public class ControladoraNuevoJugador {
 	public void NuevoJugador(String nombre, String codigo) throws RemoteException, ExceptionsJugadores{
 		v = new VentanaNuevoJugador();
 		Jugador j = new Jugador(nombre, codigo);
-		
+				
 		try {
 			fachada = ObjectCliente.Inicializar();
 			fachada.nuevoJugador(j);
+			v.okJugador("Ingreso el Jugador correctamente");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (ExceptionsJugadores e) {

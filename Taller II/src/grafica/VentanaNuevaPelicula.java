@@ -85,17 +85,33 @@ public class VentanaNuevaPelicula {
 			panelContenido.add(panelTitulo, BorderLayout.NORTH);
 			panelTitulo.setLayout(new BorderLayout(0, 0));
 			
+
 			JLabel lblNuevaPelicula = new JLabel("");
 			lblNuevaPelicula.setIcon(new ImageIcon(Constantes.RUTA_NUEVA_PELICULA));
 			lblNuevaPelicula.setHorizontalAlignment(SwingConstants.CENTER);
 			panelTitulo.add(lblNuevaPelicula, BorderLayout.CENTER);
 			lblNuevaPelicula.setForeground(Color.WHITE);
 			lblNuevaPelicula.setFont(new Font("Arial", Font.BOLD, 34));
-			
+
 			JPanel panelCampos = new JPanel();
 			panelCampos.setBackground(new Color(44, 62, 80));
 			panelCampos.setBorder(new EmptyBorder(20, 20, 20, 20));
 			panelContenido.add(panelCampos, BorderLayout.CENTER);
+
+			
+			
+			txtTitulo = new JTextField();
+			TextPrompt tpTitulo = new TextPrompt("Título", txtTitulo);
+			tpTitulo.setFont(new Font("Arial", Font.PLAIN, 13));
+			tpTitulo.setForeground( Color.LIGHT_GRAY );
+			tpTitulo.changeAlpha(0.5f);
+			txtTitulo.setFont(new Font("Arial", Font.PLAIN, 13));
+			txtTitulo.setHorizontalAlignment(SwingConstants.LEFT);
+			txtTitulo.setBorder(BorderFactory.createCompoundBorder(
+					txtTitulo.getBorder(), 
+			        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+			txtTitulo.setColumns(10);
+
 			
 			textPista = new JTextField();
 			TextPrompt tpPista = new TextPrompt("Pista", textPista);
@@ -107,16 +123,6 @@ public class VentanaNuevaPelicula {
 			textPista.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 			textPista.setColumns(10);
 			
-			txtTitulo = new JTextField();
-			TextPrompt tpTitulo = new TextPrompt("Título", txtTitulo);
-			tpTitulo.setFont(new Font("Arial", Font.PLAIN, 13));
-			tpTitulo.setForeground( Color.LIGHT_GRAY );
-			tpTitulo.changeAlpha(0.5f);
-			txtTitulo.setFont(new Font("Arial", Font.PLAIN, 13));
-			txtTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-			txtTitulo.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-			txtTitulo.setColumns(10);
-			//panelTitulo.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnNewButton, btnCancelar, txtTitulo}));
 			GroupLayout gl_panelCampos = new GroupLayout(panelCampos);
 			gl_panelCampos.setHorizontalGroup(
 				gl_panelCampos.createParallelGroup(Alignment.TRAILING)

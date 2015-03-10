@@ -73,7 +73,6 @@ public class VentanaMenuAdministrador {
 	 * @throws IOException 
 	 */
 
-
 	private void initialize() throws IOException {
 		frmMenuAdministrador = new JFrame();
 		frmMenuAdministrador.setTitle("¡Adivina la película! - Menu Administrador");
@@ -246,8 +245,6 @@ public class VentanaMenuAdministrador {
 					.addContainerGap(203, Short.MAX_VALUE))
 		);
 		panelMenu.setLayout(gl_panelMenu);
-
-
 
 		
 		
