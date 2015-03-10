@@ -107,9 +107,7 @@ public class VentanaNuevaPelicula {
 			tpTitulo.changeAlpha(0.5f);
 			txtTitulo.setFont(new Font("Arial", Font.PLAIN, 13));
 			txtTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-			txtTitulo.setBorder(BorderFactory.createCompoundBorder(
-					txtTitulo.getBorder(), 
-			        BorderFactory.createEmptyBorder(5, 10, 5, 10)));
+			txtTitulo.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 			txtTitulo.setColumns(10);
 
 			
