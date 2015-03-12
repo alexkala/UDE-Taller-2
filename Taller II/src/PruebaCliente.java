@@ -67,15 +67,7 @@ public class PruebaCliente {
 			i++;
 		}
 		*/
-		
-		// -----
-		// LOGIN
-		// -----
-		
-		System.out.println("\n\nLOGIN");
-		DataLogin dataLogin = fachada.logIn("Alex", "123");
-		System.out.println(dataLogin.getNombre());
-		System.out.println(dataLogin.getCodigo());
+ 
 		
 		// ---------
 		// PELICULAS

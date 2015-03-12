@@ -101,6 +101,9 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	// Requerimiento 3: Registrar Nuevo Jugador
 	public void nuevoJugador(Jugador j) throws RemoteException, ExceptionsJugadores {
 		MonitorJugadores.comienzoEscritura();
+		String s = j.getNombre();
+		s = ManageString.corregirTexto(s);
+		j.setNombre(s);
 		if (jugadores.containsKey(j.getClave())) {
 			MonitorJugadores.terminoEscritura();
 			throw new ExceptionsJugadores("Error: ya existe  el jugador");
@@ -244,6 +247,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		MonitorJugadores.comienzoEscritura();
 		c = Character.toUpperCase(c);
 		int i = 0;
+		int puntajeJugador=0;
 		int puntaje = partida.getPuntajePartida();
 		boolean puntajeSumado = false;
 		String textoAdivinado = partida.getTextoAdivinado();
@@ -260,14 +264,16 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 					if (!puntajeSumado) { // suma 1 punto
 						puntaje = puntaje + 1;
 						puntajeSumado = true;
-						jugador.setCantAciertos(jugador.getCantAciertos() + 1);
+						puntajeJugador=1;
+						//jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 					}
 				} else { // letra erronea
 					if (!puntajeSumado) { // resta 5 puntos
 						System.out.println("Letra erronea!");
 						puntaje = puntaje - 5;
 						puntajeSumado = true;
-						jugador.setCantErrores(jugador.getCantErrores() + 1);
+						puntajeJugador=-5;
+						//jugador.setCantErrores(jugador.getCantErrores() + 1);
 					}
 				}
 			}
@@ -280,12 +286,14 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		textoAdivinado = new String(textoAdivinadoChar); // convierte el texto adivinado de nuevo a String
 		partida.setTextoAdivinado(textoAdivinado);
 		partida.setPuntajePartida(puntaje);
+		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + puntajeJugador);
 		
 		if (textoAdivinado.equals(tituloPelicula)) {					// adivino la pelicula
 			System.out.println("Película adivinada!");
 			partida.setAcertada(true);
 			partida.setFinalizada(true);
-			jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+			
+			jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 		}
 		MonitorJugadores.terminoEscritura();
 		return partida;
@@ -294,7 +302,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	//Requerimiento 11: Arriesgar Pelicula
 	public Partida arriesgarPelicula(String nombreJugador, String codigoJugador, String peliculaArriesgada) throws RemoteException, ExceptionsJugadores {
 		Partida partida = partidaEnCurso(nombreJugador, codigoJugador);
-
+		int puntaje=0;
 		MonitorJugadores.comienzoEscritura();
 		Jugador jugador = jugadores.get(nombreJugador);
 
@@ -310,34 +318,41 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 			if (ManageString.faltaUnaLetra(textoAdivinado, tituloPelicula)) {			// falta solo 1 letra (suma 1)
 				System.out.println("Falta una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 1);
+				puntaje=1;
 			} else {														// falta mas de 1 letra (suma 50)
 				System.out.println("Falta mas de una letra");
 				partida.setPuntajePartida(partida.getPuntajePartida() + 50);
+				puntaje=50;
 			}
 			partida.setAcertada(true);
 			partida.setTextoAdivinado(tituloPelicula);
+			jugador.setCantAciertos(jugador.getCantAciertos() + 1);
 			System.out.println("Película adivinada! :)");
 
 		} else {													// pelicula errada
 			partida.setPuntajePartida(partida.getPuntajePartida() - 50);
 			partida.setAcertada(false);
+			jugador.setCantErrores(jugador.getCantErrores() + 1);
+			puntaje=-50;
 			System.out.println("Película errada! :(");
 		}
+
 		partida.setFinalizada(true);
-		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + partida.getPuntajePartida());
+		jugador.setPuntajeJugador(jugador.getPuntajeJugador() + puntaje);
 		MonitorJugadores.terminoEscritura();
 		return partida;
 	}
 	//Requerimiento 12: Ranking General
 	public DataJugador[] listarRanking() throws ClassNotFoundException, IOException, ExceptionsPersistencia {
 			MonitorJugadores.comienzoLectura();
-			
+			/*
 			Jugadores ranking = new Jugadores();
 			Persistencia db = new Persistencia();
 			Datos d = db.Recuperar(ManageString.getProperty("rutaRespaldo"));
 			ranking = d.getJugadores();
+			*/
 			
-			DataJugador[] dataRanking = ranking.obtenerJugadores();
+			DataJugador[] dataRanking = jugadores.obtenerJugadores();
 			Arrays.sort(dataRanking);
 			
 			MonitorJugadores.terminoLectura();
