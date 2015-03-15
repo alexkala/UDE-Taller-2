@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:useBean id='mensajes' scope='application' class='java.util.ArrayList' />  
+<jsp:useBean id='Ranking' scope='application' class='java.util.ArrayList' />  
 
 <html>
   <head>
@@ -18,20 +18,15 @@
 
 	 <table border="2" width="50%" bordercolor="#00AE00" height="50" bgcolor="#B6F4AA">
 			<tr>
-				<td><b> Autor </b></td>
-				<td><b> Mensaje </b></td>
+				<td><b> Jugador </b></td>
+			
 			</tr>
-			<c:forEach items="${mensajes}" var="i" >
+			<c:forEach items="${Ranking}" var="i" >
 				<tr>
-					<td> ${i.autor} </td>
-					<td> ${i.mensaje} </td>
+					<td> ${i.getNombre()} </td>
+					
 				</tr>
 			</c:forEach>					
-	</table>
-
-	<p><a href='Mensaje.jsp'>Escribir otro mensaje</a></p>
-	<p><a href='Resultados.jsp'>Actualizar resultados</a></p>
-	<p><a href='Ingreso.jsp'>Volver al ingreso</a></p>
-		
+	</table>	
   </body>
 </html>

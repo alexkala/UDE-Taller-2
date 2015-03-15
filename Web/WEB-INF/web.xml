@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
-  <description> Adivina la pelicula </description>
-  <display-name> Adivina la pelicula </display-name>
+  <description> Mensajeador web de ejemplo </description>
+  <display-name> Mensajeador web de ejemplo </display-name>
 
   <servlet>
     <servlet-name>Ranking</servlet-name>
@@ -18,6 +18,8 @@
     <url-pattern>/Ranking</url-pattern>
   </servlet-mapping>
 
-
+  <welcome-file-list>
+	<welcome-file>/Ranking.jsp</welcome-file>
+  </welcome-file-list>
 
 </web-app>
