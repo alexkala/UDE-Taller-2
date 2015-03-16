@@ -28,9 +28,11 @@
 			<div class="error">
 	  			<p> ${msgError} </p>
 	        </div>
+	        
+	        <a class="button" href='Ranking'>Volver al ranking</a>
 		</div>
 		
-		<a class="button" href='Ranking'>Volver al ranking</a>
+		
 			
 	</body>
 </html>

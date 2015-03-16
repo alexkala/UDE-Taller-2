@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
@@ -37,8 +38,10 @@ public class Ranking extends HttpServlet {
 				fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 				DataJugador[] jugadores = fachada.listarRanking();
 				
-				ArrayList <DataJugador> ranking = (ArrayList<DataJugador>) Arrays.asList(jugadores); 	// Transforma el arreglo en ArrayList
-				
+				ArrayList <DataJugador> ranking = new ArrayList<DataJugador>();
+				for (DataJugador jugador: jugadores) {								// Transforma el arreglo en ArrayList
+					ranking.add(jugador);
+				}				
 				context.setAttribute("ranking", ranking);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -55,6 +58,11 @@ public class Ranking extends HttpServlet {
 				e.printStackTrace();
 				error = true;
 				msjError =e.getMessage();
+				req.setAttribute("msgError", msjError);
+			} catch (ConnectException e) {
+				e.printStackTrace();
+				error = true;
+				msjError = e.getMessage();
 				req.setAttribute("msgError", msjError);
 			}
 						
