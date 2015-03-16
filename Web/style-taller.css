@@ -1,0 +1,85 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	background: url("http://localhost:8080/Web/imagenes/background.png") repeat;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+}
+
+.titulo { 
+	padding: 20px 0;
+	background: rgb(231, 76, 60);
+}
+
+.titulo img { width: 100%; }
+.subtitulo { background: rgb(192, 57, 43); }
+.subtitulo h1 { padding: 6px 16px; }
+
+h1 { 
+	font-family: 'Lobster', cursive; 
+	color: #fff;
+	margin: 0;
+	font-weight: 400;
+}
+
+.align-center { text-align: center }
+
+.container {
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.tabla {
+	margin-top: 34px;
+	width: 100%;
+	text-align: right;
+	box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+}
+
+table, th, td { 
+	border: none; 
+	border-collapse: collapse; 
+}
+th, td { padding: 0 16px; }
+th { 
+	background: rgb(52, 73, 94); 
+	color: #fff;
+}
+tr td:nth-child(2), tr th:nth-child(2) {
+	text-align: left;
+}
+tr td:first-child, tr th:first-child {
+	text-align: center;
+}
+tr:nth-child(even) { background: #FFF}
+tr:nth-child(odd) { background: #ECF0F1;}
+tr { height: 56px; }
+
+
+.error {
+	margin: 40px;
+	background: #fff;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.error p {
+	margin: 0;
+	padding: 20px;
+}	
+
+a.button {
+	text-decoration: none;
+	color: #fff;
+	background: #3498db;
+	padding: 16px 24px;
+	border-bottom: solid 4px #2980b9;
+	float: right;
+	margin-right: 40px;
+	transition: all 0.2s;
+}
+a.button:hover {
+	background: #2980b9;
+}

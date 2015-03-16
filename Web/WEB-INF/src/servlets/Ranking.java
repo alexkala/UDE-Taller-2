@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -27,36 +28,32 @@ public class Ranking extends HttpServlet {
 	{   	       	    
 	    // guardo el mensaje en el contexto
 	    ServletContext context = super.getServletContext();
-	    boolean hayError =false;
-	    String msjError = "";
+	    boolean error = false;
+	    String msjError = new String();
 	    synchronized (context)
 		{			
 			try {
-				String url ="//" + "localhost" + ":" +"1099"+ "/" + "fachada";		//HardCode
+				String url ="//localhost:1099/fachada";
 				fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
-				DataJugador [] arregloJugadores = fachada.listarRanking();
+				DataJugador[] jugadores = fachada.listarRanking();
 				
-				ArrayList <DataJugador> arraylist= new ArrayList<>();
-				for(int i=0;i<arregloJugadores.length;i++)
-					arraylist.add(arregloJugadores[i]);
-				context.setAttribute("Ranking", arraylist);
+				ArrayList <DataJugador> ranking = (ArrayList<DataJugador>) Arrays.asList(jugadores); 	// Transforma el arreglo en ArrayList
+				
+				context.setAttribute("ranking", ranking);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				hayError = true;
+				error = true;
 				msjError = e.getMessage();
 				req.setAttribute("msgError", msjError);
 			}
 			catch (ExceptionsPersistencia e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
-				hayError = true;
+				error = true;
 				msjError =e2.getMessage();
 				req.setAttribute("msgError", msjError);
 			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				hayError = true;
+				error = true;
 				msjError =e.getMessage();
 				req.setAttribute("msgError", msjError);
 			}
@@ -65,7 +62,7 @@ public class Ranking extends HttpServlet {
 	    
 		//Pagina Resultado
 		RequestDispatcher rd;
-		if(!hayError)
+		if(!error)
 			rd = req.getRequestDispatcher("Ranking.jsp");
 		else
 			rd = req.getRequestDispatcher("Error.jsp");
