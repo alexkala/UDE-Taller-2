@@ -15,13 +15,7 @@ public class TablaRanking extends JPanel {
 		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		table.setFillsViewportHeight(true);
 		
-		table.setV
-
-		//Create the scroll pane and add the table to it.
-		JScrollPane scrollPane = new JScrollPane(table);
-
-		//Add the scroll pane to this panel.
-		add(scrollPane);
+		
 	}
 	
 	

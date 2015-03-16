@@ -3,7 +3,7 @@
 
 <html>
   <head>
-    <title> Mensajes recibidos </title>
+    <title> Ranking </title>
   </head>
 
   <body bgcolor="#B7FFB7">
@@ -11,22 +11,28 @@
 		<tr>
 			<td>
 				<p align="center"><b>
-				<font face="Tahoma" size="4"> Mensajes recibidos hasta el momento </font></b>
+				<font face="Tahoma" size="4"> Ranking </font></b>
 			</td>
 		</tr>
 	</table> <br>
 
 	 <table border="2" width="50%" bordercolor="#00AE00" height="50" bgcolor="#B6F4AA">
 			<tr>
-				<td><b> Jugador </b></td>
+				<td><b> Nombre </b></td>
+				<td><b> Puntaje </b></td>
 			
 			</tr>
 			<c:forEach items="${Ranking}" var="i" >
 				<tr>
-					<td> ${i.getNombre()} </td>
+					<td> ${i.nombre} </td>
+					<td> ${i.puntajeJugador} </td>
 					
 				</tr>
 			</c:forEach>					
-	</table>	
+	</table>
+
+	<p><a href='Ranking.jsp'>Actualizar Ranking</a></p>
+	
+		
   </body>
 </html>

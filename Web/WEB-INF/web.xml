@@ -7,12 +7,14 @@
 
   <description> Mensajeador web de ejemplo </description>
   <display-name> Mensajeador web de ejemplo </display-name>
-
   <servlet>
-    <servlet-name>Ranking</servlet-name>
+     <servlet-name>Ranking</servlet-name>
     <servlet-class>servlets.Ranking</servlet-class>
+    
+   
+    
   </servlet>
- 
+   
   <servlet-mapping>
     <servlet-name>Ranking</servlet-name>
     <url-pattern>/Ranking</url-pattern>
@@ -21,5 +23,5 @@
   <welcome-file-list>
 	<welcome-file>/Ranking.jsp</welcome-file>
   </welcome-file-list>
-
+  
 </web-app>
