@@ -189,7 +189,7 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 	
 	//Requerimiento 8: Iniciar Nueva Partida
 	public Partida nuevaPartida(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionPartidas, ExceptionsPeliculas {
-		//MonitorJugadores.comienzoEscritura();
+		
 		System.out.println("\n\n--------------- \n" + nombreJugador);
 		System.out.println(jugadores == null);
 		Jugador jugador = jugadores.get(nombreJugador);
@@ -197,31 +197,32 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 		Partidas partidas = jugador.getPartidasJugador();
 		System.out.println(jugador.getPartidasJugador() == null);
 		int numeroPartida;
+	
 		if (partidas != null) {																			// si tiene partidas
 			int indexUltimaPartida = jugador.getPartidasJugador().size() - 1;
 			Partida actual = jugador.getPartidasJugador().get(indexUltimaPartida);
 			if (actual.isFinalizada()) {												// Jugador tiene una partida sin finalizar
 				numeroPartida = partidas.size() + 1;
 			} else {
-				//MonitorJugadores.terminoEscritura();
+				
 				throw new ExceptionPartidas("Error: Ya hay una partida en curso");
 			}
 		} else {												// si no tiene partidas
 			partidas = new Partidas();
 			numeroPartida = 1;
 		}
-		//MonitorPeliculas.comienzoLectura();
+		MonitorPeliculas.comienzoLectura();
 		Pelicula peliculaPartida = peliculas.randomPelicula(partidas);			// Elije una pelicula al azar
-		//MonitorPeliculas.terminoLectura();
+		MonitorPeliculas.terminoLectura();
 		if (peliculaPartida != null) {								// randomPelicula pudo devolver una pelicula
 			String textoAdivinado = ManageString.transformarTextoAdivinado(peliculaPartida.getTitulo());		// crea textoAdivinado a partir del titulo
 			Partida nuevaPartida = new Partida(numeroPartida, textoAdivinado, peliculaPartida);
 			partidas.add(nuevaPartida);
 			jugador.setPartidasJugador(partidas);
-			//MonitorJugadores.terminoEscritura();
+			
 			return nuevaPartida;
 		}
-		//MonitorJugadores.terminoEscritura();
+		
 		return null;
 	}
 	//Requerimiento 9: Visualizar Partida En Curso

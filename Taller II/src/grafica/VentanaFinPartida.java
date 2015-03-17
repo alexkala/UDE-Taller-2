@@ -107,6 +107,10 @@ public class VentanaFinPartida {
 		panel_2.add(panel_1, BorderLayout.CENTER);
 		
 		JButton btnNuevaPartida = new JButton("NUEVA PARTIDA");
+		btnNuevaPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnNuevaPartida.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		btnNuevaPartida.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
