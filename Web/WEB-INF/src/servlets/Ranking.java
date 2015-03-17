@@ -37,12 +37,13 @@ public class Ranking extends HttpServlet {
 				String url ="//localhost:1099/fachada";
 				fachada = (IFachadaCapaLogica) Naming.lookup(url); 	// ACCEDE AL SERVER 
 				DataJugador[] jugadores = fachada.listarRanking();
+	
 				
-				ArrayList <DataJugador> ranking = new ArrayList<DataJugador>();
-				for (DataJugador jugador: jugadores) {								// Transforma el arreglo en ArrayList
-					ranking.add(jugador);
-				}				
-				context.setAttribute("ranking", ranking);
+				ArrayList <DataJugador> ranking = new ArrayList<>();
+				for(int i=0;i<jugadores.length;i++)								// Transforma el arreglo en ArrayList
+					ranking.add(jugadores[i]);
+								
+				context.setAttribute("Ranking", ranking);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				error = true;

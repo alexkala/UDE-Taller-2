@@ -5,7 +5,7 @@
     <reloadable>true</reloadable>
     <redirectLogger>false</redirectLogger>
     <updateXml>true</updateXml>
-    <warLocation>C:\Users\Alex\Desktop\Web.war</warLocation>
+    <warLocation>C:\Git\UDE-Taller-2\Web.war</warLocation>
     <extraInfo></extraInfo>
     <webPath>/Ejemplo-JSP</webPath>
 </tomcatProjectProperties>
