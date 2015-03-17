@@ -148,12 +148,20 @@ public class VentanaListarPartidas {
 				table = new JTable(data, columnas);
 				try {
 					panelTabla.removeAll();
-					data = controladoraListarPartidas.listarPartidas(nombreJugador);
-					table = new JTable(data, columnas);
-					table.getTableHeader().setReorderingAllowed(false);
-					table.setEnabled(false);
-					JScrollPane scrollPane = new JScrollPane(table);
-					panelTabla.add(scrollPane, BorderLayout.CENTER);
+					if (nombreJugador == null) {
+						JLabel lblSinJugador = new JLabel("No hay ningún jugador seleccionado.");
+						lblSinJugador.setBorder(new EmptyBorder(20, 0, 20, 0));
+						lblSinJugador.setFont(new Font("Arial", Font.PLAIN, 13));
+						lblSinJugador.setHorizontalAlignment(SwingConstants.CENTER);
+						panelTabla.add(lblSinJugador, BorderLayout.CENTER);
+					} else {
+						data = controladoraListarPartidas.listarPartidas(nombreJugador);
+						table = new JTable(data, columnas);
+						table.getTableHeader().setReorderingAllowed(false);
+						table.setEnabled(false);
+						JScrollPane scrollPane = new JScrollPane(table);
+						panelTabla.add(scrollPane, BorderLayout.CENTER);
+					}
 					panelContenido.updateUI();
 				} catch (ExceptionsJugadores sinPartidas) {
 					panelTabla.removeAll();

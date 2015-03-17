@@ -1,9 +1,6 @@
 package grafica.controladoras;
 
 import grafica.auxiliares.MyTableModel;
-import grafica.auxiliares.TablaRanking;
-//import grafica.auxiliares.table;
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.IOException;

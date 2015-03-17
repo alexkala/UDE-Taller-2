@@ -54,6 +54,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
+import logica.ManageString;
 import logica.ValueObjetcs.DataLogin;
 import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
@@ -165,13 +166,14 @@ public class VentanaLogin {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String nombreJugador = txtNombre.getText();
+				String nombreJugador = ManageString.corregirTexto(txtNombre.getText());
 				char[] array = passwordField.getPassword();
 				String codigoJugador = new String(array);
 				Border border = BorderFactory.createCompoundBorder(
 						BorderFactory.createLineBorder(Color.RED, 2), 
 				        BorderFactory.createEmptyBorder(5, 10, 5, 10));
 				try {
+					
 					controladoraLogin.login(nombreJugador, codigoJugador);
 					
 					BufferSesion.getInstancia().setNombreJugador(nombreJugador);

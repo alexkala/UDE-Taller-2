@@ -15,7 +15,7 @@ import logica.Pelicula;
 import logica.ValueObjetcs.DataPelicula;
 import logica.exceptions.ExceptionsPeliculas;
 
-public class Principal {
+public class MainAdministrador {
 
 	public static void main(String[] args) throws ExceptionsPeliculas, RemoteException {
 		

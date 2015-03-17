@@ -25,6 +25,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -252,5 +253,13 @@ public class VentanaMenuAdministrador {
 
 	public void setVisible(boolean b) {
 		frmMenuAdministrador.setVisible(b);
+	}
+	
+	public void errorAlGuardar(String s){
+		JOptionPane.showMessageDialog(null,  s, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void guardoOK(String s){
+		JOptionPane.showMessageDialog(null, s, "Guardado Exitoso!" , JOptionPane.INFORMATION_MESSAGE);
 	}
 }

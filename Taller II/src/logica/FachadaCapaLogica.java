@@ -162,6 +162,8 @@ public class FachadaCapaLogica extends UnicastRemoteObject implements IFachadaCa
 
 	//Requerimiento 7: Loguearse Para Jugar
 	public DataLogin logIn(String nombreJugador, String codigoJugador) throws RemoteException, ExceptionsJugadores, ExceptionCodigoIncorrecto {
+		   // nombreJugador = ManageString.corregirTexto(nombreJugador);
+			System.out.println(nombreJugador);
 			MonitorJugadores.comienzoLectura();
 			if(jugadores.containsKey(nombreJugador)) {
 				Jugador jugador = jugadores.get(nombreJugador);

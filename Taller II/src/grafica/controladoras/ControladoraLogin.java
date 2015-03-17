@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import logica.IFachadaCapaLogica;
+import logica.ManageString;
 import logica.ValueObjetcs.DataLogin;
 import logica.exceptions.ExceptionCodigoIncorrecto;
 import logica.exceptions.ExceptionsJugadores;
@@ -17,7 +18,8 @@ public class ControladoraLogin {
 		public DataLogin login(String nombreJugador, String codigoJugador) throws ExceptionsJugadores, ExceptionCodigoIncorrecto {
 			try {
 				fachada = ObjectCliente.Inicializar();
-				DataLogin dataLogin = fachada.logIn(nombreJugador, codigoJugador);
+				String aux = ManageString.corregirTexto(nombreJugador);
+				DataLogin dataLogin = fachada.logIn(aux, codigoJugador);
 				return dataLogin;
 			} catch (RemoteException e) {
 				e.printStackTrace();
